@@ -1,0 +1,46 @@
+<head>
+  <title>Meteor App</title>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-gray-800 mb-8">Welcome to Meteor!</h1>
+
+    {{#if currentUser}}
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-gray-600">Welcome, {{currentUser.emails.[0].address}}!</span>
+        <button class="logout-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
+          Logout
+        </button>
+      </div>
+
+      {{> hello}}
+      {{> info}}
+    {{else}}
+      <div class="bg-white rounded-lg shadow-md p-6">
+        {{> loginButtons}}
+      </div>
+    {{/if}}
+  </div>
+</body>
+
+<template name="hello">
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
+      Click Me
+    </button>
+    <p class="mt-4 text-gray-600">You've pressed the button {{counter}} times.</p>
+  </div>
+</template>
+
+<template name="info">
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Learn Meteor!</h2>
+    <ul class="space-y-2">
+      <li><a href="https://www.meteor.com/try" target="_blank" class="text-blue-500 hover:text-blue-600">Do the Tutorial</a></li>
+      <li><a href="http://guide.meteor.com" target="_blank" class="text-blue-500 hover:text-blue-600">Follow the Guide</a></li>
+      <li><a href="https://docs.meteor.com" target="_blank" class="text-blue-500 hover:text-blue-600">Read the Docs</a></li>
+      <li><a href="https://forums.meteor.com" target="_blank" class="text-blue-500 hover:text-blue-600">Discussions</a></li>
+    </ul>
+  </div>
+</template>

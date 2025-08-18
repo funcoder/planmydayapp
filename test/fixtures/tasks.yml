@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  title: MyString
+  description: MyText
+  status: MyString
+  priority: MyString
+  due_date: 2025-07-18
+  scheduled_for: 2025-07-18
+  position: 1
+  brain_dump: one
+  estimated_time: 1
+  actual_time: 1
+  tags: MyString
+  color: MyString
+  completed_at: 2025-07-18 23:20:00
+
+two:
+  user: two
+  title: MyString
+  description: MyText
+  status: MyString
+  priority: MyString
+  due_date: 2025-07-18
+  scheduled_for: 2025-07-18
+  position: 1
+  brain_dump: two
+  estimated_time: 1
+  actual_time: 1
+  tags: MyString
+  color: MyString
+  completed_at: 2025-07-18 23:20:00

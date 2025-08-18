@@ -1,0 +1,133 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold">Task Backlog Review</h1>
+          <p class="text-purple-100 mt-1">Manage all your tasks in one place</p>
+        </div>
+        <div class="flex gap-4">
+          <%= link_to "Dashboard", dashboard_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
+          <%= link_to "+ New Task", new_task_path, class: "bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition-colors font-medium" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Filters -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <div class="flex flex-wrap gap-4 items-center">
+        <div class="flex gap-2">
+          <button class="px-4 py-2 rounded-lg bg-purple-600 text-white" data-filter="all">All Tasks</button>
+          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-filter="today">Today</button>
+          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-filter="pending">Pending</button>
+          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-filter="completed">Completed</button>
+        </div>
+        <div class="ml-auto text-sm text-gray-500">
+          Total: <%= @tasks.count %> tasks
+        </div>
+      </div>
+    </div>
+
+    <!-- Tasks List -->
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <% if @tasks.any? %>
+        <div class="space-y-4" id="tasks-list">
+          <% @tasks.each do |task| %>
+            <%= turbo_frame_tag dom_id(task) do %>
+              <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-colors" 
+                   style="border-left: 4px solid <%= task.color || '#6366f1' %>">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3">
+                      <h3 class="font-semibold text-lg"><%= task.title %></h3>
+                      <% if task.status == 'completed' %>
+                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">✓ Completed</span>
+                      <% elsif task.status == 'in_progress' %>
+                        <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">In Progress</span>
+                      <% else %>
+                        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">Pending</span>
+                      <% end %>
+                    </div>
+                    
+                    <% if task.description.present? %>
+                      <p class="text-gray-600 text-sm mt-2"><%= truncate(task.description, length: 150) %></p>
+                    <% end %>
+                    
+                    <div class="flex gap-3 mt-3">
+                      <span class="priority-badge px-2 py-1 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
+                        <%= task.priority.capitalize %>
+                      </span>
+                      <% if task.estimated_time.present? %>
+                        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">
+                          ⏱ <%= task.estimated_time %> min
+                        </span>
+                      <% end %>
+                      <% if task.scheduled_for.present? %>
+                        <span class="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-700">
+                          📅 <%= task.scheduled_for.strftime("%b %d") %>
+                        </span>
+                      <% end %>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-2 ml-4">
+                    <%= link_to edit_task_path(task), 
+                        class: "p-2 text-gray-400 hover:text-purple-600 transition-colors",
+                        title: "Edit task" do %>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                      </svg>
+                    <% end %>
+                    
+                    <%= button_to task_path(task), 
+                        method: :delete,
+                        form: { data: { turbo_confirm: "Are you sure you want to delete this task?" } },
+                        class: "p-2 text-gray-400 hover:text-red-600 transition-colors",
+                        title: "Delete task" do %>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      </svg>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-12">
+          <div class="text-6xl mb-4">📋</div>
+          <p class="text-gray-600 mb-4">No tasks in your backlog</p>
+          <%= link_to "Create Your First Task", new_task_path, 
+              class: "inline-block px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  const taskItems = document.querySelectorAll('.task-item');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Update active button style
+      filterButtons.forEach(btn => {
+        btn.classList.remove('bg-purple-600', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      this.classList.remove('bg-gray-100', 'text-gray-700');
+      this.classList.add('bg-purple-600', 'text-white');
+      
+      // Filter logic would go here based on data-filter value
+      // For now, all tasks are shown
+    });
+  });
+});
+</script>

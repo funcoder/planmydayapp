@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  task: one
+  started_at: 2025-07-18 23:20:15
+  ended_at: 2025-07-18 23:20:15
+  duration: 1
+  interruptions: 1
+  notes: MyText
+  focus_quality: 1
+
+two:
+  user: two
+  task: two
+  started_at: 2025-07-18 23:20:15
+  ended_at: 2025-07-18 23:20:15
+  duration: 1
+  interruptions: 1
+  notes: MyText
+  focus_quality: 1

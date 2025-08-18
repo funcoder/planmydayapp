@@ -1,0 +1,425 @@
+<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+  <!-- Navigation -->
+  <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+            PlanMyDay
+          </h1>
+        </div>
+        <div class="flex items-center gap-4">
+          <% if authenticated? %>
+            <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium" %>
+          <% else %>
+            <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Get Started", new_registration_path, class: "bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+      <div class="text-center">
+        <h2 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+          Finally, a productivity app<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+            designed for ADHD minds
+          </span>
+        </h2>
+        <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          Stop fighting your brain. Start working with it. PlanMyDay helps freelancers with ADHD 
+          focus on what matters today—without the overwhelm.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <%= link_to "Start Free Today", new_registration_path, 
+              class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all transform hover:scale-105" %>
+          <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-purple-600 text-lg font-medium rounded-xl text-purple-600 bg-white hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all">
+            See How It Works
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-gray-500">No credit card required • Free forever for basic use</p>
+      </div>
+    </div>
+    <!-- Animated decoration -->
+    <div class="absolute top-0 right-0 -mr-40 -mt-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+    <div class="absolute bottom-0 left-0 -ml-40 -mb-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="py-16 bg-white/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h3 class="text-3xl font-bold text-gray-900 mb-4">Sound Familiar?</h3>
+        <p class="text-lg text-gray-600">Traditional productivity apps weren't built for how your brain works</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-red-50 rounded-xl p-6 border-2 border-red-100">
+          <div class="text-3xl mb-3">😰</div>
+          <h4 class="font-semibold text-gray-900 mb-2">Overwhelming Task Lists</h4>
+          <p class="text-gray-600">Looking at 50+ tasks makes you freeze up and accomplish nothing</p>
+        </div>
+        <div class="bg-orange-50 rounded-xl p-6 border-2 border-orange-100">
+          <div class="text-3xl mb-3">🌀</div>
+          <h4 class="font-semibold text-gray-900 mb-2">Racing Thoughts</h4>
+          <p class="text-gray-600">Ideas come fast but disappear before you can capture them</p>
+        </div>
+        <div class="bg-yellow-50 rounded-xl p-6 border-2 border-yellow-100">
+          <div class="text-3xl mb-3">📉</div>
+          <h4 class="font-semibold text-gray-900 mb-2">No Motivation</h4>
+          <p class="text-gray-600">Starting tasks feels impossible without immediate rewards</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="how-it-works" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h3 class="text-4xl font-bold text-gray-900 mb-4">Built Different, Because You Think Different</h3>
+        <p class="text-xl text-gray-600">Every feature designed specifically for ADHD brains</p>
+      </div>
+
+      <!-- Feature 1: Brain Dump -->
+      <div class="flex flex-col md:flex-row items-center mb-20 gap-12">
+        <div class="flex-1">
+          <div class="bg-purple-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
+            <div class="bg-white rounded-xl p-6">
+              <div class="flex items-center justify-between mb-4">
+                <h4 class="font-semibold text-gray-800">Quick Brain Dump</h4>
+                <span class="text-sm text-gray-500">500 chars left</span>
+              </div>
+              <div class="space-y-3">
+                <div class="bg-gray-50 rounded p-3 text-gray-600">
+                  "Need to email Sarah about project..."
+                </div>
+                <div class="bg-gray-50 rounded p-3 text-gray-600">
+                  "Pick up groceries - milk, eggs, bread"
+                </div>
+                <div class="bg-gray-50 rounded p-3 text-gray-600">
+                  "Idea: New feature for client app! 💡"
+                </div>
+              </div>
+              <button class="mt-4 text-purple-600 hover:text-purple-700">
+                🎤 Voice Input Available
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-3xl font-bold text-gray-900 mb-4">
+            <span class="text-purple-600">Brain Dump</span> Everything
+          </h4>
+          <p class="text-lg text-gray-600 mb-6">
+            Racing thoughts? Get them out fast. Voice or text, no organizing needed. 
+            We'll help you process them later when you're ready.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="text-purple-600 mr-2">✓</span>
+              <span>Voice-to-text for capturing thoughts at the speed of ADHD</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-600 mr-2">✓</span>
+              <span>No pressure to organize—just dump and go</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-600 mr-2">✓</span>
+              <span>AI helps process dumps into actionable tasks later</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 2: Daily Focus -->
+      <div class="flex flex-col md:flex-row-reverse items-center mb-20 gap-12">
+        <div class="flex-1">
+          <div class="bg-blue-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
+            <div class="bg-white rounded-xl p-6">
+              <h4 class="font-semibold text-gray-800 mb-4">Today's Focus (3/5 tasks)</h4>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                  <span class="font-medium">✓ Morning standup</span>
+                  <span class="text-green-600">Done!</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                  <span class="font-medium">Client proposal draft</span>
+                  <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">In Progress</button>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                  <span class="font-medium">Review pull requests</span>
+                  <button class="px-3 py-1 bg-purple-600 text-white rounded text-sm">Start</button>
+                </div>
+              </div>
+              <p class="text-center text-gray-500 mt-4 text-sm">
+                Great job! You're on track today 🎯
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-3xl font-bold text-gray-900 mb-4">
+            Only <span class="text-blue-600">3-5 Tasks</span> Per Day
+          </h4>
+          <p class="text-lg text-gray-600 mb-6">
+            No more overwhelming lists. We limit your daily tasks to what's actually 
+            achievable, helping you build momentum instead of guilt.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="text-blue-600 mr-2">✓</span>
+              <span>Hard limit prevents overcommitment</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-600 mr-2">✓</span>
+              <span>Unfinished tasks automatically roll over</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-blue-600 mr-2">✓</span>
+              <span>Visual progress that actually feels achievable</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 3: Gamification -->
+      <div class="flex flex-col md:flex-row items-center mb-20 gap-12">
+        <div class="flex-1">
+          <div class="bg-green-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
+            <div class="bg-white rounded-xl p-6">
+              <div class="flex justify-between items-center mb-4">
+                <div>
+                  <h4 class="font-semibold text-gray-800">Your Progress</h4>
+                  <p class="text-sm text-gray-500">Level 12 Productivity Wizard</p>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-purple-600">847</div>
+                  <div class="text-xs text-gray-500">points</div>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm">🔥 Current Streak</span>
+                  <span class="font-bold text-orange-600">5 days</span>
+                </div>
+                <div class="bg-yellow-50 rounded-lg p-3 text-center">
+                  <div class="text-2xl mb-1">🏆</div>
+                  <p class="text-sm font-medium">New Achievement!</p>
+                  <p class="text-xs text-gray-600">Task Master: Complete 50 tasks</p>
+                </div>
+                <div class="flex gap-2 justify-center">
+                  <span class="text-2xl">🎯</span>
+                  <span class="text-2xl">⚡</span>
+                  <span class="text-2xl">🌟</span>
+                  <span class="text-2xl opacity-30">🏅</span>
+                  <span class="text-2xl opacity-30">💎</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-3xl font-bold text-gray-900 mb-4">
+            <span class="text-green-600">Instant Rewards</span> That Hit Different
+          </h4>
+          <p class="text-lg text-gray-600 mb-6">
+            Get that dopamine hit your brain craves. Points, streaks, and achievements 
+            make productivity feel like a game you actually want to play.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="text-green-600 mr-2">✓</span>
+              <span>Immediate rewards for every action</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-green-600 mr-2">✓</span>
+              <span>Visual celebrations that feel genuinely good</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-green-600 mr-2">✓</span>
+              <span>Streak tracking to build consistent habits</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 4: Focus Mode -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+        <div class="flex-1">
+          <div class="bg-indigo-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
+            <div class="bg-gradient-to-br from-purple-500 to-blue-500 text-white rounded-xl p-6">
+              <h4 class="font-semibold mb-2">Focus Session Active</h4>
+              <p class="text-purple-100 mb-4">Working on: Client proposal draft</p>
+              <div class="text-5xl font-mono text-center mb-4">14:32</div>
+              <div class="space-y-2">
+                <button class="w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+                  Pause Timer
+                </button>
+                <div class="flex gap-2">
+                  <button class="flex-1 px-3 py-1 bg-yellow-500/20 hover:bg-yellow-500/30 rounded text-sm">
+                    😵 Interrupted (2)
+                  </button>
+                  <button class="flex-1 px-3 py-1 bg-red-500/20 hover:bg-red-500/30 rounded text-sm">
+                    End Session
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-3xl font-bold text-gray-900 mb-4">
+            <span class="text-indigo-600">Pomodoro Timer</span> Built In
+          </h4>
+          <p class="text-lg text-gray-600 mb-6">
+            Time blindness is real. Our built-in timer with visual countdown and 
+            notifications keeps you aware without anxiety.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <span class="text-indigo-600 mr-2">✓</span>
+              <span>Visual timer you can't ignore</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-indigo-600 mr-2">✓</span>
+              <span>Track interruptions without judgment</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-indigo-600 mr-2">✓</span>
+              <span>Gentle notifications when time's up</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 bg-gradient-to-r from-purple-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 class="text-3xl font-bold text-center text-gray-900 mb-12">
+        Loved by Freelancers with ADHD
+      </h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-6 shadow-lg">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400">★★★★★</div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "Finally, an app that gets it. The task limit is a game-changer—I actually 
+            finish my day feeling accomplished instead of overwhelmed."
+          </p>
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-purple-200 rounded-full mr-3"></div>
+            <div>
+              <p class="font-semibold">Sarah K.</p>
+              <p class="text-sm text-gray-500">Freelance Designer</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-lg">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400">★★★★★</div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "The brain dump feature is perfect. I can voice-record my racing thoughts 
+            while walking and sort them out later. Absolute lifesaver."
+          </p>
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-blue-200 rounded-full mr-3"></div>
+            <div>
+              <p class="font-semibold">Mike T.</p>
+              <p class="text-sm text-gray-500">Full-Stack Developer</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-lg">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400">★★★★★</div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "The gamification actually works! Getting points for completing tasks 
+            gives me that dopamine hit I need to stay motivated all day."
+          </p>
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-green-200 rounded-full mr-3"></div>
+            <div>
+              <p class="font-semibold">Alex R.</p>
+              <p class="text-sm text-gray-500">Content Writer</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h3 class="text-4xl font-bold text-gray-900 mb-6">
+        Ready to Work <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">With</span> Your ADHD?
+      </h3>
+      <p class="text-xl text-gray-600 mb-8">
+        Join thousands of freelancers who've finally found a productivity system that works for their brain.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <%= link_to "Start Free Today", new_registration_path, 
+            class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all transform hover:scale-105" %>
+      </div>
+      <p class="text-sm text-gray-500">
+        No credit card required • Free forever for basic use • Cancel anytime
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h4 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+            PlanMyDay
+          </h4>
+          <p class="text-sm text-gray-500 mt-1">Productivity for ADHD minds</p>
+        </div>
+        <div class="flex gap-6 text-sm text-gray-500">
+          <a href="#" class="hover:text-purple-600">Privacy</a>
+          <a href="#" class="hover:text-purple-600">Terms</a>
+          <a href="#" class="hover:text-purple-600">Support</a>
+          <a href="#" class="hover:text-purple-600">Blog</a>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-400">
+        © <%= Date.current.year %> PlanMyDay. Made with 💜 for ADHD brains.
+      </div>
+    </div>
+  </footer>
+</div>
+
+<style>
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+</style>

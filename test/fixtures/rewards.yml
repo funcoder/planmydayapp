@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  title: MyString
+  description: MyText
+  points_required: 1
+  icon: MyString
+  color: MyString
+  redeemed: false
+  redeemed_at: 2025-07-18 23:20:20
+
+two:
+  user: two
+  title: MyString
+  description: MyText
+  points_required: 1
+  icon: MyString
+  color: MyString
+  redeemed: false
+  redeemed_at: 2025-07-18 23:20:20
