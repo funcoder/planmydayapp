@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :focus_sessions, dependent: :destroy
   has_many :rewards, dependent: :destroy
   has_many :achievements, dependent: :destroy
+  has_many :user_sprites, dependent: :destroy
+  has_many :sprite_characters, through: :user_sprites
 
   # Rails 8 features
   # Encrypt sensitive preferences

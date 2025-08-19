@@ -162,8 +162,8 @@
 
         <!-- Current task count -->
         <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-          <div class="text-3xl font-bold text-purple-600"><%= current_user.tasks.today.count %> / <%= current_user.daily_task_limit %></div>
-          <p class="text-sm text-gray-600 mt-1">Tasks scheduled today</p>
+          <div class="text-3xl font-bold text-purple-600"><%= current_user.tasks.today.incomplete.count %> / <%= current_user.daily_task_limit %></div>
+          <p class="text-sm text-gray-600 mt-1">Active tasks today</p>
         </div>
       </div>
     </div>

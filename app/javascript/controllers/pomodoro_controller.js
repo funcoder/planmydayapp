@@ -12,6 +12,8 @@ export default class extends Controller {
 
   connect() {
     this.timeRemainingValue = this.durationValue
+    this.startTime = null
+    this.pausedDuration = 0
     this.updateDisplay()
     
     // Request notification permission
@@ -33,10 +35,18 @@ export default class extends Controller {
     this.startButtonTarget.style.display = "none"
     this.pauseButtonTarget.style.display = "inline-flex"
 
-    // Start the timer
+    // Track start time for accurate timing even in background tabs
+    if (!this.startTime) {
+      this.startTime = Date.now()
+    } else {
+      // Resuming from pause
+      this.startTime = Date.now() - this.pausedDuration
+    }
+
+    // Update more frequently for smoother display
     this.timer = setInterval(() => {
       this.tick()
-    }, 1000)
+    }, 100) // Check every 100ms for more accurate timing
 
     // Create focus session via AJAX if we have a task
     if (this.sessionIdValue) {
@@ -50,6 +60,11 @@ export default class extends Controller {
     this.runningValue = false
     clearInterval(this.timer)
     
+    // Store how much time has passed so we can resume correctly
+    if (this.startTime) {
+      this.pausedDuration = Date.now() - this.startTime
+    }
+    
     this.pauseButtonTarget.style.display = "none"
     this.startButtonTarget.style.display = "inline-flex"
   }
@@ -57,11 +72,15 @@ export default class extends Controller {
   reset() {
     this.pause()
     this.timeRemainingValue = this.durationValue
+    this.startTime = null
+    this.pausedDuration = 0
     this.updateDisplay()
   }
 
   tick() {
-    this.timeRemainingValue--
+    // Calculate actual elapsed time instead of relying on interval
+    const elapsed = Math.floor((Date.now() - this.startTime) / 1000)
+    this.timeRemainingValue = Math.max(0, this.durationValue - elapsed)
 
     if (this.timeRemainingValue <= 0) {
       this.complete()
@@ -82,6 +101,8 @@ export default class extends Controller {
     
     // Reset for next session
     this.timeRemainingValue = this.durationValue
+    this.startTime = null
+    this.pausedDuration = 0
     this.updateDisplay()
     this.timerTarget.classList.remove("text-red-600", "animate-pulse")
     

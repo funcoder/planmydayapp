@@ -33,9 +33,10 @@ Before adding any gem, check if Rails 8 provides a native solution:
 
 ### 2. Frontend Stack
 - **Hotwire**: Use Turbo for page updates and Stimulus for JavaScript
-- **Importmap**: Prefer importmap over Webpack/esbuild when possible
-- **CSS**: Use Tailwind CSS with cssbundling-rails
+- **Importmap**: ALWAYS use importmap for JavaScript - Rails 8 default, NO esbuild/webpack needed
+- **CSS**: Use Tailwind CSS with cssbundling-rails (bun for CSS only)
 - **No SPA frameworks**: Leverage Hotwire instead of React/Vue
+- **No JS bundlers**: Rails 8 uses importmap, not yarn/npm for JS dependencies
 
 ### 3. Database and Models
 - **PostgreSQL**: Primary database

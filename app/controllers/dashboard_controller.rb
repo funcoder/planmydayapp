@@ -14,5 +14,11 @@ class DashboardController < ApplicationController
     
     # Update user streak
     @user.update_streak
+    
+    # Check and unlock new sprites
+    @newly_unlocked_sprites = SpriteCharacter.check_and_unlock_for_user(@user)
+    
+    # Get today's unlocked sprites
+    @todays_sprites = @user.user_sprites.today.includes(:sprite_character)
   end
 end

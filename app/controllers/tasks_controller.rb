@@ -16,9 +16,9 @@ class TasksController < ApplicationController
     @task.status ||= 'pending'
     @task.position ||= current_user.tasks.maximum(:position).to_i + 1
     
-    # Check daily task limit
-    if current_user.tasks.today.count >= current_user.daily_task_limit
-      redirect_to dashboard_path, alert: "You've reached your daily task limit of #{current_user.daily_task_limit} tasks. Complete some tasks or move them to another day."
+    # Check daily task limit (only count incomplete tasks)
+    if current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
+      redirect_to dashboard_path, alert: "You've reached your daily task limit of #{current_user.daily_task_limit} active tasks. Complete some tasks or move them to another day."
       return
     end
     

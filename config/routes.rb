@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'dashboard#index'
   get 'profile', to: 'users#profile'
   patch 'profile', to: 'users#update_profile'
+  get 'calendar', to: 'calendar#index', as: :calendar
+  get 'sprites', to: 'sprites#index', as: :sprites
 
   # Defines the root path route ("/")
   root "home#index"

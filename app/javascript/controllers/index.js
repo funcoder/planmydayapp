@@ -2,19 +2,19 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "controllers/application"
 
-import BrainDumpController from "./brain_dump_controller"
+import BrainDumpController from "controllers/brain_dump_controller"
 application.register("brain-dump", BrainDumpController)
 
-import DropdownController from "./dropdown_controller"
+import DropdownController from "controllers/dropdown_controller"
 application.register("dropdown", DropdownController)
 
-import HelloController from "./hello_controller"
+import HelloController from "controllers/hello_controller"
 application.register("hello", HelloController)
 
-import PomodoroController from "./pomodoro_controller"
+import PomodoroController from "controllers/pomodoro_controller"
 application.register("pomodoro", PomodoroController)
 
-import TaskController from "./task_controller"
+import TaskController from "controllers/task_controller"
 application.register("task", TaskController)

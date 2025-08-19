@@ -16,6 +16,8 @@
             <div class="text-2xl font-bold"><%= @streak %></div>
             <div class="text-sm text-purple-100">Day Streak</div>
           </div>
+          <%= link_to "Sprites", sprites_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
+          <%= link_to "Calendar", calendar_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
           <%= link_to "Backlog", tasks_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
           <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
         </div>
@@ -24,6 +26,25 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Newly Unlocked Sprites Notification -->
+    <% if @newly_unlocked_sprites.any? %>
+      <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl shadow-lg p-6 mb-6 animate-pulse">
+        <h3 class="text-2xl font-bold mb-4">🎉 New Sprites Unlocked!</h3>
+        <div class="flex gap-4 overflow-x-auto">
+          <% @newly_unlocked_sprites.each do |sprite| %>
+            <div class="flex-shrink-0 text-center">
+              <div class="sprite-container <%= sprite.rarity %>">
+                <div class="sprite <%= sprite.css_class %>"></div>
+              </div>
+              <p class="text-sm font-bold mt-2"><%= sprite.name %></p>
+              <p class="text-xs opacity-90"><%= sprite.rarity.capitalize %></p>
+            </div>
+          <% end %>
+        </div>
+        <%= link_to "View Collection →", sprites_path, class: "inline-block mt-4 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
+      </div>
+    <% end %>
+    
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       <!-- Main Column -->
@@ -277,6 +298,27 @@
           <% end %>
         <% end %>
 
+        <!-- Today's Unlocked Sprites -->
+        <% if @todays_sprites.any? %>
+          <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
+            <h3 class="text-xl font-bold mb-4">Today's Sprites</h3>
+            <div class="space-y-3">
+              <% @todays_sprites.each do |user_sprite| %>
+                <div class="flex items-center gap-3">
+                  <div class="sprite-container <%= user_sprite.sprite_character.rarity %>">
+                    <div class="sprite <%= user_sprite.sprite_character.css_class %>"></div>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-sm"><%= user_sprite.sprite_character.name %></p>
+                    <p class="text-xs text-gray-500"><%= user_sprite.unlocked_at.strftime("%l:%M %p") %></p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <%= link_to "View Collection →", sprites_path, class: "block mt-4 text-center text-sm text-purple-600 hover:text-purple-700 font-medium" %>
+          </div>
+        <% end %>
+        
         <!-- Recent Achievements -->
         <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
           <h3 class="text-xl font-bold mb-4">Recent Achievements</h3>
@@ -333,6 +375,8 @@
 </div>
 
 <style>
+  <%= File.read(Rails.root.join('app/assets/stylesheets/sprites.css')).html_safe %>
+  
   /* Make tasks draggable */
   [data-task-target="item"] {
     cursor: move;

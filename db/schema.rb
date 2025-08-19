@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_18_231937) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_19_105945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -108,6 +108,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_231937) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "sprite_characters", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "unlock_condition"
+    t.integer "unlock_value"
+    t.string "sprite_type"
+    t.string "css_class"
+    t.string "rarity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title"
@@ -130,6 +142,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_231937) do
     t.index ["status"], name: "index_tasks_on_status"
     t.index ["user_id", "position"], name: "index_tasks_on_user_id_and_position"
     t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
+  create_table "user_sprites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "sprite_character_id", null: false
+    t.datetime "unlocked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sprite_character_id"], name: "index_user_sprites_on_sprite_character_id"
+    t.index ["user_id"], name: "index_user_sprites_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -157,4 +179,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_231937) do
   add_foreign_key "sessions", "users"
   add_foreign_key "tasks", "brain_dumps"
   add_foreign_key "tasks", "users"
+  add_foreign_key "user_sprites", "sprite_characters"
+  add_foreign_key "user_sprites", "users"
 end

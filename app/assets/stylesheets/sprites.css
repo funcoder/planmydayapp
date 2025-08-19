@@ -1,0 +1,436 @@
+/* Pixel Art Sprite Characters */
+.sprite-container {
+  display: inline-block;
+  position: relative;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  padding: 12px;
+  overflow: visible;
+}
+
+.sprite {
+  width: 48px;
+  height: 48px;
+  display: block;
+  position: relative;
+  animation: bounce 2s ease-in-out 3;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Common Sprites */
+.sprite-bunny {
+  background: linear-gradient(to bottom, 
+    transparent 0%, transparent 20%,
+    #FFB6C1 20%, #FFB6C1 40%,
+    #FFF 40%, #FFF 60%,
+    #FFB6C1 60%, #FFB6C1 80%,
+    transparent 80%);
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+}
+
+.sprite-bunny::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 12px;
+  background: #FFB6C1;
+  top: -10px;
+  left: 20%;
+  border-radius: 50%;
+}
+
+.sprite-bunny::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 12px;
+  background: #FFB6C1;
+  top: -10px;
+  right: 20%;
+  border-radius: 50%;
+}
+
+.sprite-cat {
+  background: #FFA500;
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+}
+
+.sprite-cat::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+  top: 35%;
+  left: 30%;
+  box-shadow: 12px 0 0 #000;
+}
+
+.sprite-cat::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 10px solid #FFA500;
+  top: -8px;
+  left: 15%;
+}
+
+.sprite-bee {
+  background: linear-gradient(to right,
+    #FFD700 0%, #FFD700 30%,
+    #000 30%, #000 40%,
+    #FFD700 40%, #FFD700 60%,
+    #000 60%, #000 70%,
+    #FFD700 70%, #FFD700 100%);
+  border-radius: 50%;
+  position: relative;
+}
+
+.sprite-bird {
+  background: #87CEEB;
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+}
+
+.sprite-bird::before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 8px;
+  background: #87CEEB;
+  left: -12px;
+  top: 40%;
+  border-radius: 50% 0 0 50%;
+}
+
+.sprite-bird::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 8px;
+  background: #87CEEB;
+  right: -12px;
+  top: 40%;
+  border-radius: 0 50% 50% 0;
+}
+
+/* Uncommon Sprites */
+.sprite-owl {
+  background: #8B4513;
+  border-radius: 40% 40% 50% 50%;
+  position: relative;
+}
+
+.sprite-owl::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #FFF;
+  border-radius: 50%;
+  border: 2px solid #000;
+  top: 25%;
+  left: 25%;
+  box-shadow: 14px 0 0 2px #000, 14px 0 0 0 #FFF;
+}
+
+.sprite-fox {
+  background: #FF6347;
+  border-radius: 30% 30% 50% 50%;
+  position: relative;
+}
+
+.sprite-fox::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background: #FF6347;
+  bottom: -20px;
+  right: 10%;
+  border-radius: 0 0 50% 50%;
+  transform: rotate(-15deg);
+}
+
+.sprite-turtle {
+  background: #228B22;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: inset 0 0 0 4px #006400;
+}
+
+.sprite-wolf {
+  background: #696969;
+  border-radius: 30% 30% 50% 50%;
+  position: relative;
+}
+
+/* Rare Sprites */
+.sprite-hamster {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.sprite-dragon {
+  background: linear-gradient(135deg, #FF4500, #8B0000);
+  border-radius: 20% 20% 50% 50%;
+  position: relative;
+}
+
+.sprite-dragon::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 20px;
+  background: inherit;
+  left: -25px;
+  top: 30%;
+  border-radius: 50% 0 0 50%;
+  transform: scaleY(0.7);
+}
+
+.sprite-dragon::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 20px;
+  background: inherit;
+  right: -25px;
+  top: 30%;
+  border-radius: 0 50% 50% 0;
+  transform: scaleY(0.7);
+}
+
+.sprite-penguin {
+  background: linear-gradient(to bottom,
+    #000 0%, #000 40%,
+    #FFF 40%, #FFF 80%,
+    #000 80%, #000 100%);
+  border-radius: 40% 40% 50% 50%;
+  position: relative;
+}
+
+.sprite-unicorn {
+  background: linear-gradient(135deg, 
+    #FFB6C1, #FFD700, #98FB98, #87CEEB, #DDA0DD);
+  border-radius: 30% 30% 50% 50%;
+  position: relative;
+}
+
+.sprite-unicorn::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 15px solid #FFD700;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Epic Sprites */
+.sprite-cheetah {
+  background: linear-gradient(135deg, #FFD700, #000);
+  border-radius: 30% 30% 50% 50%;
+  position: relative;
+  animation: dash 1s linear 3;
+}
+
+@keyframes dash {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+
+.sprite-phoenix {
+  background: linear-gradient(135deg, 
+    #FF4500, #FFD700, #FF6347);
+  border-radius: 20% 20% 60% 60%;
+  position: relative;
+  animation: flame 2s ease-in-out 3;
+}
+
+@keyframes flame {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.sprite-whale {
+  background: linear-gradient(135deg, #191970, #4169E1);
+  border-radius: 60% 40% 40% 60%;
+  position: relative;
+  width: 60px;
+  animation: swim 3s ease-in-out 3;
+}
+
+@keyframes swim {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.sprite-lion {
+  background: #FFD700;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 
+    0 0 0 8px #FFA500,
+    0 0 0 12px #FFD700;
+}
+
+/* Legendary Sprites */
+.sprite-butterfly {
+  background: linear-gradient(45deg,
+    #FF0000, #FF7F00, #FFFF00, #00FF00, 
+    #0000FF, #4B0082, #9400D3);
+  border-radius: 0 70% 70% 0;
+  position: relative;
+  animation: flutter 1s ease-in-out 3;
+}
+
+@keyframes flutter {
+  0%, 100% { 
+    transform: rotate(-10deg) scale(1);
+  }
+  50% { 
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+.sprite-butterfly::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  left: -90%;
+  transform: scaleX(-1);
+  border-radius: 70% 0 0 70%;
+}
+
+.sprite-bear {
+  background: linear-gradient(135deg,
+    #000428, #004e92, #1e3c72, #2a5298);
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+  box-shadow: 
+    0 0 30px rgba(0, 78, 146, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: sparkle 2s ease-in-out 3;
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    filter: brightness(1);
+  }
+  50% { 
+    filter: brightness(1.3);
+  }
+}
+
+.sprite-robot {
+  background: linear-gradient(135deg,
+    #E5E4E2, #FFF, #E5E4E2);
+  border-radius: 0;
+  position: relative;
+  box-shadow: 
+    0 0 40px rgba(255, 255, 255, 0.8),
+    inset 0 0 20px rgba(0, 191, 255, 0.3);
+}
+
+.sprite-robot::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #00BFFF;
+  border-radius: 50%;
+  top: 25%;
+  left: 28%;
+  box-shadow: 14px 0 0 #00BFFF, 0 0 10px #00BFFF, 14px 0 10px #00BFFF;
+}
+
+.sprite-spirit {
+  background: radial-gradient(circle,
+    #FFF, #FFD700, #FF6347, #FF4500);
+  border-radius: 50%;
+  position: relative;
+  animation: pulse 1.5s ease-in-out 3;
+  box-shadow: 
+    0 0 60px rgba(255, 69, 0, 0.8),
+    0 0 100px rgba(255, 215, 0, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Rarity glow effects */
+.sprite-container.common .sprite {
+  filter: drop-shadow(0 0 4px rgba(128, 128, 128, 0.3));
+}
+
+.sprite-container.uncommon .sprite {
+  filter: drop-shadow(0 0 6px rgba(0, 128, 0, 0.5));
+}
+
+.sprite-container.rare .sprite {
+  filter: drop-shadow(0 0 8px rgba(0, 112, 221, 0.6));
+}
+
+.sprite-container.epic .sprite {
+  filter: drop-shadow(0 0 10px rgba(163, 53, 238, 0.7));
+}
+
+.sprite-container.legendary .sprite {
+  filter: drop-shadow(0 0 15px rgba(255, 128, 0, 0.8));
+  animation: legendary-glow 2s ease-in-out 3;
+}
+
+@keyframes legendary-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(255, 128, 0, 0.8));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 1));
+  }
+}
+
+/* Locked sprite style */
+.sprite-container.locked .sprite {
+  filter: grayscale(100%) brightness(0.3);
+  opacity: 0.5;
+}
+
+.sprite-container.locked::after {
+  content: '🔒';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+}

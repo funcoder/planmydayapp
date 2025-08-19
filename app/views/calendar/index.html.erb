@@ -1,0 +1,164 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold">Task Calendar</h1>
+          <p class="text-purple-100 mt-1">Your weekly productivity overview</p>
+        </div>
+        <div class="flex gap-4">
+          <%= link_to "Dashboard", dashboard_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
+          <%= link_to "Backlog", tasks_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Week Navigation -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+      <div class="flex justify-between items-center">
+        <%= link_to calendar_path(week_date: (@week_start - 1.week).to_s), 
+            class: "flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg transition-colors" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Previous Week
+        <% end %>
+        
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-gray-800">
+            <%= @week_start.strftime("%B %d") %> - <%= @week_end.strftime("%B %d, %Y") %>
+          </h2>
+          <% if @week_start <= Date.current && @week_end >= Date.current %>
+            <p class="text-sm text-purple-600 font-medium mt-1">Current Week</p>
+          <% end %>
+        </div>
+        
+        <%= link_to calendar_path(week_date: (@week_start + 1.week).to_s), 
+            class: "flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg transition-colors" do %>
+          Next Week
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        <% end %>
+      </div>
+      
+      <!-- Week Stats -->
+      <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-gray-800"><%= @week_stats[:total_scheduled] %></div>
+          <div class="text-sm text-gray-600">Tasks Scheduled</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-600"><%= @week_stats[:total_completed] %></div>
+          <div class="text-sm text-gray-600">Tasks Completed</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-600"><%= @week_stats[:completion_rate] %>%</div>
+          <div class="text-sm text-gray-600">Completion Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="grid grid-cols-7 gap-px bg-gray-200">
+        <% (@week_start..@week_end).each do |date| %>
+          <div class="bg-white <%= 'bg-purple-50' if date == Date.current %>">
+            <!-- Day Header -->
+            <div class="p-4 border-b-2 <%= date == Date.current ? 'border-purple-300 bg-purple-100' : 'border-gray-200' %>">
+              <div class="font-bold text-lg <%= date == Date.current ? 'text-purple-700' : 'text-gray-700' %>">
+                <%= date.strftime("%A") %>
+              </div>
+              <div class="text-sm <%= date == Date.current ? 'text-purple-600' : 'text-gray-500' %>">
+                <%= date.strftime("%b %d") %>
+              </div>
+            </div>
+            
+            <!-- Tasks for this day -->
+            <div class="p-4 min-h-[300px]">
+              <% day_tasks = @tasks_by_date[date] %>
+              
+              <!-- Completed Tasks -->
+              <% if day_tasks[:completed].any? %>
+                <div class="mb-4">
+                  <div class="text-xs font-semibold text-green-600 mb-2">COMPLETED (<%= day_tasks[:completed].count %>)</div>
+                  <% day_tasks[:completed].each do |task| %>
+                    <div class="mb-2 p-2 bg-green-50 rounded-lg border border-green-200">
+                      <div class="flex items-start gap-1">
+                        <span class="text-green-500 text-xs mt-0.5">✓</span>
+                        <div class="flex-1">
+                          <div class="text-sm font-medium text-gray-700 line-through">
+                            <%= truncate(task.title, length: 30) %>
+                          </div>
+                          <% if task.completed_at %>
+                            <div class="text-xs text-gray-500 mt-1">
+                              <%= task.completed_at.strftime("%l:%M %p") %>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              
+              <!-- Scheduled Tasks (not completed) -->
+              <% scheduled_incomplete = day_tasks[:scheduled].reject(&:completed?) %>
+              <% if scheduled_incomplete.any? %>
+                <div>
+                  <div class="text-xs font-semibold text-gray-600 mb-2">SCHEDULED (<%= scheduled_incomplete.count %>)</div>
+                  <% scheduled_incomplete.each do |task| %>
+                    <div class="mb-2 p-2 rounded-lg border-2 
+                         <%= task.status == 'in_progress' ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200' %>">
+                      <div class="text-sm font-medium text-gray-700">
+                        <%= truncate(task.title, length: 30) %>
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1">
+                        <span class="inline-block px-2 py-0.5 rounded-full 
+                               <%= task.status == 'in_progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600' %>">
+                          <%= task.status.humanize %>
+                        </span>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              
+              <!-- Empty state -->
+              <% if day_tasks[:completed].empty? && scheduled_incomplete.empty? %>
+                <div class="text-center text-gray-400 text-sm mt-8">
+                  No tasks
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="mt-6 bg-white rounded-xl shadow-lg p-4">
+      <div class="flex justify-center gap-8 text-sm">
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-green-50 border border-green-200 rounded"></div>
+          <span class="text-gray-600">Completed</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-blue-50 border border-blue-200 rounded"></div>
+          <span class="text-gray-600">In Progress</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-gray-50 border border-gray-200 rounded"></div>
+          <span class="text-gray-600">Pending</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-purple-100 rounded"></div>
+          <span class="text-gray-600">Today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
