@@ -34,17 +34,20 @@
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800">Today's Focus</h2>
             <div class="flex items-center gap-4">
-              <span class="text-sm text-gray-500"><%= @today_tasks.count %> / <%= @user.daily_task_limit %> tasks</span>
-              <% if @today_tasks.count < @user.daily_task_limit %>
+              <% if @today_completed_tasks.any? %>
+                <span class="text-sm text-green-600 font-medium">✓ <%= @today_completed_tasks.count %> completed today</span>
+              <% end %>
+              <span class="text-sm text-gray-500"><%= @today_incomplete_tasks.count %> / <%= @user.daily_task_limit %> active tasks</span>
+              <% if @today_incomplete_tasks.count < @user.daily_task_limit %>
                 <%= link_to "+ Add Task", new_task_path, 
                     class: "text-sm px-3 py-1 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors" %>
               <% end %>
             </div>
           </div>
           
-          <% if @today_tasks.any? %>
+          <% if @today_incomplete_tasks.any? %>
             <div class="space-y-3" data-task-target="list" id="tasks-list">
-              <% @today_tasks.each do |task| %>
+              <% @today_incomplete_tasks.each do |task| %>
                 <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-colors cursor-move" 
                      style="border-left: 4px solid <%= task.color || '#6366f1' %>"
                      data-task-target="item"
@@ -118,7 +121,7 @@
           <% else %>
             <div class="text-center py-12">
               <div class="text-6xl mb-4">🎯</div>
-              <p class="text-gray-600 mb-4">No tasks scheduled for today</p>
+              <p class="text-gray-600 mb-4">No active tasks for today</p>
               <%= link_to "Add Today's Tasks", new_task_path, 
                   class: "inline-block px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors" %>
             </div>
@@ -164,10 +167,58 @@
             <% end %>
           </div>
         <% end %>
+
+        <!-- Completed Tasks Section -->
+        <% if @today_completed_tasks.any? %>
+          <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold text-gray-800">Completed Today</h2>
+              <span class="text-sm text-green-600 font-medium">🎉 <%= @today_completed_tasks.count %> done!</span>
+            </div>
+            <div class="space-y-3">
+              <% @today_completed_tasks.each do |task| %>
+                <div class="task-item p-4 rounded-lg border-2 border-green-200 bg-green-50" 
+                     style="border-left: 4px solid #10b981">
+                  <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-lg line-through text-gray-600"><%= task.title %></h3>
+                      <% if task.description.present? %>
+                        <p class="text-gray-500 text-sm mt-1"><%= truncate(task.description, length: 100) %></p>
+                      <% end %>
+                      <div class="flex gap-2 mt-2">
+                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                          ✓ Completed <%= task.completed_at.strftime("%l:%M %p") if task.completed_at %>
+                        </span>
+                        <% if task.actual_time.present? && task.actual_time > 0 %>
+                          <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">
+                            ⏱ <%= task.actual_time %> min
+                          </span>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-2 ml-4">
+                      <%= link_to task_path(task), 
+                          data: { 
+                            turbo_method: :delete,
+                            turbo_confirm: "Are you sure you want to delete this completed task?"
+                          },
+                          class: "p-2 text-gray-400 hover:text-red-600 transition-colors",
+                          title: "Delete task" do %>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
 
       <!-- Sidebar -->
-      <div class="space-y-10">
+      <div class="space-y-8">
         
         <!-- Current Focus Session -->
         <%= turbo_frame_tag "focus_session" do %>
@@ -206,11 +257,11 @@
               <h3 class="text-xl font-bold mb-4">Start Focus Session</h3>
               <p class="text-gray-600 mb-4">Ready to focus? Pick a task and start a Pomodoro session.</p>
               
-              <% if @today_tasks.pending.any? || @today_tasks.in_progress.any? %>
+              <% if @today_incomplete_tasks.pending.any? || @today_incomplete_tasks.in_progress.any? %>
                 <%= form_with url: focus_sessions_path, method: :post do |form| %>
                   <div class="mb-4">
                     <%= form.select :task_id, 
-                        options_for_select(@today_tasks.where(status: ['pending', 'in_progress']).map { |t| [t.title, t.id] }),
+                        options_for_select(@today_incomplete_tasks.where(status: ['pending', 'in_progress']).map { |t| [t.title, t.id] }),
                         { prompt: "Select a task..." },
                         class: "w-full p-2 border border-gray-300 rounded-lg focus:border-purple-400 focus:outline-none" %>
                   </div>
@@ -227,7 +278,7 @@
         <% end %>
 
         <!-- Recent Achievements -->
-        <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
           <h3 class="text-xl font-bold mb-4">Recent Achievements</h3>
           <% if @recent_achievements.any? %>
             <div class="space-y-3">

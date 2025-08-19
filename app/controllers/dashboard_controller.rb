@@ -4,6 +4,8 @@ class DashboardController < ApplicationController
   def index
     @user = Current.session.user
     @today_tasks = @user.tasks.today.by_priority
+    @today_incomplete_tasks = @today_tasks.incomplete
+    @today_completed_tasks = @today_tasks.completed
     @brain_dumps = @user.brain_dumps.pending.recent.limit(5)
     @current_focus_session = @user.focus_sessions.in_progress.first
     @recent_achievements = @user.achievements.recent.limit(3)

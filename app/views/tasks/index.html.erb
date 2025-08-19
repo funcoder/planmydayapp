@@ -38,6 +38,8 @@
           <% @tasks.each do |task| %>
             <%= turbo_frame_tag dom_id(task) do %>
               <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-colors" 
+                   data-status="<%= task.status %>"
+                   data-scheduled="<%= task.scheduled_for&.to_date == Date.current ? 'today' : 'other' %>"
                    style="border-left: 4px solid <%= task.color || '#6366f1' %>">
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
@@ -120,13 +122,44 @@ document.addEventListener('DOMContentLoaded', function() {
       // Update active button style
       filterButtons.forEach(btn => {
         btn.classList.remove('bg-purple-600', 'text-white');
-        btn.classList.add('bg-gray-100', 'text-gray-700');
+        btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
       });
-      this.classList.remove('bg-gray-100', 'text-gray-700');
+      this.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
       this.classList.add('bg-purple-600', 'text-white');
       
-      // Filter logic would go here based on data-filter value
-      // For now, all tasks are shown
+      // Filter tasks based on data-filter value
+      const filterValue = this.getAttribute('data-filter');
+      
+      taskItems.forEach(task => {
+        const taskStatus = task.getAttribute('data-status');
+        const taskScheduled = task.getAttribute('data-scheduled');
+        const taskFrame = task.closest('turbo-frame');
+        
+        let shouldShow = false;
+        
+        switch(filterValue) {
+          case 'all':
+            shouldShow = true;
+            break;
+          case 'today':
+            shouldShow = taskScheduled === 'today';
+            break;
+          case 'pending':
+            shouldShow = taskStatus === 'pending';
+            break;
+          case 'completed':
+            shouldShow = taskStatus === 'completed';
+            break;
+        }
+        
+        // Show/hide the turbo-frame wrapper if it exists, otherwise the task item itself
+        const elementToToggle = taskFrame || task;
+        if (shouldShow) {
+          elementToToggle.style.display = '';
+        } else {
+          elementToToggle.style.display = 'none';
+        }
+      });
     });
   });
 });
