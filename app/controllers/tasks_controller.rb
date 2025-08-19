@@ -6,7 +6,9 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = current_user.tasks.build(scheduled_for: Date.current, status: 'pending')
+    # If coming from backlog page, don't set scheduled_for
+    scheduled_date = params[:scheduled] == 'backlog' ? nil : Date.current
+    @task = current_user.tasks.build(scheduled_for: scheduled_date, status: 'pending')
     @unscheduled_tasks = current_user.tasks.unscheduled.pending
     @brain_dumps = current_user.brain_dumps.unprocessed.recent.limit(5)
   end
@@ -16,8 +18,8 @@ class TasksController < ApplicationController
     @task.status ||= 'pending'
     @task.position ||= current_user.tasks.maximum(:position).to_i + 1
     
-    # Check daily task limit (only count incomplete tasks)
-    if current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
+    # Check daily task limit only if the task is scheduled for today
+    if @task.scheduled_for == Date.current && current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
       redirect_to dashboard_path, alert: "You've reached your daily task limit of #{current_user.daily_task_limit} active tasks. Complete some tasks or move them to another day."
       return
     end
