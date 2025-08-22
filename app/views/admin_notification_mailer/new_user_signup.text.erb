@@ -1,0 +1,17 @@
+New User Signup on PlanMyDay!
+==============================
+
+Name: <%= @user.first_name %> <%= @user.last_name %>
+Email: <%= @user.email_address %>
+User ID: <%= @user.id %>
+Signed up: <%= @signup_time %>
+
+User Stats:
+-----------
+Total Users: <%= User.count %>
+Users Today: <%= User.where('created_at >= ?', Date.current.beginning_of_day).count %>
+Users This Week: <%= User.where('created_at >= ?', 1.week.ago).count %>
+Users This Month: <%= User.where('created_at >= ?', 1.month.ago).count %>
+
+--------
+This is an automated notification sent because a new user signed up for PlanMyDay.
