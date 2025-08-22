@@ -20,8 +20,8 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
-# Frontend
-gem "cssbundling-rails"
+# Frontend - Using tailwindcss-rails for proper Rails 8 integration
+gem "tailwindcss-rails"
 
 # For handling voice-to-text and AI features (keeping this as it's specific functionality)
 gem "ruby-openai", "~> 6.0"

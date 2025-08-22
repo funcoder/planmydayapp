@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Custom responsive utilities until Tailwind v4 properly scans ERB files */
+@media (min-width: 1024px) {
+  .lg\:hidden {
+    display: none !important;
+  }
+  
+  .lg\:flex {
+    display: flex !important;
+  }
+  
+  .lg\:block {
+    display: block !important;
+  }
+}

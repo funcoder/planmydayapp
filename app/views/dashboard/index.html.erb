@@ -1,13 +1,15 @@
 <div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white" data-controller="mobile-menu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex justify-between items-center">
         <div>
-          <h1 class="text-3xl font-bold">Welcome back, <%= @user.first_name %>!</h1>
-          <p class="text-purple-100 mt-1">Let's make today productive</p>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Welcome back, <%= @user.first_name %>!</h1>
+          <p class="text-purple-100 mt-1 text-sm sm:text-base">Let's make today productive</p>
         </div>
-        <div class="flex items-center gap-6">
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center gap-6">
           <div class="text-center">
             <div class="text-2xl font-bold"><%= @points %></div>
             <div class="text-sm text-purple-100">Points</div>
@@ -20,7 +22,46 @@
           <%= link_to "Calendar", calendar_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
           <%= link_to "Backlog", tasks_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
           <%= link_to "Feedback", new_feedback_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
+          <%= link_to session_path, data: { "turbo-method": :delete }, class: "bg-white/20 hover:bg-white/30 p-2 rounded-lg transition-colors", title: "Sign Out" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          <% end %>
+        </div>
+        
+        <!-- Mobile Stats and Menu Button -->
+        <div class="flex lg:hidden items-center gap-4">
+          <div class="flex gap-4">
+            <div class="text-center">
+              <div class="text-xl font-bold"><%= @points %></div>
+              <div class="text-xs text-purple-100">Points</div>
+            </div>
+            <div class="text-center">
+              <div class="text-xl font-bold"><%= @streak %></div>
+              <div class="text-xs text-purple-100">Streak</div>
+            </div>
+          </div>
+          <button data-action="click->mobile-menu#toggle" class="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors" aria-label="Toggle menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile Navigation Menu -->
+      <div data-mobile-menu-target="menu" class="hidden mt-4 pt-4 border-t border-white/20">
+        <div class="flex flex-col gap-2">
+          <%= link_to "Sprites", sprites_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
+          <%= link_to "Calendar", calendar_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
+          <%= link_to "Backlog", tasks_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
+          <%= link_to "Feedback", new_feedback_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
+          <%= link_to session_path, data: { "turbo-method": :delete }, class: "bg-red-500/20 hover:bg-red-500/30 px-4 py-3 rounded-lg transition-colors flex items-center justify-center gap-2" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            <span>Sign Out</span>
+          <% end %>
         </div>
       </div>
     </div>
