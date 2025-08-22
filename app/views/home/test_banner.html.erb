@@ -1,0 +1,67 @@
+<div class="max-w-4xl mx-auto p-8">
+  <h1 class="text-2xl font-bold mb-4">Cookie Banner Test Page</h1>
+  
+  <div class="space-y-4">
+    <div>
+      <button onclick="showBanner()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+        Force Show Banner
+      </button>
+    </div>
+    
+    <div>
+      <button onclick="clearCookie()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+        Clear Cookie Consent
+      </button>
+    </div>
+    
+    <div>
+      <button onclick="checkBanner()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        Check Banner Status
+      </button>
+    </div>
+    
+    <div id="status" class="p-4 bg-gray-100 rounded"></div>
+  </div>
+  
+  <script>
+    function showBanner() {
+      const banner = document.querySelector('[data-cookie-consent-target="banner"]');
+      if (banner) {
+        banner.classList.remove('hidden');
+        document.getElementById('status').innerHTML = 'Banner shown manually';
+      } else {
+        document.getElementById('status').innerHTML = 'ERROR: Banner element not found in DOM!';
+      }
+    }
+    
+    function clearCookie() {
+      document.cookie = "cookie_consent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.getElementById('status').innerHTML = 'Cookie cleared. Refresh page to test.';
+    }
+    
+    function checkBanner() {
+      const banner = document.querySelector('[data-cookie-consent-target="banner"]');
+      const controller = document.querySelector('[data-controller="cookie-consent"]');
+      
+      let status = '<strong>Debug Info:</strong><br>';
+      status += 'Banner element exists: ' + (banner ? 'YES' : 'NO') + '<br>';
+      status += 'Controller element exists: ' + (controller ? 'YES' : 'NO') + '<br>';
+      
+      if (banner) {
+        status += 'Banner classes: ' + banner.className + '<br>';
+        status += 'Banner is hidden: ' + banner.classList.contains('hidden') + '<br>';
+      }
+      
+      // Check cookies
+      status += 'Current cookies: ' + document.cookie + '<br>';
+      
+      // Check if Stimulus is loaded
+      status += 'Stimulus loaded: ' + (typeof Stimulus !== 'undefined' ? 'YES' : 'NO') + '<br>';
+      
+      document.getElementById('status').innerHTML = status;
+    }
+    
+    // Auto-check on load
+    window.addEventListener('DOMContentLoaded', checkBanner);
+  </script>
+</div>

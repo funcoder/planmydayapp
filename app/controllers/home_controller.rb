@@ -3,4 +3,10 @@ class HomeController < ApplicationController
   
   def index
   end
+  
+  def clear_cookies
+  end
+  
+  def test_banner
+  end
 end

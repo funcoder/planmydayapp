@@ -7,6 +7,9 @@ import { application } from "controllers/application"
 import BrainDumpController from "controllers/brain_dump_controller"
 application.register("brain-dump", BrainDumpController)
 
+import CookieConsentController from "controllers/cookie_consent_controller"
+application.register("cookie-consent", CookieConsentController)
+
 import DropdownController from "controllers/dropdown_controller"
 application.register("dropdown", DropdownController)
 

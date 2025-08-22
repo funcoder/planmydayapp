@@ -1,0 +1,29 @@
+<div data-controller="cookie-consent" 
+     data-cookie-consent-target="banner"
+     class="hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-2xl border-t border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold mb-2">Cookie Notice</h3>
+        <p class="text-sm text-gray-300">
+          We use cookies to improve your experience on our site and to show you personalized content. 
+          These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. 
+          By clicking "Accept All", you consent to the use of cookies in accordance with our 
+          <%= link_to "Privacy Policy", "#", class: "underline hover:text-gray-100" %>.
+        </p>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-3 sm:ml-6">
+        <button data-action="click->cookie-consent#decline"
+                class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-gray-500 transition-colors">
+          Decline
+        </button>
+        
+        <button data-action="click->cookie-consent#accept"
+                class="px-6 py-2 text-sm font-medium text-gray-900 bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white transition-colors">
+          Accept All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

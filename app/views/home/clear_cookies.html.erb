@@ -1,0 +1,17 @@
+<div class="max-w-2xl mx-auto p-8">
+  <h1 class="text-2xl font-bold mb-4">Clear Cookie Consent</h1>
+  
+  <button onclick="clearCookieConsent()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+    Clear Cookie Consent
+  </button>
+  
+  <p class="mt-4 text-gray-600">Click the button above to clear your cookie consent and see the banner again.</p>
+  
+  <script>
+    function clearCookieConsent() {
+      document.cookie = "cookie_consent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      alert("Cookie consent cleared! Refresh the page to see the banner.");
+      window.location.href = "/";
+    }
+  </script>
+</div>

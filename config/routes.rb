@@ -56,6 +56,8 @@ Rails.application.routes.draw do
   patch 'profile', to: 'users#update_profile'
   get 'calendar', to: 'calendar#index', as: :calendar
   get 'sprites', to: 'sprites#index', as: :sprites
+  get 'clear_cookies', to: 'home#clear_cookies', as: :clear_cookies
+  get 'test_banner', to: 'home#test_banner', as: :test_banner
 
   # Defines the root path route ("/")
   root "home#index"
