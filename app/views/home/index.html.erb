@@ -306,7 +306,11 @@
         Why I Built PlanMyDay
       </h3>
       <div class="bg-white rounded-2xl p-8 md:p-12 shadow-xl">
-        <div class="prose prose-lg max-w-none text-gray-600">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-8">
+          <div class="flex-shrink-0">
+            <%= image_tag "founder.jpg", alt: "Founder of PlanMyDay", class: "w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg border-4 border-purple-100" %>
+          </div>
+          <div class="prose prose-lg max-w-none text-gray-600 flex-1">
           <p class="mb-6">
             <span class="text-2xl font-semibold text-gray-900">Hi, I'm a freelancer with ADHD.</span> 
             Like you, I've tried every productivity app out there. ToDoist, Notion, Asana, Trello... 
@@ -337,6 +341,7 @@
             This isn't just another productivity app. It's built by someone with ADHD, for people 
             with ADHD. Because we deserve tools that work with our brains, not against them.
           </p>
+          </div>
         </div>
         
         <div class="mt-8 pt-8 border-t border-gray-200">
