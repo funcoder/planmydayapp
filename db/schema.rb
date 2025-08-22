@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_19_105945) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_22_095843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,6 +68,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_105945) do
     t.index ["processed"], name: "index_brain_dumps_on_processed"
     t.index ["status"], name: "index_brain_dumps_on_status"
     t.index ["user_id"], name: "index_brain_dumps_on_user_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "feedback_type", null: false
+    t.string "subject", null: false
+    t.text "message", null: false
+    t.string "status", default: "new", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feedback_type"], name: "index_feedbacks_on_feedback_type"
+    t.index ["status"], name: "index_feedbacks_on_status"
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
   create_table "focus_sessions", force: :cascade do |t|
@@ -173,6 +186,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_105945) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "brain_dumps", "users"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "focus_sessions", "tasks"
   add_foreign_key "focus_sessions", "users"
   add_foreign_key "rewards", "users"

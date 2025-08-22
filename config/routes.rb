@@ -51,6 +51,8 @@ Rails.application.routes.draw do
   
   resources :achievements, only: [:index, :show]
   
+  resources :feedbacks, only: [:new, :create, :index]
+  
   get 'dashboard', to: 'dashboard#index'
   get 'profile', to: 'users#profile'
   patch 'profile', to: 'users#update_profile'
@@ -58,6 +60,7 @@ Rails.application.routes.draw do
   get 'sprites', to: 'sprites#index', as: :sprites
   get 'clear_cookies', to: 'home#clear_cookies', as: :clear_cookies
   get 'test_banner', to: 'home#test_banner', as: :test_banner
+  get 'test_notifications', to: 'home#test_notifications', as: :test_notifications
 
   # Defines the root path route ("/")
   root "home#index"

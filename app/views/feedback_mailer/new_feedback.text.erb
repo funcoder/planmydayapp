@@ -1,0 +1,15 @@
+New Feedback from PlanMyDay
+============================
+
+Type: <%= @feedback.feedback_type.humanize %>
+Subject: <%= @feedback.subject %>
+From: <%= @user.first_name %> <%= @user.last_name %> (<%= @user.email_address %>)
+User ID: <%= @user.id %>
+Submitted: <%= @feedback.created_at.strftime("%B %d, %Y at %I:%M %p %Z") %>
+
+Message:
+--------
+<%= @feedback.message %>
+
+--------
+You can reply directly to this email to respond to <%= @user.first_name %>.

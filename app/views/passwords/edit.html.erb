@@ -1,9 +1,57 @@
-<h1>Update your password</h1>
-
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-
-<%= form_with url: password_path(params[:token]), method: :put do |form| %>
-  <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72 %><br>
-  <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72 %><br>
-  <%= form.submit "Save" %>
-<% end %>
+<div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-indigo-50 to-purple-50">
+  <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+    <div>
+      <div class="text-center mb-4">
+        <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">
+          PlanMyDay
+        </h1>
+        <p class="text-xs text-gray-500 mt-1">ADHD-Friendly Productivity</p>
+      </div>
+      <h2 class="mt-6 text-center text-2xl font-bold text-gray-900">
+        Create new password
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Enter your new password below
+      </p>
+    </div>
+    
+    <% if flash[:alert] %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+    
+    <%= form_with url: password_path(params[:token]), method: :put, class: "mt-8 space-y-6" do |form| %>
+      <div class="space-y-4">
+        <div>
+          <%= form.label :password, "New password", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.password_field :password, 
+              required: true, 
+              autocomplete: "new-password", 
+              placeholder: "Enter new password", 
+              maxlength: 72,
+              class: "appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" %>
+        </div>
+        
+        <div>
+          <%= form.label :password_confirmation, "Confirm new password", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.password_field :password_confirmation, 
+              required: true, 
+              autocomplete: "new-password", 
+              placeholder: "Repeat new password", 
+              maxlength: 72,
+              class: "appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" %>
+        </div>
+      </div>
+      
+      <div>
+        <%= form.submit "Update Password", 
+            class: "w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg" %>
+      </div>
+      
+      <div class="text-center">
+        <%= link_to "Back to Sign In", new_session_path, class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -24,7 +24,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("planmyday.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08f3475697b3d1b019c6d0ea466364dd2945495c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f558fd4deffc8365a285043ba8882bad58ba814e")]
 [assembly: System.Reflection.AssemblyProductAttribute("planmyday.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("planmyday.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

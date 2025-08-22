@@ -59,6 +59,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  
+  # Load environment variables from .env file
+  gem "dotenv-rails"
 end
 
 group :development do
@@ -70,6 +73,9 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  
+  # Open emails in browser during development
+  gem "letter_opener"
 end
 gem "dockerfile-rails", ">= 1.7", group: :development
 

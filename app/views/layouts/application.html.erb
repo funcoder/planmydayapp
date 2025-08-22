@@ -22,7 +22,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50 text-gray-900">
+  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+    <!-- Notifications at the top -->
     <% if notice.present? %>
       <div class="bg-green-500 text-white px-4 py-3 text-center">
         <%= notice %>
@@ -35,7 +36,13 @@
       </div>
     <% end %>
     
-    <%= yield %>
+    <!-- Main content -->
+    <div class="flex-grow pb-16">
+      <%= yield %>
+    </div>
+    
+    <!-- Beta badge at bottom -->
+    <%= render "shared/beta_badge" %>
     
     <%= render "shared/cookie_consent" %>
   </body>

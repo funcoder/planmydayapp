@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2>New Feedback from PlanMyDay</h2>
+    
+    <p><strong>Type:</strong> <%= @feedback.feedback_type.humanize %></p>
+    <p><strong>Subject:</strong> <%= @feedback.subject %></p>
+    <p><strong>From:</strong> <%= @user.first_name %> <%= @user.last_name %> (<%= @user.email_address %>)</p>
+    <p><strong>User ID:</strong> <%= @user.id %></p>
+    <p><strong>Submitted:</strong> <%= @feedback.created_at.strftime("%B %d, %Y at %I:%M %p %Z") %></p>
+    
+    <hr style="margin: 20px 0;">
+    
+    <h3>Message:</h3>
+    <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
+      <%= simple_format(@feedback.message) %>
+    </div>
+    
+    <hr style="margin: 20px 0;">
+    
+    <p>
+      <small>
+        You can reply directly to this email to respond to <%= @user.first_name %>.
+      </small>
+    </p>
+  </body>
+</html>

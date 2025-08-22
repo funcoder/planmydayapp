@@ -1,6 +1,7 @@
 # PlanMyDay - Development Guidelines
 
 ## Important Configuration Notes
+Please stick strickly to the Rails 8 way of development, and do not go off tangent.
 
 ### Active Record Encryption
 The app uses Active Record encryption for sensitive user data. The encryption keys are configured in `config/environments/development.rb` for development. For production, these should be moved to Rails credentials:
