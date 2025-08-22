@@ -9,4 +9,17 @@ class AdminNotificationMailer < ApplicationMailer
       from: "noreply@wdpro.dev"
     )
   end
+  
+  def rate_limit_alert(user, endpoint, limit)
+    @user = user
+    @endpoint = endpoint
+    @limit = limit
+    @usage_stats = ApiUsage.where(user: user, date: Date.current).group(:endpoint).sum(:count)
+    
+    mail(
+      to: "jb@wdpro.dev",
+      subject: "[PlanMyDay Alert] Rate limit reached for #{user.email_address}",
+      from: "noreply@wdpro.dev"
+    )
+  end
 end

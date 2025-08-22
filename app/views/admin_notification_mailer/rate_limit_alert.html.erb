@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2>⚠️ Rate Limit Alert</h2>
+    
+    <p>A user has reached their API rate limit:</p>
+    
+    <ul>
+      <li><strong>User:</strong> <%= @user.first_name %> <%= @user.last_name %> (<%= @user.email_address %>)</li>
+      <li><strong>User ID:</strong> <%= @user.id %></li>
+      <li><strong>Endpoint:</strong> <%= @endpoint %></li>
+      <li><strong>Daily Limit:</strong> <%= @limit %> calls</li>
+      <li><strong>Subscription Tier:</strong> <%= @user.subscription_tier %></li>
+    </ul>
+    
+    <h3>Today's Usage Stats for this User:</h3>
+    <ul>
+      <% @usage_stats.each do |endpoint, count| %>
+        <li><%= endpoint %>: <%= count %> calls</li>
+      <% end %>
+    </ul>
+    
+    <p style="background-color: #FEF2F2; padding: 10px; border-left: 4px solid #EF4444;">
+      <strong>Action Required:</strong> This user may be experiencing issues or potentially abusing the system. 
+      Consider reaching out to them or monitoring their usage patterns.
+    </p>
+    
+    <hr>
+    <p><small>This alert is sent once per day when a user first hits their rate limit.</small></p>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<div class="max-w-6xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">API Usage Monitor</h1>
+  
+  <!-- Today's Stats -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Today's Usage</h2>
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-blue-50 p-4 rounded">
+        <div class="text-2xl font-bold"><%= ApiUsage.today.sum(:count) %></div>
+        <div class="text-sm text-gray-600">Total API Calls</div>
+      </div>
+      <div class="bg-green-50 p-4 rounded">
+        <div class="text-2xl font-bold"><%= ApiUsage.today.select(:user_id).distinct.count %></div>
+        <div class="text-sm text-gray-600">Active Users</div>
+      </div>
+      <div class="bg-yellow-50 p-4 rounded">
+        <div class="text-2xl font-bold"><%= ApiUsage.today.group(:endpoint).count.keys.count %></div>
+        <div class="text-sm text-gray-600">Endpoints Used</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Top Users Today -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Top Users Today</h2>
+    <table class="w-full">
+      <thead>
+        <tr class="border-b">
+          <th class="text-left py-2">User</th>
+          <th class="text-left py-2">Email</th>
+          <th class="text-left py-2">Total Calls</th>
+          <th class="text-left py-2">Tier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ApiUsage.today.group(:user_id).sum(:count).sort_by{|k,v| -v}.first(10).each do |user_id, count| %>
+          <% user = User.find(user_id) %>
+          <tr class="border-b">
+            <td class="py-2"><%= user.first_name %> <%= user.last_name %></td>
+            <td class="py-2"><%= user.email_address %></td>
+            <td class="py-2">
+              <span class="<%= count > 40 ? 'text-red-600 font-bold' : '' %>">
+                <%= count %>
+              </span>
+            </td>
+            <td class="py-2">
+              <span class="px-2 py-1 text-xs rounded bg-gray-100"><%= user.subscription_tier %></span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Endpoint Usage -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-xl font-semibold mb-4">Endpoint Usage (Last 7 Days)</h2>
+    <table class="w-full">
+      <thead>
+        <tr class="border-b">
+          <th class="text-left py-2">Endpoint</th>
+          <th class="text-left py-2">Total Calls</th>
+          <th class="text-left py-2">Unique Users</th>
+          <th class="text-left py-2">Daily Limit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ApiUsage.this_week.group(:endpoint).sum(:count).each do |endpoint, count| %>
+          <tr class="border-b">
+            <td class="py-2 font-mono text-sm"><%= endpoint %></td>
+            <td class="py-2"><%= count %></td>
+            <td class="py-2"><%= ApiUsage.this_week.where(endpoint: endpoint).select(:user_id).distinct.count %></td>
+            <td class="py-2"><%= ApiRateLimiter::DAILY_LIMITS[endpoint] || ApiRateLimiter::DAILY_LIMITS['default'] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
