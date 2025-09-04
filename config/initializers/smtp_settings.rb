@@ -7,7 +7,7 @@ if Rails.env.development?
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'wdpro.dev',
-    user_name:            ENV['GMAIL_USERNAME'] || 'your-email@wdpro.dev',
+    user_name:            ENV['GMAIL_USERNAME'],
     password:             ENV['GMAIL_APP_PASSWORD'], # Use App Password, not regular password
     authentication:       'plain',
     enable_starttls_auto: true,
