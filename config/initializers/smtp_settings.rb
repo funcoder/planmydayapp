@@ -19,7 +19,18 @@ if Rails.env.development?
   # Uncomment the line below to just log emails instead of sending them
   # ActionMailer::Base.delivery_method = :test
 elsif Rails.env.production?
+  # Log the environment variables (without exposing passwords)
+  Rails.logger.info "SMTP Configuration: Gmail username is #{ENV['GMAIL_USERNAME'].present? ? 'present' : 'MISSING'}"
+  Rails.logger.info "SMTP Configuration: Gmail password is #{ENV['GMAIL_APP_PASSWORD'].present? ? 'present' : 'MISSING'}"
+  
+  if ENV['GMAIL_USERNAME'].blank? || ENV['GMAIL_APP_PASSWORD'].blank?
+    Rails.logger.error "SMTP Configuration Error: Missing Gmail credentials!"
+    Rails.logger.error "GMAIL_USERNAME: #{ENV['GMAIL_USERNAME'].inspect}"
+  end
+  
   ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.perform_deliveries = true
+  ActionMailer::Base.raise_delivery_errors = true
   ActionMailer::Base.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
