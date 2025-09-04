@@ -1,6 +1,9 @@
 # Gmail/Google Workspace SMTP Configuration
 # For production, use Rails credentials to store sensitive information
 
+# Move SMTP configuration to application.rb or environment files to avoid build-time issues
+# Only configure at runtime when the ENV variables are available
+
 if Rails.env.development?
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
@@ -18,28 +21,4 @@ if Rails.env.development?
   # For development testing, you can use letter_opener gem or log emails
   # Uncomment the line below to just log emails instead of sending them
   # ActionMailer::Base.delivery_method = :test
-elsif Rails.env.production?
-  # Log the environment variables (without exposing passwords)
-  Rails.logger.info "SMTP Configuration: Gmail username is #{ENV['GMAIL_USERNAME'].present? ? 'present' : 'MISSING'}"
-  Rails.logger.info "SMTP Configuration: Gmail password is #{ENV['GMAIL_APP_PASSWORD'].present? ? 'present' : 'MISSING'}"
-  
-  if ENV['GMAIL_USERNAME'].blank? || ENV['GMAIL_APP_PASSWORD'].blank?
-    Rails.logger.error "SMTP Configuration Error: Missing Gmail credentials!"
-    Rails.logger.error "GMAIL_USERNAME: #{ENV['GMAIL_USERNAME'].inspect}"
-  end
-  
-  ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.perform_deliveries = true
-  ActionMailer::Base.raise_delivery_errors = true
-  ActionMailer::Base.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'wdpro.dev',
-    user_name:            ENV['GMAIL_USERNAME'],
-    password:             ENV['GMAIL_APP_PASSWORD'],
-    authentication:       'plain',
-    enable_starttls_auto: true,
-    open_timeout:         5,
-    read_timeout:         5
-  }
 end
