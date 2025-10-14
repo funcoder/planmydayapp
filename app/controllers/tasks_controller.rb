@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover]
+  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :schedule_for_today]
 
   def index
     @tasks = current_user.tasks.order(scheduled_for: :desc, created_at: :desc)
@@ -67,6 +67,17 @@ class TasksController < ApplicationController
   def rollover
     @task.rollover_to_tomorrow!
     redirect_to dashboard_path, notice: "Task moved to tomorrow"
+  end
+
+  def schedule_for_today
+    # Check daily task limit
+    if current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
+      redirect_to tasks_path, alert: "You've reached your daily task limit of #{current_user.daily_task_limit} active tasks."
+      return
+    end
+
+    @task.update(scheduled_for: Date.current)
+    redirect_to tasks_path, notice: "Task scheduled for today!"
   end
 
   def update_order

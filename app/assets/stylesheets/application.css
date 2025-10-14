@@ -2,5 +2,4 @@
  * This is a manifest file that'll be compiled into application.css
  */
 
-/* Import any additional stylesheets */
-@import "sprites.css";
+/* Additional stylesheets are loaded separately via stylesheet_link_tag in layouts/application.html.erb */

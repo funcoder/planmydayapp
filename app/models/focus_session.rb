@@ -5,21 +5,25 @@ class FocusSession < ApplicationRecord
   # Validations
   validates :started_at, presence: true
   validates :focus_quality, inclusion: { in: 1..5 }, allow_nil: true
+  validates :timer_state, inclusion: { in: %w[stopped running paused] }
 
   # Scopes
   scope :completed, -> { where.not(ended_at: nil) }
   scope :in_progress, -> { where(ended_at: nil) }
   scope :recent, -> { order(started_at: :desc) }
   scope :today, -> { where(started_at: Date.current.beginning_of_day..Date.current.end_of_day) }
+  scope :running, -> { where(timer_state: 'running') }
 
   # Callbacks
   before_save :calculate_duration
   after_create :start_task
   after_update :award_focus_points, if: :completed?
+  after_update_commit :broadcast_timer_update
 
   # Instance methods
   def end_session!(quality: nil, notes: nil)
     self.ended_at = Time.current
+    self.timer_state = 'stopped'
     self.focus_quality = quality if quality.present?
     self.notes = notes if notes.present?
     save
@@ -55,6 +59,66 @@ class FocusSession < ApplicationRecord
     end
   end
 
+  # Timer state management
+  def start_timer!
+    self.timer_state = 'running'
+    self.started_at ||= Time.current
+    self.paused_at = nil
+    save
+  end
+
+  def pause_timer!
+    return unless timer_state == 'running'
+    self.timer_state = 'paused'
+    self.paused_at = Time.current
+    self.timer_remaining = calculate_remaining_seconds
+    save
+  end
+
+  def resume_timer!
+    return unless timer_state == 'paused'
+
+    # Calculate how long we were paused
+    pause_duration = Time.current - paused_at
+    self.total_paused_duration += pause_duration.to_i
+
+    self.timer_state = 'running'
+    self.paused_at = nil
+    save
+  end
+
+  def stop_timer!
+    self.timer_state = 'stopped'
+    self.paused_at = nil
+    save
+  end
+
+  def calculate_remaining_seconds
+    return timer_remaining if timer_state == 'paused'
+    return timer_duration unless timer_state == 'running'
+
+    elapsed = Time.current - started_at - total_paused_duration
+    remaining = timer_duration - elapsed.to_i
+    [remaining, 0].max
+  end
+
+  def timer_expired?
+    timer_state == 'running' && calculate_remaining_seconds <= 0
+  end
+
+  def timer_data
+    {
+      id: id,
+      state: timer_state,
+      duration: timer_duration,
+      remaining: calculate_remaining_seconds,
+      started_at: started_at&.iso8601,
+      paused_at: paused_at&.iso8601,
+      total_paused_duration: total_paused_duration,
+      task_title: task.title
+    }
+  end
+
   private
 
   def calculate_duration
@@ -69,20 +133,28 @@ class FocusSession < ApplicationRecord
 
   def award_focus_points
     return unless ended_at_previously_was.nil?
-    
+
     base_points = case duration_in_minutes
                   when 0..14 then 5
                   when 15..29 then 10
                   when 30..59 then 20
                   else 30
                   end
-    
+
     # Bonus for high quality focus
     base_points += 5 if focus_quality && focus_quality >= 4
-    
+
     # Penalty for many interruptions
     base_points -= (interruptions || 0) * 2
-    
+
     user.add_points([base_points, 0].max) # Ensure points are never negative
+  end
+
+  def broadcast_timer_update
+    # Temporarily disabled to debug layout issues
+    # broadcast_replace_to "user_#{user_id}_timer",
+    #                     target: "focus_timer",
+    #                     partial: "dashboard/focus_timer",
+    #                     locals: { focus_session: self }
   end
 end

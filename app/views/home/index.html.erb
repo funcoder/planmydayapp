@@ -1,20 +1,20 @@
-<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+<div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
   <!-- Navigation -->
   <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+          <h1 class="text-2xl font-bold text-primary-700">
             PlanMyDay
           </h1>
         </div>
         <div class="flex items-center gap-4">
           <% if authenticated? %>
-            <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
           <% else %>
-            <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Get Started", new_registration_path, class: "bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all" %>
+            <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Get Started", new_registration_path, class: "bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-all" %>
           <% end %>
         </div>
       </div>
@@ -27,7 +27,7 @@
       <div class="text-center">
         <h2 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
           Finally, a productivity app<br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+          <span class="text-primary-600">
             designed for ADHD minds
           </span>
         </h2>
@@ -36,9 +36,9 @@
           focus on what matters today—without the overwhelm.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <%= link_to "Start Free Today", new_registration_path, 
-              class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all transform hover:scale-105" %>
-          <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-purple-600 text-lg font-medium rounded-xl text-purple-600 bg-white hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all">
+          <%= link_to "Start Free Today", new_registration_path,
+              class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105" %>
+          <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
             See How It Works
           </a>
         </div>
@@ -46,8 +46,8 @@
       </div>
     </div>
     <!-- Animated decoration -->
-    <div class="absolute top-0 right-0 -mr-40 -mt-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-    <div class="absolute bottom-0 left-0 -ml-40 -mb-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute top-0 right-0 -mr-40 -mt-40 w-80 h-80 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+    <div class="absolute bottom-0 left-0 -ml-40 -mb-40 w-80 h-80 bg-secondary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
   </section>
 
   <!-- Problem Section -->
@@ -88,7 +88,7 @@
       <!-- Feature 1: Brain Dump -->
       <div class="flex flex-col md:flex-row items-center mb-20 gap-12">
         <div class="flex-1">
-          <div class="bg-purple-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
+          <div class="bg-primary-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
             <div class="bg-white rounded-xl p-6">
               <div class="flex items-center justify-between mb-4">
                 <h4 class="font-semibold text-gray-800">Quick Brain Dump</h4>
@@ -105,7 +105,7 @@
                   "Idea: New feature for client app! 💡"
                 </div>
               </div>
-              <button class="mt-4 text-purple-600 hover:text-purple-700">
+              <button class="mt-4 text-primary-600 hover:text-primary-700">
                 🎤 Voice Input Available
               </button>
             </div>
@@ -113,7 +113,7 @@
         </div>
         <div class="flex-1">
           <h4 class="text-3xl font-bold text-gray-900 mb-4">
-            <span class="text-purple-600">Brain Dump</span> Everything
+            <span class="text-primary-600">Brain Dump</span> Everything
           </h4>
           <p class="text-lg text-gray-600 mb-6">
             Racing thoughts? Get them out fast. Voice or text, no organizing needed. 
@@ -121,15 +121,15 @@
           </p>
           <ul class="space-y-3">
             <li class="flex items-start">
-              <span class="text-purple-600 mr-2">✓</span>
+              <span class="text-primary-600 mr-2">✓</span>
               <span>Voice-to-text for capturing thoughts at the speed of ADHD</span>
             </li>
             <li class="flex items-start">
-              <span class="text-purple-600 mr-2">✓</span>
+              <span class="text-primary-600 mr-2">✓</span>
               <span>No pressure to organize—just dump and go</span>
             </li>
             <li class="flex items-start">
-              <span class="text-purple-600 mr-2">✓</span>
+              <span class="text-primary-600 mr-2">✓</span>
               <span>AI helps process dumps into actionable tasks later</span>
             </li>
           </ul>
@@ -151,9 +151,9 @@
                   <span class="font-medium">Client proposal draft</span>
                   <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">In Progress</button>
                 </div>
-                <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                <div class="flex items-center justify-between p-3 bg-primary-50 rounded-lg border-l-4 border-primary-500">
                   <span class="font-medium">Review pull requests</span>
-                  <button class="px-3 py-1 bg-purple-600 text-white rounded text-sm">Start</button>
+                  <button class="px-3 py-1 bg-primary-600 text-white rounded text-sm">Start</button>
                 </div>
               </div>
               <p class="text-center text-gray-500 mt-4 text-sm">
@@ -198,7 +198,7 @@
                   <p class="text-sm text-gray-500">Level 12 Productivity Wizard</p>
                 </div>
                 <div class="text-center">
-                  <div class="text-2xl font-bold text-purple-600">847</div>
+                  <div class="text-2xl font-bold text-accent-600">847</div>
                   <div class="text-xs text-gray-500">points</div>
                 </div>
               </div>
@@ -251,10 +251,10 @@
       <!-- Feature 4: Focus Mode -->
       <div class="flex flex-col md:flex-row-reverse items-center gap-12">
         <div class="flex-1">
-          <div class="bg-indigo-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
-            <div class="bg-gradient-to-br from-purple-500 to-blue-500 text-white rounded-xl p-6">
+          <div class="bg-secondary-100 rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-transform">
+            <div class="bg-gradient-to-br from-primary-600 to-secondary-700 text-white rounded-xl p-6">
               <h4 class="font-semibold mb-2">Focus Session Active</h4>
-              <p class="text-purple-100 mb-4">Working on: Client proposal draft</p>
+              <p class="text-primary-100 mb-4">Working on: Client proposal draft</p>
               <div class="text-5xl font-mono text-center mb-4">14:32</div>
               <div class="space-y-2">
                 <button class="w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
@@ -274,7 +274,7 @@
         </div>
         <div class="flex-1">
           <h4 class="text-3xl font-bold text-gray-900 mb-4">
-            <span class="text-indigo-600">Pomodoro Timer</span> Built In
+            <span class="text-secondary-700">Pomodoro Timer</span> Built In
           </h4>
           <p class="text-lg text-gray-600 mb-6">
             Time blindness is real. Our built-in timer with visual countdown and 
@@ -282,15 +282,15 @@
           </p>
           <ul class="space-y-3">
             <li class="flex items-start">
-              <span class="text-indigo-600 mr-2">✓</span>
+              <span class="text-secondary-700 mr-2">✓</span>
               <span>Visual timer you can't ignore</span>
             </li>
             <li class="flex items-start">
-              <span class="text-indigo-600 mr-2">✓</span>
+              <span class="text-secondary-700 mr-2">✓</span>
               <span>Track interruptions without judgment</span>
             </li>
             <li class="flex items-start">
-              <span class="text-indigo-600 mr-2">✓</span>
+              <span class="text-secondary-700 mr-2">✓</span>
               <span>Gentle notifications when time's up</span>
             </li>
           </ul>
@@ -300,7 +300,7 @@
   </section>
 
   <!-- My Story Section -->
-  <section class="py-16 bg-gradient-to-r from-purple-50 to-blue-50">
+  <section class="py-16 bg-gradient-to-r from-primary-50 to-secondary-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <h3 class="text-3xl font-bold text-center text-gray-900 mb-8">
         Why I Built PlanMyDay
@@ -308,7 +308,7 @@
       <div class="bg-white rounded-2xl p-8 md:p-12 shadow-xl">
         <div class="flex flex-col md:flex-row items-start gap-8 mb-8">
           <div class="flex-shrink-0">
-            <%= image_tag "founder.jpg", alt: "Founder of PlanMyDay", class: "w-16 h-16 md:w-20 md:h-20 rounded-full object-cover shadow-lg border-2 border-purple-100" %>
+            <%= image_tag "founder.jpg", alt: "Founder of PlanMyDay", class: "w-16 h-16 md:w-20 md:h-20 rounded-full object-cover shadow-lg border-2 border-primary-100" %>
           </div>
           <div class="prose prose-lg max-w-none text-gray-600 flex-1">
           <p class="mb-6">
@@ -337,12 +337,12 @@
             Friends with ADHD who saw it begged me to let them use it too.
           </p>
           
-          <p class="text-xl font-semibold text-purple-600">
-            This isn't just another productivity app. It's built by someone with ADHD, for people 
+          <p class="text-xl font-semibold text-primary-600">
+            This isn't just another productivity app. It's built by someone with ADHD, for people
             with ADHD. Because we deserve tools that work with our brains, not against them.
           </p>
-          
-          <p class="mt-6 p-4 bg-purple-50 rounded-lg border-l-4 border-purple-400">
+
+          <p class="mt-6 p-4 bg-primary-50 rounded-lg border-l-4 border-primary-400">
             <span class="font-semibold text-gray-900">🚀 I'm actively working on improvements!</span> 
             Once you're using the app, please send feedback through the Feedback button about any 
             suggestions you have. I would love to hear from you and learn how PlanMyDay can work 
@@ -353,7 +353,7 @@
         
         <div class="mt-8 pt-8 border-t border-gray-200">
           <p class="text-center text-gray-500">
-            — Built with 💜 by someone who gets it
+            — Built with 💙 by someone who gets it
           </p>
         </div>
       </div>
@@ -364,14 +364,14 @@
   <section class="py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h3 class="text-4xl font-bold text-gray-900 mb-6">
-        Ready to Work <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">With</span> Your ADHD?
+        Ready to Work <span class="text-primary-600">With</span> Your ADHD?
       </h3>
       <p class="text-xl text-gray-600 mb-8">
         Join thousands of freelancers who've finally found a productivity system that works for their brain.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <%= link_to "Start Free Today", new_registration_path, 
-            class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all transform hover:scale-105" %>
+        <%= link_to "Start Free Today", new_registration_path,
+            class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105" %>
       </div>
       <p class="text-sm text-gray-500">
         No credit card required • Free forever for basic use • Cancel anytime
@@ -384,16 +384,16 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
-          <h4 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+          <h4 class="text-xl font-bold text-primary-700">
             PlanMyDay
           </h4>
           <p class="text-sm text-gray-500 mt-1">Productivity for ADHD minds</p>
         </div>
         <div class="flex gap-6 text-sm text-gray-500">
-          <a href="#" class="hover:text-purple-600">Privacy</a>
-          <a href="#" class="hover:text-purple-600">Terms</a>
-          <a href="#" class="hover:text-purple-600">Support</a>
-          <a href="#" class="hover:text-purple-600">Blog</a>
+          <a href="#" class="hover:text-primary-600">Privacy</a>
+          <a href="#" class="hover:text-primary-600">Terms</a>
+          <a href="#" class="hover:text-primary-600">Support</a>
+          <a href="#" class="hover:text-primary-600">Blog</a>
         </div>
       </div>
     </div>

@@ -1,17 +1,17 @@
 <div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white" data-controller="mobile-menu">
+  <div class="bg-gradient-to-r from-primary-600 to-secondary-700 text-white" data-controller="mobile-menu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex justify-between items-center">
         <div>
           <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Task Backlog Review</h1>
-          <p class="text-purple-100 mt-1 text-sm sm:text-base">Manage all your tasks in one place</p>
+          <p class="text-primary-100 mt-1 text-sm sm:text-base">Manage all your tasks in one place</p>
         </div>
         
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex gap-4">
           <%= link_to "Dashboard", dashboard_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to "+ New Task", new_task_path(scheduled: 'backlog'), class: "bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg transition-colors font-medium" %>
+          <%= link_to "+ New Task", new_task_path(scheduled: 'backlog'), class: "bg-white text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-colors font-medium" %>
         </div>
         
         <!-- Mobile Menu Button -->
@@ -28,7 +28,7 @@
       <div data-mobile-menu-target="menu" class="hidden mt-4 pt-4 border-t border-white/20">
         <div class="flex flex-col gap-2">
           <%= link_to "Dashboard", dashboard_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
-          <%= link_to "+ New Task", new_task_path(scheduled: 'backlog'), class: "bg-white text-purple-600 hover:bg-purple-50 px-4 py-3 rounded-lg transition-colors font-medium text-center" %>
+          <%= link_to "+ New Task", new_task_path(scheduled: 'backlog'), class: "bg-white text-primary-600 hover:bg-primary-50 px-4 py-3 rounded-lg transition-colors font-medium text-center" %>
         </div>
       </div>
     </div>
@@ -36,13 +36,13 @@
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Filters -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8" data-controller="task-filter">
       <div class="flex flex-wrap gap-4 items-center">
         <div class="flex gap-2">
-          <button class="px-4 py-2 rounded-lg bg-purple-600 text-white" data-filter="all">All Tasks</button>
-          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-filter="today">Today</button>
-          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-filter="pending">Pending</button>
-          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-filter="completed">Completed</button>
+          <button class="px-4 py-2 rounded-lg bg-primary-600 text-white" data-action="click->task-filter#filter" data-filter-value="all">All Tasks</button>
+          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-action="click->task-filter#filter" data-filter-value="today">Today</button>
+          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-action="click->task-filter#filter" data-filter-value="pending">Pending</button>
+          <button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700" data-action="click->task-filter#filter" data-filter-value="completed">Completed</button>
         </div>
         <div class="ml-auto text-sm text-gray-500">
           Total: <%= @tasks.count %> tasks
@@ -51,15 +51,16 @@
     </div>
 
     <!-- Tasks List -->
-    <div class="bg-white rounded-xl shadow-lg p-6">
+    <div class="bg-white rounded-xl shadow-lg p-6" data-task-filter-target="container">
       <% if @tasks.any? %>
         <div class="space-y-4" id="tasks-list">
           <% @tasks.each do |task| %>
             <%= turbo_frame_tag dom_id(task) do %>
-              <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-colors" 
+              <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors"
+                   data-task-filter-target="task"
                    data-status="<%= task.status %>"
                    data-scheduled="<%= task.scheduled_for&.to_date == Date.current ? 'today' : 'other' %>"
-                   style="border-left: 4px solid <%= task.color || '#6366f1' %>">
+                   style="border-left: 4px solid <%= task.color || '#14b8a6' %>">
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
                     <div class="flex items-center gap-3">
@@ -87,7 +88,7 @@
                         </span>
                       <% end %>
                       <% if task.scheduled_for.present? %>
-                        <span class="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-700">
+                        <span class="px-2 py-1 text-xs rounded-full bg-primary-100 text-primary-700">
                           📅 <%= task.scheduled_for.strftime("%b %d") %>
                         </span>
                       <% end %>
@@ -95,15 +96,27 @@
                   </div>
                   
                   <div class="flex items-center gap-2 ml-4">
-                    <%= link_to edit_task_path(task), 
-                        class: "p-2 text-gray-400 hover:text-purple-600 transition-colors",
+                    <% unless task.scheduled_for == Date.current %>
+                      <%= button_to schedule_for_today_task_path(task),
+                          method: :post,
+                          class: "p-2 text-gray-400 hover:text-green-600 transition-colors",
+                          title: "Add to today" do %>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                      <% end %>
+                    <% end %>
+
+                    <%= link_to edit_task_path(task),
+                        data: { turbo_frame: "_top" },
+                        class: "p-2 text-gray-400 hover:text-primary-600 transition-colors",
                         title: "Edit task" do %>
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                       </svg>
                     <% end %>
-                    
-                    <%= button_to task_path(task), 
+
+                    <%= button_to task_path(task),
                         method: :delete,
                         form: { data: { turbo_confirm: "Are you sure you want to delete this task?" } },
                         class: "p-2 text-gray-400 hover:text-red-600 transition-colors",
@@ -123,63 +136,10 @@
           <div class="text-6xl mb-4">📋</div>
           <p class="text-gray-600 mb-4">No tasks in your backlog</p>
           <%= link_to "Create Your First Task", new_task_path(scheduled: 'backlog'), 
-              class: "inline-block px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors" %>
+              class: "inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
         </div>
       <% end %>
     </div>
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Filter functionality
-  const filterButtons = document.querySelectorAll('[data-filter]');
-  const taskItems = document.querySelectorAll('.task-item');
-  
-  filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // Update active button style
-      filterButtons.forEach(btn => {
-        btn.classList.remove('bg-purple-600', 'text-white');
-        btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-      });
-      this.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-      this.classList.add('bg-purple-600', 'text-white');
-      
-      // Filter tasks based on data-filter value
-      const filterValue = this.getAttribute('data-filter');
-      
-      taskItems.forEach(task => {
-        const taskStatus = task.getAttribute('data-status');
-        const taskScheduled = task.getAttribute('data-scheduled');
-        const taskFrame = task.closest('turbo-frame');
-        
-        let shouldShow = false;
-        
-        switch(filterValue) {
-          case 'all':
-            shouldShow = true;
-            break;
-          case 'today':
-            shouldShow = taskScheduled === 'today';
-            break;
-          case 'pending':
-            shouldShow = taskStatus === 'pending';
-            break;
-          case 'completed':
-            shouldShow = taskStatus === 'completed';
-            break;
-        }
-        
-        // Show/hide the turbo-frame wrapper if it exists, otherwise the task item itself
-        const elementToToggle = taskFrame || task;
-        if (shouldShow) {
-          elementToToggle.style.display = '';
-        } else {
-          elementToToggle.style.display = 'none';
-        }
-      });
-    });
-  });
-});
-</script>

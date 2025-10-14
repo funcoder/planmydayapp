@@ -22,7 +22,7 @@
               <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                 <%= case feedback.status
                     when 'new' then 'bg-yellow-100 text-yellow-800'
-                    when 'in_progress' then 'bg-indigo-100 text-indigo-800'
+                    when 'in_progress' then 'bg-secondary-100 text-indigo-800'
                     when 'resolved' then 'bg-green-100 text-green-800'
                     when 'closed' then 'bg-gray-100 text-gray-800'
                     end %>">
@@ -47,7 +47,7 @@
   <% else %>
     <div class="bg-gray-50 rounded-lg p-8 text-center">
       <p class="text-gray-600 mb-4">You haven't submitted any feedback yet.</p>
-      <%= link_to "Submit Your First Feedback", new_feedback_path, class: "text-indigo-600 hover:text-indigo-700 font-medium" %>
+      <%= link_to "Submit Your First Feedback", new_feedback_path, class: "text-secondary-700 hover:text-indigo-700 font-medium" %>
     </div>
   <% end %>
 </div>

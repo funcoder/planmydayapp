@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("planmyday.ApiService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0683761259b4a52f5b6aca21fdbd9024c61cd985")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+586afeb687f673a0cb132cd59323af050c92d3b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("planmyday.ApiService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("planmyday.ApiService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

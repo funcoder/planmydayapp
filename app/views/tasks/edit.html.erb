@@ -1,8 +1,8 @@
-<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+<div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Header -->
     <div class="mb-8">
-      <%= link_to dashboard_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-purple-600 transition-colors mb-4" do %>
+      <%= link_to dashboard_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
         </svg>
@@ -32,7 +32,7 @@
           <div>
             <%= form.label :title, "What do you need to do?", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= form.text_field :title, 
-                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg transition-all",
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
                 placeholder: "e.g., Finish client proposal",
                 autofocus: true,
                 required: true %>
@@ -42,7 +42,7 @@
           <div>
             <%= form.label :description, "Any details? (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= form.text_area :description, 
-                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all",
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all",
                 placeholder: "Add any notes or context here...",
                 rows: 3 %>
           </div>
@@ -59,14 +59,14 @@
                     ['Urgent - Do first!', 'urgent']
                   ], @task.priority),
                   {},
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" %>
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" %>
             </div>
 
             <!-- Estimated Time -->
             <div>
               <%= form.label :estimated_time, "Time estimate (minutes)", class: "block text-sm font-medium text-gray-700 mb-1" %>
               <%= form.number_field :estimated_time, 
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all",
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all",
                   placeholder: "30",
                   min: 5,
                   step: 5 %>
@@ -84,14 +84,14 @@
                     ['Completed', 'completed']
                   ], @task.status),
                   {},
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" %>
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" %>
             </div>
 
             <!-- Scheduled For -->
             <div>
               <%= form.label :scheduled_for, "Scheduled for", class: "block text-sm font-medium text-gray-700 mb-1" %>
               <%= form.date_field :scheduled_for, 
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" %>
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" %>
             </div>
           </div>
 
@@ -99,7 +99,7 @@
           <div>
             <%= form.label :color, "Pick a color", class: "block text-sm font-medium text-gray-700 mb-2" %>
             <div class="flex gap-3 flex-wrap">
-              <% %w[#6366f1 #8b5cf6 #ec4899 #f43f5e #f59e0b #10b981 #06b6d4 #3b82f6].each do |color| %>
+              <% %w[#14b8a6 #8b5cf6 #ec4899 #f43f5e #f59e0b #10b981 #06b6d4 #3b82f6].each do |color| %>
                 <label class="cursor-pointer">
                   <%= form.radio_button :color, color, class: "sr-only peer", checked: @task.color == color %>
                   <div class="w-12 h-12 rounded-lg peer-checked:ring-4 peer-checked:ring-offset-2 peer-checked:ring-purple-500 transition-all" 
@@ -113,7 +113,7 @@
           <div>
             <%= form.label :tag_list, "Tags (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= form.text_field :tag_list, 
-                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all",
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all",
                 placeholder: "work, urgent, client" %>
             <p class="mt-1 text-xs text-gray-500">Separate tags with commas</p>
           </div>
@@ -121,7 +121,7 @@
           <!-- Submit -->
           <div class="flex gap-4">
             <%= form.submit "Update Task", 
-                class: "flex-1 py-3 px-6 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all cursor-pointer" %>
+                class: "flex-1 py-3 px-6 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all cursor-pointer" %>
             
             <%= link_to "Cancel", dashboard_path, 
                 class: "px-6 py-3 border-2 border-gray-300 text-lg font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all" %>

@@ -19,10 +19,11 @@ class SpritesController < ApplicationController
     }
     
     # Calculate collection stats
+    total_sprites = @all_sprites.count
     @collection_stats = {
       total_unlocked: @unlocked_sprites.count,
-      total_sprites: @all_sprites.count,
-      percentage: (@unlocked_sprites.count.to_f / @all_sprites.count * 100).round,
+      total_sprites: total_sprites,
+      percentage: total_sprites.zero? ? 0 : (@unlocked_sprites.count.to_f / total_sprites * 100).round,
       legendary_count: @unlocked_sprites.legendary.count,
       epic_count: @unlocked_sprites.epic.count,
       rare_count: @unlocked_sprites.rare.count,

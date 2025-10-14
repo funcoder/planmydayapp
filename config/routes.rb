@@ -30,16 +30,21 @@ Rails.application.routes.draw do
       post :complete
       post :start
       post :rollover
+      post :schedule_for_today
     end
     collection do
       post :update_order
     end
   end
   
-  resources :focus_sessions, only: [:create, :update] do
+  resources :focus_sessions, only: [:create, :show, :update] do
     member do
       post :end_session
       post :add_interruption
+      post :start_timer
+      post :pause_timer
+      post :resume_timer
+      post :stop_timer
     end
   end
   

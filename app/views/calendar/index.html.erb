@@ -1,11 +1,11 @@
 <div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white" data-controller="mobile-menu">
+  <div class="bg-gradient-to-r from-primary-600 to-secondary-700 text-white" data-controller="mobile-menu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex justify-between items-center">
         <div>
           <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Task Calendar</h1>
-          <p class="text-purple-100 mt-1 text-sm sm:text-base">Your weekly productivity overview</p>
+          <p class="text-primary-100 mt-1 text-sm sm:text-base">Your weekly productivity overview</p>
         </div>
         
         <!-- Desktop Navigation -->
@@ -39,7 +39,7 @@
     <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
       <div class="flex justify-between items-center">
         <%= link_to calendar_path(week_date: (@week_start - 1.week).to_s), 
-            class: "flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg transition-colors" do %>
+            class: "flex items-center gap-2 px-4 py-2 bg-primary-100 hover:bg-purple-200 text-primary-700 rounded-lg transition-colors" do %>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
@@ -51,12 +51,12 @@
             <%= @week_start.strftime("%B %d") %> - <%= @week_end.strftime("%B %d, %Y") %>
           </h2>
           <% if @week_start <= Date.current && @week_end >= Date.current %>
-            <p class="text-sm text-purple-600 font-medium mt-1">Current Week</p>
+            <p class="text-sm text-primary-600 font-medium mt-1">Current Week</p>
           <% end %>
         </div>
         
         <%= link_to calendar_path(week_date: (@week_start + 1.week).to_s), 
-            class: "flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-lg transition-colors" do %>
+            class: "flex items-center gap-2 px-4 py-2 bg-primary-100 hover:bg-purple-200 text-primary-700 rounded-lg transition-colors" do %>
           Next Week
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -75,7 +75,7 @@
           <div class="text-sm text-gray-600">Tasks Completed</div>
         </div>
         <div class="text-center">
-          <div class="text-2xl font-bold text-purple-600"><%= @week_stats[:completion_rate] %>%</div>
+          <div class="text-2xl font-bold text-primary-600"><%= @week_stats[:completion_rate] %>%</div>
           <div class="text-sm text-gray-600">Completion Rate</div>
         </div>
       </div>
@@ -85,13 +85,13 @@
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
       <div class="grid grid-cols-7 gap-px bg-gray-200">
         <% (@week_start..@week_end).each do |date| %>
-          <div class="bg-white <%= 'bg-purple-50' if date == Date.current %>">
+          <div class="bg-white <%= 'bg-primary-50' if date == Date.current %>">
             <!-- Day Header -->
-            <div class="p-4 border-b-2 <%= date == Date.current ? 'border-purple-300 bg-purple-100' : 'border-gray-200' %>">
-              <div class="font-bold text-lg <%= date == Date.current ? 'text-purple-700' : 'text-gray-700' %>">
+            <div class="p-4 border-b-2 <%= date == Date.current ? 'border-primary-300 bg-primary-100' : 'border-gray-200' %>">
+              <div class="font-bold text-lg <%= date == Date.current ? 'text-primary-700' : 'text-gray-700' %>">
                 <%= date.strftime("%A") %>
               </div>
-              <div class="text-sm <%= date == Date.current ? 'text-purple-600' : 'text-gray-500' %>">
+              <div class="text-sm <%= date == Date.current ? 'text-primary-600' : 'text-gray-500' %>">
                 <%= date.strftime("%b %d") %>
               </div>
             </div>
@@ -174,7 +174,7 @@
           <span class="text-gray-600">Pending</span>
         </div>
         <div class="flex items-center gap-2">
-          <div class="w-4 h-4 bg-purple-100 rounded"></div>
+          <div class="w-4 h-4 bg-primary-100 rounded"></div>
           <span class="text-gray-600">Today</span>
         </div>
       </div>

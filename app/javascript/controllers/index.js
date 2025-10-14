@@ -24,3 +24,6 @@ application.register("pomodoro", PomodoroController)
 
 import TaskController from "controllers/task_controller"
 application.register("task", TaskController)
+
+import TaskFilterController from "controllers/task_filter_controller"
+application.register("task-filter", TaskFilterController)

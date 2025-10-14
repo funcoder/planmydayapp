@@ -1,17 +1,17 @@
-<div class="min-h-screen flex bg-gradient-to-br from-purple-50 via-white to-blue-50">
+<div class="min-h-screen flex bg-gradient-to-br from-primary-50 via-white to-secondary-50">
   <!-- Left side - Form -->
   <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full">
       <!-- Logo and back link -->
       <div class="mb-8">
-        <%= link_to root_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-purple-600 transition-colors mb-8" do %>
+        <%= link_to root_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-8" do %>
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
           Back to home
         <% end %>
         
-        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+        <h1 class="text-3xl font-bold text-primary-700">
           PlanMyDay
         </h1>
       </div>
@@ -21,7 +21,7 @@
         <div class="flex items-center">
           <div class="flex-1">
             <div class="flex items-center">
-              <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold">
                 1
               </div>
               <div class="ml-3">
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="mt-4 h-2 bg-gray-200 rounded-full">
-          <div class="h-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style="width: 50%"></div>
+          <div class="h-2 bg-gradient-to-r from-primary-600 to-secondary-700 rounded-full" style="width: 50%"></div>
         </div>
       </div>
 
@@ -85,7 +85,7 @@
             <div>
               <%= form.label :first_name, "First name", class: "block text-sm font-medium text-gray-700 mb-1" %>
               <%= form.text_field :first_name, 
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg transition-all",
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
                   placeholder: "Jane",
                   required: true,
                   autofocus: true %>
@@ -93,7 +93,7 @@
             <div>
               <%= form.label :last_name, "Last name", class: "block text-sm font-medium text-gray-700 mb-1" %>
               <%= form.text_field :last_name, 
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg transition-all",
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
                   placeholder: "Doe",
                   required: true %>
             </div>
@@ -102,7 +102,7 @@
           <div>
             <%= form.label :email_address, "Email address", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= form.email_field :email_address, 
-                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg transition-all",
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
                 placeholder: "jane@example.com",
                 required: true %>
             <p class="mt-1 text-xs text-gray-500">We'll never share your email with anyone</p>
@@ -111,7 +111,7 @@
           <div>
             <%= form.label :password, "Password", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= form.password_field :password, 
-                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg transition-all",
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
                 placeholder: "••••••••",
                 required: true %>
             <p class="mt-1 text-xs text-gray-500">At least 8 characters</p>
@@ -120,26 +120,26 @@
           <div>
             <%= form.label :password_confirmation, "Confirm password", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= form.password_field :password_confirmation, 
-                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg transition-all",
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
                 placeholder: "••••••••",
                 required: true %>
           </div>
 
           <div class="space-y-4">
-            <%= form.submit "Create Account", 
-                class: "w-full py-4 px-6 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all transform hover:scale-[1.02] cursor-pointer" %>
+            <%= form.submit "Create Account",
+                class: "w-full py-4 px-6 border border-transparent text-lg font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-[1.02] cursor-pointer" %>
             
             <p class="text-center text-sm text-gray-600">
               By signing up, you agree to our 
-              <a href="#" class="text-purple-600 hover:text-purple-700">Terms</a> and 
-              <a href="#" class="text-purple-600 hover:text-purple-700">Privacy Policy</a>
+              <a href="#" class="text-primary-600 hover:text-primary-700">Terms</a> and 
+              <a href="#" class="text-primary-600 hover:text-primary-700">Privacy Policy</a>
             </p>
           </div>
           
           <div class="text-center pt-4 border-t">
             <span class="text-gray-600">
               Already have an account?
-              <%= link_to "Sign in", new_session_path, class: "font-medium text-purple-600 hover:text-purple-700 ml-1" %>
+              <%= link_to "Sign in", new_session_path, class: "font-medium text-primary-600 hover:text-primary-700 ml-1" %>
             </span>
           </div>
         <% end %>
@@ -148,7 +148,7 @@
   </div>
 
   <!-- Right side - Features reminder -->
-  <div class="hidden lg:flex lg:flex-1 items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600 text-white p-12">
+  <div class="hidden lg:flex lg:flex-1 items-center justify-center bg-gradient-to-br from-primary-600 to-secondary-700 text-white p-12">
     <div class="max-w-md">
       <h3 class="text-3xl font-bold mb-6">
         You're about to join thousands of freelancers who finally found focus
@@ -163,7 +163,7 @@
           </div>
           <div class="ml-4">
             <h4 class="font-semibold text-lg">Brain dump everything</h4>
-            <p class="text-purple-100">Get racing thoughts out fast with voice or text</p>
+            <p class="text-primary-100">Get racing thoughts out fast with voice or text</p>
           </div>
         </div>
         
@@ -175,7 +175,7 @@
           </div>
           <div class="ml-4">
             <h4 class="font-semibold text-lg">Focus on 3-5 tasks only</h4>
-            <p class="text-purple-100">No more overwhelming lists that paralyze you</p>
+            <p class="text-primary-100">No more overwhelming lists that paralyze you</p>
           </div>
         </div>
         
@@ -187,13 +187,13 @@
           </div>
           <div class="ml-4">
             <h4 class="font-semibold text-lg">Get instant rewards</h4>
-            <p class="text-purple-100">Points and achievements that make tasks fun</p>
+            <p class="text-primary-100">Points and achievements that make tasks fun</p>
           </div>
         </div>
       </div>
       
       <div class="mt-12 pt-8 border-t border-white/20">
-        <p class="text-sm text-purple-100">
+        <p class="text-sm text-primary-100">
           "PlanMyDay changed how I work. I actually finish my tasks now!"
         </p>
         <p class="text-sm font-medium mt-2">- Sarah K., Freelance Designer</p>

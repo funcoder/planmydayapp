@@ -1,22 +1,22 @@
 <div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white" data-controller="mobile-menu">
+  <div class="bg-gradient-to-r from-primary-600 to-secondary-700 text-white" data-controller="mobile-menu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex justify-between items-center">
         <div>
           <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Welcome back, <%= @user.first_name %>!</h1>
-          <p class="text-purple-100 mt-1 text-sm sm:text-base">Let's make today productive</p>
+          <p class="text-primary-100 mt-1 text-sm sm:text-base">Let's make today productive</p>
         </div>
         
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex items-center gap-6">
           <div class="text-center">
             <div class="text-2xl font-bold"><%= @points %></div>
-            <div class="text-sm text-purple-100">Points</div>
+            <div class="text-sm text-primary-100">Points</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold"><%= @streak %></div>
-            <div class="text-sm text-purple-100">Day Streak</div>
+            <div class="text-sm text-primary-100">Day Streak</div>
           </div>
           <%= link_to "Sprites", sprites_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
           <%= link_to "Calendar", calendar_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
@@ -34,11 +34,11 @@
           <div class="flex gap-4">
             <div class="text-center">
               <div class="text-xl font-bold"><%= @points %></div>
-              <div class="text-xs text-purple-100">Points</div>
+              <div class="text-xs text-primary-100">Points</div>
             </div>
             <div class="text-center">
               <div class="text-xl font-bold"><%= @streak %></div>
-              <div class="text-xs text-purple-100">Streak</div>
+              <div class="text-xs text-primary-100">Streak</div>
             </div>
           </div>
           <button data-action="click->mobile-menu#toggle" class="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors" aria-label="Toggle menu">
@@ -102,8 +102,8 @@
               <% end %>
               <span class="text-sm text-gray-500"><%= @today_incomplete_tasks.count %> / <%= @user.daily_task_limit %> active tasks</span>
               <% if @today_incomplete_tasks.count < @user.daily_task_limit %>
-                <%= link_to "+ Add Task", new_task_path, 
-                    class: "text-sm px-3 py-1 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors" %>
+                <%= link_to "+ Add Task", new_task_path,
+                    class: "text-sm px-3 py-1 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
               <% end %>
             </div>
           </div>
@@ -111,8 +111,8 @@
           <% if @today_incomplete_tasks.any? %>
             <div class="space-y-3" data-task-target="list" id="tasks-list">
               <% @today_incomplete_tasks.each do |task| %>
-                <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-colors cursor-move" 
-                     style="border-left: 4px solid <%= task.color || '#6366f1' %>"
+                <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors cursor-move"
+                     style="border-left: 4px solid <%= task.color || '#14b8a6' %>"
                      data-task-target="item"
                      data-task-id="<%= task.id %>"
                      draggable="true">
@@ -135,7 +135,7 @@
                       </div>
                       <div class="flex items-center gap-2 ml-4">
                         <% if task.status == 'pending' %>
-                          <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                          <button class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                                   data-action="click->task#start"
                                   data-url="<%= start_task_path(task) %>">
                             Start
@@ -185,8 +185,8 @@
             <div class="text-center py-12">
               <div class="text-6xl mb-4">🎯</div>
               <p class="text-gray-600 mb-4">No active tasks for today</p>
-              <%= link_to "Add Today's Tasks", new_task_path, 
-                  class: "inline-block px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors" %>
+              <%= link_to "Add Today's Tasks", new_task_path,
+                  class: "inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
             </div>
           <% end %>
         </div>
@@ -196,15 +196,15 @@
           <div class="bg-white rounded-xl shadow-lg p-6" data-controller="brain-dump">
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-2xl font-bold text-gray-800">Quick Brain Dump</h2>
-              <%= link_to "View All Dumps →", brain_dumps_path, 
-                  class: "text-sm text-purple-600 hover:text-purple-700 font-medium",
+              <%= link_to "View All Dumps →", brain_dumps_path,
+                  class: "text-sm text-primary-600 hover:text-primary-700 font-medium",
                   data: { turbo_frame: "_top" } %>
             </div>
             <%= form_with model: BrainDump.new, url: brain_dumps_path, method: :post, local: false do |form| %>
               <div class="space-y-4">
-                <%= form.text_area :content, 
-                    placeholder: "What's on your mind? Just dump it all here...", 
-                    class: "w-full p-4 border-2 border-gray-200 rounded-lg focus:border-purple-400 focus:outline-none resize-none text-lg",
+                <%= form.text_area :content,
+                    placeholder: "What's on your mind? Just dump it all here...",
+                    class: "w-full p-4 border-2 border-gray-200 rounded-lg focus:border-primary-400 focus:outline-none resize-none text-lg",
                     rows: 4,
                     maxlength: 500,
                     data: { 
@@ -219,8 +219,8 @@
                           data-action="click->brain-dump#toggleVoiceInput">
                     🎤 Voice Input
                   </button>
-                  <button type="button" 
-                          class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  <button type="button"
+                          class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                           data-brain-dump-target="submitButton"
                           data-action="click->brain-dump#quickSave">
                     Save Thought
@@ -281,63 +281,33 @@
       </div>
 
       <!-- Sidebar -->
-      <div class="space-y-8">
-        
-        <!-- Current Focus Session -->
-        <%= turbo_frame_tag "focus_session" do %>
-          <% if @current_focus_session %>
-            <div class="bg-gradient-to-br from-purple-500 to-blue-500 text-white rounded-xl shadow-lg p-6"
-                 data-controller="pomodoro"
-                 data-pomodoro-session-id-value="<%= @current_focus_session.id %>">
-              <h3 class="text-xl font-bold mb-2">Focus Session Active</h3>
-              <p class="text-purple-100 mb-4" data-pomodoro-target="taskName"><%= @current_focus_session.task.title %></p>
-              <div class="text-3xl font-mono mb-4" data-pomodoro-target="timer">25:00</div>
-              <div class="space-y-2">
-                <button class="w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                        data-pomodoro-target="startButton"
-                        data-action="click->pomodoro#start">
-                  Start Timer
-                </button>
-                <button class="w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors hidden"
-                        data-pomodoro-target="pauseButton"
-                        data-action="click->pomodoro#pause">
-                  Pause
-                </button>
-                <%= button_to "End Session", 
-                    end_session_focus_session_path(@current_focus_session),
-                    method: :post,
-                    class: "w-full px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-colors",
-                    data: { turbo_frame: "focus_session" } %>
-                <%= button_to "Mark Interruption", 
-                    add_interruption_focus_session_path(@current_focus_session),
-                    method: :post,
-                    class: "w-full px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 rounded-lg transition-colors text-sm",
-                    data: { turbo_frame: "focus_session" } %>
-              </div>
-            </div>
-          <% else %>
-            <div class="bg-white rounded-xl shadow-lg p-6">
-              <h3 class="text-xl font-bold mb-4">Start Focus Session</h3>
-              <p class="text-gray-600 mb-4">Ready to focus? Pick a task and start a Pomodoro session.</p>
-              
-              <% if @today_incomplete_tasks.pending.any? || @today_incomplete_tasks.in_progress.any? %>
-                <%= form_with url: focus_sessions_path, method: :post do |form| %>
-                  <div class="mb-4">
-                    <%= form.select :task_id, 
-                        options_for_select(@today_incomplete_tasks.where(status: ['pending', 'in_progress']).map { |t| [t.title, t.id] }),
-                        { prompt: "Select a task..." },
-                        class: "w-full p-2 border border-gray-300 rounded-lg focus:border-purple-400 focus:outline-none" %>
-                  </div>
-                  <%= form.submit "Start Focus Mode", 
-                      class: "w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors cursor-pointer" %>
-                <% end %>
-              <% else %>
-                <p class="text-gray-500 text-center">No tasks available. Add some tasks first!</p>
-                <%= link_to "Add Task", new_task_path, 
-                    class: "block w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-center mt-4" %>
+      <div class="lg:col-span-1 space-y-8">
+
+        <!-- Focus Session Section -->
+        <% if @current_focus_session %>
+          <%= render partial: "focus_timer", locals: { focus_session: @current_focus_session } %>
+        <% else %>
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-xl font-bold mb-4">Start Focus Session</h3>
+            <p class="text-gray-600 mb-4">Ready to focus? Pick a task and start a Pomodoro session.</p>
+
+            <% if @today_incomplete_tasks && (@today_incomplete_tasks.pending.any? || @today_incomplete_tasks.in_progress.any?) %>
+              <%= form_with url: focus_sessions_path, method: :post, data: { turbo_frame: "_top" } do |form| %>
+                <div class="mb-4">
+                  <%= form.select :task_id,
+                      options_for_select(@today_incomplete_tasks.where(status: ['pending', 'in_progress']).map { |t| [t.title, t.id] }),
+                      { prompt: "Select a task..." },
+                      class: "w-full p-2 border border-gray-300 rounded-lg focus:border-primary-400 focus:outline-none" %>
+                </div>
+                <%= form.submit "Start Focus Mode",
+                    class: "w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors cursor-pointer" %>
               <% end %>
-            </div>
-          <% end %>
+            <% else %>
+              <p class="text-gray-500 text-center">No tasks available. Add some tasks first!</p>
+              <%= link_to "Add Task", new_task_path,
+                  class: "block w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-center mt-4" %>
+            <% end %>
+          </div>
         <% end %>
 
         <!-- Today's Unlocked Sprites -->
@@ -357,7 +327,7 @@
                 </div>
               <% end %>
             </div>
-            <%= link_to "View Collection →", sprites_path, class: "block mt-4 text-center text-sm text-purple-600 hover:text-purple-700 font-medium" %>
+            <%= link_to "View Collection →", sprites_path, class: "block mt-4 text-center text-sm text-primary-600 hover:text-primary-700 font-medium" %>
           </div>
         <% end %>
         
@@ -386,8 +356,8 @@
           <div class="bg-white rounded-xl shadow-lg p-6">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-bold">Recent Brain Dumps</h3>
-              <%= link_to "Process All →", brain_dumps_path, 
-                  class: "text-xs text-purple-600 hover:text-purple-700 font-medium",
+              <%= link_to "Process All →", brain_dumps_path,
+                  class: "text-xs text-primary-600 hover:text-primary-700 font-medium",
                   data: { turbo_frame: "_top" } %>
             </div>
             <% if @brain_dumps.any? %>
@@ -417,13 +387,11 @@
 </div>
 
 <style>
-  <%= File.read(Rails.root.join('app/assets/stylesheets/sprites.css')).html_safe %>
-  
   /* Make tasks draggable */
   [data-task-target="item"] {
     cursor: move;
   }
-  
+
   /* Ensure dropdown works */
   [data-dropdown-target="menu"] {
     z-index: 50;

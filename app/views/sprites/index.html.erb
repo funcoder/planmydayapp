@@ -1,11 +1,11 @@
 <div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white" data-controller="mobile-menu">
+  <div class="bg-gradient-to-r from-primary-600 to-secondary-700 text-white" data-controller="mobile-menu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex justify-between items-center">
         <div>
           <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Sprite Collection</h1>
-          <p class="text-purple-100 mt-1 text-sm sm:text-base">Unlock characters by completing tasks and achievements!</p>
+          <p class="text-primary-100 mt-1 text-sm sm:text-base">Unlock characters by completing tasks and achievements!</p>
         </div>
         
         <!-- Desktop Navigation -->
@@ -40,7 +40,7 @@
       <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Collection</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="text-center">
-          <div class="text-3xl font-bold text-purple-600"><%= @collection_stats[:total_unlocked] %> / <%= @collection_stats[:total_sprites] %></div>
+          <div class="text-3xl font-bold text-primary-600"><%= @collection_stats[:total_unlocked] %> / <%= @collection_stats[:total_sprites] %></div>
           <div class="text-sm text-gray-600">Total Collected</div>
         </div>
         <div class="text-center">
@@ -50,7 +50,7 @@
         <div class="text-center">
           <div class="text-2xl font-bold">
             <span class="text-orange-500" title="Legendary"><%= @collection_stats[:legendary_count] %></span> /
-            <span class="text-purple-500" title="Epic"><%= @collection_stats[:epic_count] %></span> /
+            <span class="text-primary-500" title="Epic"><%= @collection_stats[:epic_count] %></span> /
             <span class="text-blue-500" title="Rare"><%= @collection_stats[:rare_count] %></span>
           </div>
           <div class="text-sm text-gray-600">L / E / R</div>
@@ -66,7 +66,7 @@
       
       <!-- Progress Bar -->
       <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-        <div class="bg-gradient-to-r from-purple-600 to-blue-600 h-full rounded-full transition-all duration-500"
+        <div class="bg-gradient-to-r from-primary-600 to-secondary-700 h-full rounded-full transition-all duration-500"
              style="width: <%= @collection_stats[:percentage] %>%"></div>
       </div>
     </div>
@@ -95,7 +95,7 @@
       <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
         <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
           <span class="<%= rarity == :legendary ? 'text-orange-500' : 
-                          rarity == :epic ? 'text-purple-500' : 
+                          rarity == :epic ? 'text-primary-500' : 
                           rarity == :rare ? 'text-blue-500' : 
                           rarity == :uncommon ? 'text-green-500' : 
                           'text-gray-500' %>">
@@ -122,7 +122,7 @@
                 <% unlock_date = @user.user_sprites.find_by(sprite_character: sprite)&.unlocked_at %>
                 <p class="text-xs text-green-600">Unlocked!</p>
               <% else %>
-                <p class="text-xs text-gray-500 group-hover:text-purple-600 transition-colors">
+                <p class="text-xs text-gray-500 group-hover:text-primary-600 transition-colors">
                   <%= sprite.unlock_condition %>
                 </p>
               <% end %>
@@ -133,30 +133,26 @@
     <% end %>
 
     <!-- Tips Section -->
-    <div class="bg-purple-50 rounded-xl p-6 mt-8">
+    <div class="bg-primary-50 rounded-xl p-6 mt-8">
       <h3 class="text-lg font-bold text-gray-900 mb-3">How to Unlock More Sprites</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
         <div class="flex items-start gap-2">
-          <span class="text-purple-600">📋</span>
+          <span class="text-primary-600">📋</span>
           <span><strong>Complete Tasks:</strong> Some sprites unlock after completing a certain number of tasks</span>
         </div>
         <div class="flex items-start gap-2">
-          <span class="text-purple-600">🔥</span>
+          <span class="text-primary-600">🔥</span>
           <span><strong>Build Streaks:</strong> Maintain daily streaks to unlock streak-based sprites</span>
         </div>
         <div class="flex items-start gap-2">
-          <span class="text-purple-600">⭐</span>
+          <span class="text-primary-600">⭐</span>
           <span><strong>Earn Points:</strong> Accumulate points to unlock point-based sprites</span>
         </div>
         <div class="flex items-start gap-2">
-          <span class="text-purple-600">🏆</span>
+          <span class="text-primary-600">🏆</span>
           <span><strong>Special Conditions:</strong> Some sprites have unique unlock requirements!</span>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<style>
-  <%= File.read(Rails.root.join('app/assets/stylesheets/sprites.css')).html_safe %>
-</style>

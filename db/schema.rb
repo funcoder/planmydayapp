@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_22_110349) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_01_092601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -106,6 +106,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_110349) do
     t.integer "focus_quality"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "paused_at"
+    t.integer "timer_duration", default: 1500
+    t.string "timer_state", default: "stopped"
+    t.integer "timer_remaining"
+    t.integer "total_paused_duration", default: 0
     t.index ["task_id"], name: "index_focus_sessions_on_task_id"
     t.index ["user_id"], name: "index_focus_sessions_on_user_id"
   end
