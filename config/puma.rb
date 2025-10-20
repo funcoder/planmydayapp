@@ -27,11 +27,9 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT", 3000)
-
-# Bind to all interfaces in production (required for Fly.io)
-bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}" if ENV['PORT']
+# Specifies that Puma will listen on all interfaces (required for Fly.io)
+# Must bind to 0.0.0.0 for external traffic to reach the app
+bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart

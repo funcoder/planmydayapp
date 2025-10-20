@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Authentication
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  # Temporarily disabled to debug 406 error
-  # allow_browser versions: :modern
+  # Allow browsers - use permissive settings for compatibility
+  # Disabled temporarily due to 406 issues
+  # allow_browser versions: { safari: "12", chrome: "80", firefox: "78", edge: "80" }
 end
