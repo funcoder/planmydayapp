@@ -70,19 +70,21 @@ Webhooks allow Stripe to notify your app when subscriptions change.
 4. Copy the webhook signing secret (starts with `whsec_...`)
 5. Add to .env: `STRIPE_WEBHOOK_SECRET=whsec_...`
 
-#### Production:
+#### Production (Using "Add Destination"):
 1. In Stripe Dashboard, go to **Developers** → **Webhooks**
-2. Click **Add endpoint**
-3. Enter your webhook URL: `https://your-app.fly.dev/webhooks/stripe`
+2. Click **Add Destination** (not "Add endpoint")
+3. Enter your webhook URL: `https://planmyday-app.fly.dev/webhooks/stripe`
 4. Select events to listen to:
    - `checkout.session.completed`
    - `customer.subscription.updated`
    - `customer.subscription.deleted`
    - `invoice.payment_succeeded`
    - `invoice.payment_failed`
-5. Click **Add endpoint**
+5. Click **Add destination**
 6. Copy the **Signing secret** (starts with `whsec_...`)
 7. Add to Fly.io: `fly secrets set STRIPE_WEBHOOK_SECRET=whsec_...`
+
+**Important**: Make sure to use production API keys (`pk_live_...` and `sk_live_...`) not test keys for production!
 
 ### 6. Enable Customer Portal (Optional but Recommended)
 

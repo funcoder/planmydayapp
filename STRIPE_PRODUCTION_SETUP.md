@@ -64,22 +64,18 @@ This is critical for subscriptions to work properly!
 ### Create the Webhook Destination
 
 1. In Stripe Dashboard (**Live mode**), go to **Developers → Webhooks**
-2. Click **"Add destination"** or **"+ Add endpoint"**
-3. Choose **"Add endpoint"** (not hosted endpoint)
+2. Click **"Add Destination"** button (the primary button on the page)
 
 ### Configure the Endpoint
 
-4. **Endpoint URL**: Enter your production webhook URL
+3. **Endpoint URL**: Enter your production webhook URL
    ```
-   https://YOUR_APP_NAME.fly.dev/webhooks/stripe
+   https://planmyday-app.fly.dev/webhooks/stripe
    ```
-   Replace `YOUR_APP_NAME` with your actual Fly.io app name
 
-   Example: `https://planmyday.fly.dev/webhooks/stripe`
+4. **Description** (optional): "PlanMyDay Production Webhooks"
 
-5. **Description** (optional): "PlanMyDay Production Webhooks"
-
-6. **Events to send**: Click **"Select events"**
+5. **Events to send**: Click **"Select events"**
 
    Select these **5 events** (use the search to find them quickly):
    - ✅ `checkout.session.completed` - When a customer completes checkout
@@ -88,20 +84,20 @@ This is critical for subscriptions to work properly!
    - ✅ `invoice.payment_succeeded` - When monthly payment succeeds
    - ✅ `invoice.payment_failed` - When payment fails
 
-7. Click **"Add events"**
+6. Click **"Add events"**
 
-8. Click **"Add endpoint"**
+7. Click **"Add destination"**
 
 ### Get the Webhook Signing Secret
 
-9. You'll be taken to the webhook endpoint details page
-10. Find the **"Signing secret"** section
-11. Click **"Reveal"** or the eye icon
-12. Copy the signing secret (starts with `whsec_...`)
+8. You'll be taken to the webhook endpoint details page
+9. Find the **"Signing secret"** section
+10. Click **"Reveal"** or the eye icon
+11. Copy the signing secret (starts with `whsec_...`)
 
 ### Set the Webhook Secret on Fly.io
 
-13. In your terminal, run:
+12. In your terminal, run:
 ```bash
 fly secrets set STRIPE_WEBHOOK_SECRET=whsec_YOUR_ACTUAL_WEBHOOK_SECRET
 ```
@@ -156,7 +152,7 @@ The Customer Portal allows users to manage their subscriptions directly through 
 
 ⚠️ **Warning**: This will charge a real credit card $5.00!
 
-1. Visit your production site: `https://YOUR_APP_NAME.fly.dev`
+1. Visit your production site: `https://planmyday-app.fly.dev`
 2. Sign up for a new account or log in
 3. Go to `/pricing`
 4. Click **"Upgrade to Pro"**
