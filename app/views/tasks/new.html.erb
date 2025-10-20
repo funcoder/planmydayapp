@@ -2,15 +2,23 @@
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Header -->
     <div class="mb-8">
-      <%= link_to dashboard_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+      <%= link_to (@task.scheduled_for.nil? ? tasks_path : dashboard_path), class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
         </svg>
-        Back to Dashboard
+        Back to <%= @task.scheduled_for.nil? ? 'Backlog' : 'Dashboard' %>
       <% end %>
-      
-      <h1 class="text-3xl font-bold text-gray-900">Add Today's Tasks</h1>
-      <p class="text-gray-600 mt-2">Remember: only <%= current_user.daily_task_limit %> tasks per day to stay focused!</p>
+
+      <h1 class="text-3xl font-bold text-gray-900">
+        <%= @task.scheduled_for.nil? ? 'Add to Backlog' : "Add Today's Tasks" %>
+      </h1>
+      <p class="text-gray-600 mt-2">
+        <% if @task.scheduled_for.nil? %>
+          Add tasks to your backlog to organize and plan ahead.
+        <% else %>
+          Remember: only <%= current_user.daily_task_limit %> tasks per day to stay focused!
+        <% end %>
+      </p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -101,7 +109,7 @@
               </div>
 
               <!-- Hidden fields -->
-              <%= form.hidden_field :scheduled_for, value: Date.current %>
+              <%= form.hidden_field :scheduled_for, value: @task.scheduled_for %>
               <%= form.hidden_field :status, value: 'pending' %>
               <%= form.hidden_field :brain_dump_id, value: nil %>
 
@@ -161,10 +169,12 @@
         </div>
 
         <!-- Current task count -->
-        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-          <div class="text-3xl font-bold text-primary-600"><%= current_user.tasks.today.incomplete.count %> / <%= current_user.daily_task_limit %></div>
-          <p class="text-sm text-gray-600 mt-1">Active tasks today</p>
-        </div>
+        <% unless @task.scheduled_for.nil? %>
+          <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+            <div class="text-3xl font-bold text-primary-600"><%= current_user.tasks.today.incomplete.count %> / <%= current_user.daily_task_limit %></div>
+            <p class="text-sm text-gray-600 mt-1">Active tasks today</p>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

@@ -1,7 +1,9 @@
 class User < ApplicationRecord
+  include SubscriptionFeatures
+
   has_secure_password
   has_many :sessions, dependent: :destroy
-  
+
   # Associations
   has_many :brain_dumps, dependent: :destroy
   has_many :tasks, dependent: :destroy
@@ -11,6 +13,7 @@ class User < ApplicationRecord
   has_many :user_sprites, dependent: :destroy
   has_many :sprite_characters, through: :user_sprites
   has_many :feedbacks, dependent: :destroy
+  has_many :cancellation_feedbacks, dependent: :destroy
 
   # Rails 8 features
   # Encrypt sensitive preferences

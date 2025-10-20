@@ -7,16 +7,26 @@ class BrainDumpsController < ApplicationController
 
   def create
     @brain_dump = current_user.brain_dumps.build(brain_dump_params)
-    
+
     if @brain_dump.save
       respond_to do |format|
         format.html { redirect_to dashboard_path, notice: "Thought captured! Process it later when you're ready." }
         format.json { render json: { success: true, message: "Thought saved!", brain_dump: @brain_dump } }
-        format.turbo_stream { 
-          render turbo_stream: [
-            turbo_stream.prepend("brain_dumps", partial: "brain_dumps/brain_dump", locals: { brain_dump: @brain_dump }),
-            turbo_stream.replace("brain_dump_form", partial: "brain_dumps/form", locals: { brain_dump: BrainDump.new })
+        format.turbo_stream {
+          # Get the 6th brain dump to remove (if it exists) after adding the new one
+          brain_dumps_to_keep = current_user.brain_dumps.pending.recent.limit(6).pluck(:id)
+          sixth_brain_dump = current_user.brain_dumps.pending.recent.offset(5).limit(1).first
+
+          streams = [
+            turbo_stream.prepend("brain_dumps", partial: "brain_dumps/brain_dump", locals: { brain_dump: @brain_dump })
           ]
+
+          # Remove the 6th item if it exists
+          if sixth_brain_dump
+            streams << turbo_stream.remove(ActionView::RecordIdentifier.dom_id(sixth_brain_dump))
+          end
+
+          render turbo_stream: streams
         }
       end
     else

@@ -1,0 +1,46 @@
+<div class="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center py-12">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-2xl shadow-xl p-8 text-center">
+      <div class="mb-6">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+          <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Pro!</h1>
+        <p class="text-xl text-gray-600">Your subscription is now active</p>
+      </div>
+
+      <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">You now have access to:</h2>
+        <div class="space-y-3 text-left">
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Unlimited daily tasks & backlog</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Full calendar view</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Sprite rewards system</span>
+          </div>
+        </div>
+      </div>
+
+      <%= link_to "Go to Dashboard", dashboard_path,
+          class: "inline-block py-3 px-8 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold text-lg" %>
+
+      <p class="text-sm text-gray-500 mt-6">
+        You can manage your subscription anytime from your account settings.
+      </p>
+    </div>
+  </div>
+</div>

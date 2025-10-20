@@ -17,7 +17,13 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     @task.status ||= 'pending'
     @task.position ||= current_user.tasks.maximum(:position).to_i + 1
-    
+
+    # Check backlog task limit only if the task is unscheduled (backlog)
+    if @task.scheduled_for.nil? && !current_user.can_add_backlog_task?
+      redirect_to tasks_path, alert: "You've reached your limit of #{current_user.max_backlog_tasks} backlog tasks on the free plan. Upgrade to Pro for unlimited backlog tasks or schedule a task for today."
+      return
+    end
+
     # Check daily task limit only if the task is scheduled for today
     if @task.scheduled_for == Date.current && current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
       redirect_to dashboard_path, alert: "You've reached your daily task limit of #{current_user.daily_task_limit} active tasks. Complete some tasks or move them to another day."
@@ -25,7 +31,9 @@ class TasksController < ApplicationController
     end
     
     if @task.save
-      redirect_to dashboard_path, notice: "Task added successfully!"
+      # Redirect to backlog if task is unscheduled, otherwise to dashboard
+      redirect_path = @task.scheduled_for.nil? ? tasks_path : dashboard_path
+      redirect_to redirect_path, notice: "Task added successfully!"
     else
       @unscheduled_tasks = current_user.tasks.unscheduled.pending
       @brain_dumps = current_user.brain_dumps.unprocessed.recent.limit(5)

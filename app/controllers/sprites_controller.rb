@@ -1,4 +1,6 @@
 class SpritesController < ApplicationController
+  before_action :require_pro_subscription
+
   def index
     @user = Current.session.user
     
@@ -33,5 +35,13 @@ class SpritesController < ApplicationController
     
     # Get recently unlocked sprites
     @recent_unlocks = @user.user_sprites.recent.limit(5).includes(:sprite_character)
+  end
+
+  private
+
+  def require_pro_subscription
+    unless current_user&.can_access_sprites?
+      redirect_to pricing_path, alert: "Sprite rewards are a Pro feature. Upgrade to unlock!"
+    end
   end
 end

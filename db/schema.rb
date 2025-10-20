@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_01_092601) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_20_142516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,6 +80,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_092601) do
     t.index ["processed"], name: "index_brain_dumps_on_processed"
     t.index ["status"], name: "index_brain_dumps_on_status"
     t.index ["user_id"], name: "index_brain_dumps_on_user_id"
+  end
+
+  create_table "cancellation_feedbacks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "reason"
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cancellation_feedbacks_on_user_id"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -197,7 +206,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_092601) do
     t.string "password_digest"
     t.string "email_address"
     t.string "subscription_tier", default: "free", null: false
+    t.string "stripe_customer_id"
+    t.string "stripe_subscription_id"
+    t.string "subscription_status", default: "inactive"
+    t.datetime "subscription_period_end"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["stripe_subscription_id"], name: "index_users_on_stripe_subscription_id"
+    t.index ["subscription_status"], name: "index_users_on_subscription_status"
     t.index ["subscription_tier"], name: "index_users_on_subscription_tier"
   end
 
@@ -206,6 +222,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_092601) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_usages", "users"
   add_foreign_key "brain_dumps", "users"
+  add_foreign_key "cancellation_feedbacks", "users"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "focus_sessions", "tasks"
   add_foreign_key "focus_sessions", "users"

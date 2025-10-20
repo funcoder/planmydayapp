@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("planmyday.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+586afeb687f673a0cb132cd59323af050c92d3b8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a41191cf36b7faac4c2d8a9af926718b3094fb6")]
 [assembly: System.Reflection.AssemblyProductAttribute("planmyday.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("planmyday.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

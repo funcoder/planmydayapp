@@ -13,6 +13,7 @@
             <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
             <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
           <% else %>
+            <%= link_to "Pricing", pricing_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
             <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
             <%= link_to "Get Started", new_registration_path, class: "bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-all" %>
           <% end %>
@@ -42,7 +43,7 @@
             See How It Works
           </a>
         </div>
-        <p class="mt-4 text-sm text-gray-500">No credit card required • Free forever for basic use</p>
+        <p class="mt-4 text-sm text-gray-500">No credit card required • Free plan available • Upgrade to Pro for only $5/month</p>
       </div>
     </div>
     <!-- Animated decoration -->
@@ -299,6 +300,130 @@
     </div>
   </section>
 
+  <!-- Pricing Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h3 class="text-4xl font-bold text-gray-900 mb-4">Simple, Honest Pricing</h3>
+        <p class="text-xl text-gray-600">Start free, upgrade when you're ready</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+        <!-- Free Plan -->
+        <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow">
+          <div class="text-center mb-6">
+            <h4 class="text-2xl font-bold text-gray-900 mb-2">Free</h4>
+            <div class="text-4xl font-bold text-gray-900 mb-2">$0<span class="text-lg text-gray-600 font-normal">/month</span></div>
+            <p class="text-gray-600">Perfect for getting started</p>
+          </div>
+
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-700">Up to 5 daily tasks</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-700">Brain dump with voice input</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-700">Pomodoro focus timer</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-700">Up to 5 backlog tasks</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              <span class="text-gray-400">Calendar view</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              <span class="text-gray-400">Sprite rewards</span>
+            </li>
+          </ul>
+
+          <%= link_to "Start Free", new_registration_path,
+              class: "block text-center py-3 px-6 border-2 border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors font-semibold" %>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="bg-gradient-to-br from-primary-600 to-secondary-700 rounded-2xl shadow-xl p-8 transform md:scale-105 relative">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-yellow-900 px-4 py-1 rounded-full font-bold text-sm shadow-lg">
+            BEST VALUE
+          </div>
+
+          <div class="text-center mb-6">
+            <h4 class="text-2xl font-bold text-white mb-2">Pro</h4>
+            <div class="text-4xl font-bold text-white mb-2">$5<span class="text-lg text-primary-100 font-normal">/month</span></div>
+            <p class="text-primary-100">Everything you need</p>
+          </div>
+
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">Unlimited daily tasks</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">Unlimited backlog tasks</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">Calendar view for planning</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">Sprite rewards & gamification</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">All future features</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">Priority support</span>
+            </li>
+          </ul>
+
+          <%= link_to "Upgrade to Pro", pricing_path,
+              class: "block text-center py-3 px-6 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold" %>
+        </div>
+
+      </div>
+
+      <p class="text-center text-gray-500 mt-8 text-sm">
+        No credit card required to start • Cancel anytime • 100% money-back guarantee
+      </p>
+    </div>
+  </section>
+
   <!-- My Story Section -->
   <section class="py-16 bg-gradient-to-r from-primary-50 to-secondary-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -367,14 +492,16 @@
         Ready to Work <span class="text-primary-600">With</span> Your ADHD?
       </h3>
       <p class="text-xl text-gray-600 mb-8">
-        Join thousands of freelancers who've finally found a productivity system that works for their brain.
+        Join freelancers who've finally found a productivity system that works for their brain.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
         <%= link_to "Start Free Today", new_registration_path,
             class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105" %>
+        <%= link_to "View Pricing", pricing_path,
+            class: "inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all" %>
       </div>
       <p class="text-sm text-gray-500">
-        No credit card required • Free forever for basic use • Cancel anytime
+        Free plan available • Pro for $5/month • No credit card required to start
       </p>
     </div>
   </section>
@@ -390,10 +517,10 @@
           <p class="text-sm text-gray-500 mt-1">Productivity for ADHD minds</p>
         </div>
         <div class="flex gap-6 text-sm text-gray-500">
+          <%= link_to "Pricing", pricing_path, class: "hover:text-primary-600" %>
           <a href="#" class="hover:text-primary-600">Privacy</a>
           <a href="#" class="hover:text-primary-600">Terms</a>
           <a href="#" class="hover:text-primary-600">Support</a>
-          <a href="#" class="hover:text-primary-600">Blog</a>
         </div>
       </div>
     </div>

@@ -1,40 +1,20 @@
 <div class="min-h-screen bg-gray-50">
-  <!-- Header -->
-  <div class="bg-gradient-to-r from-primary-600 to-secondary-700 text-white" data-controller="mobile-menu">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div class="flex justify-between items-center">
-        <div>
-          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Task Backlog Review</h1>
-          <p class="text-primary-100 mt-1 text-sm sm:text-base">Manage all your tasks in one place</p>
-        </div>
-        
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex gap-4">
-          <%= link_to "Dashboard", dashboard_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to "+ New Task", new_task_path(scheduled: 'backlog'), class: "bg-white text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-colors font-medium" %>
-        </div>
-        
-        <!-- Mobile Menu Button -->
-        <button data-action="click->mobile-menu#toggle" class="lg:hidden p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors" aria-label="Toggle menu">
-          <span class="block w-6 h-6 relative">
-            <span class="absolute w-full h-0.5 bg-white top-1.5"></span>
-            <span class="absolute w-full h-0.5 bg-white top-1/2 -translate-y-1/2"></span>
-            <span class="absolute w-full h-0.5 bg-white bottom-1.5"></span>
-          </span>
-        </button>
-      </div>
-      
-      <!-- Mobile Navigation Menu -->
-      <div data-mobile-menu-target="menu" class="hidden mt-4 pt-4 border-t border-white/20">
-        <div class="flex flex-col gap-2">
-          <%= link_to "Dashboard", dashboard_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
-          <%= link_to "+ New Task", new_task_path(scheduled: 'backlog'), class: "bg-white text-primary-600 hover:bg-primary-50 px-4 py-3 rounded-lg transition-colors font-medium text-center" %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render 'shared/header' %>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Task Backlog</h1>
+        <p class="text-gray-600 mt-1">Manage all your tasks in one place</p>
+      </div>
+      <%= link_to new_task_path(scheduled: 'backlog'), class: "px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        <span>New Task</span>
+      <% end %>
+    </div>
     <!-- Filters -->
     <div class="bg-white rounded-xl shadow-lg p-6 mb-8" data-controller="task-filter">
       <div class="flex flex-wrap gap-4 items-center">

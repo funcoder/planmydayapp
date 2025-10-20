@@ -142,89 +142,21 @@ export default class extends Controller {
     }
   }
 
-  quickSave(event) {
-    event.preventDefault()
-    
-    // Don't save if input is empty
-    if (!this.inputTarget.value.trim()) {
-      return
-    }
-    
-    // Get the form element
-    const form = this.inputTarget.closest('form')
-    if (!form) return
-    
-    // Add visual feedback
-    this.submitButtonTarget.disabled = true
-    this.submitButtonTarget.textContent = "Saving..."
-    
-    // Create form data
-    const formData = new FormData(form)
-    
-    // Submit via fetch to avoid page reload
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Clear the input
-      this.inputTarget.value = ""
-      this.updateCharCount()
-      
-      // Show success feedback
-      this.submitButtonTarget.textContent = "Saved! ✓"
-      
-      // Update the Recent Brain Dumps section if it exists
-      const brainDumpsList = document.getElementById('brain_dumps')
-      if (brainDumpsList && data.brain_dump) {
-        // Create new brain dump element
-        const newDumpHtml = `
-          <turbo-frame id="brain_dump_${data.brain_dump.id}">
-            <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <p class="text-sm">${this.truncate(data.brain_dump.content, 80)}</p>
-              <div class="flex justify-between items-center mt-1">
-                <p class="text-xs text-gray-500">just now</p>
-                <span class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-700">
-                  Pending
-                </span>
-              </div>
-            </div>
-          </turbo-frame>
-        `
-        
-        // Prepend to the list
-        brainDumpsList.insertAdjacentHTML('afterbegin', newDumpHtml)
-        
-        // Remove the last item if there are more than 5
-        const dumpItems = brainDumpsList.querySelectorAll('turbo-frame')
-        if (dumpItems.length > 5) {
-          dumpItems[dumpItems.length - 1].remove()
-        }
-      }
-      
-      // Reset button after a moment
-      setTimeout(() => {
-        this.submitButtonTarget.disabled = false
-        this.submitButtonTarget.textContent = "Save Thought"
-      }, 1500)
-      
-      // Keep focus on input for continuous entry
-      this.inputTarget.focus()
-    })
-    .catch(error => {
-      console.error('Error saving brain dump:', error)
-      this.submitButtonTarget.disabled = false
-      this.submitButtonTarget.textContent = "Save Thought"
-    })
-  }
+  // Handle form submission success - Turbo will handle the actual submission
+  handleSuccess(event) {
+    // Clear the input after successful submission
+    this.inputTarget.value = ""
+    this.updateCharCount()
 
-  truncate(str, length) {
-    if (str.length <= length) return str
-    return str.substring(0, length) + '...'
+    // Remove the "no brain dumps" message if it exists
+    const noBrainDumps = document.getElementById('no_brain_dumps')
+    if (noBrainDumps) {
+      noBrainDumps.remove()
+    }
+
+    // Keep focus on input for continuous entry
+    setTimeout(() => {
+      this.inputTarget.focus()
+    }, 100)
   }
 }

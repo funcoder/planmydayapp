@@ -1,71 +1,5 @@
 <div class="min-h-screen bg-gray-50">
-  <!-- Header -->
-  <div class="bg-gradient-to-r from-primary-600 to-secondary-700 text-white" data-controller="mobile-menu">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div class="flex justify-between items-center">
-        <div>
-          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold">Welcome back, <%= @user.first_name %>!</h1>
-          <p class="text-primary-100 mt-1 text-sm sm:text-base">Let's make today productive</p>
-        </div>
-        
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center gap-6">
-          <div class="text-center">
-            <div class="text-2xl font-bold"><%= @points %></div>
-            <div class="text-sm text-primary-100">Points</div>
-          </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold"><%= @streak %></div>
-            <div class="text-sm text-primary-100">Day Streak</div>
-          </div>
-          <%= link_to "Sprites", sprites_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to "Calendar", calendar_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to "Backlog", tasks_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to "Feedback", new_feedback_path, class: "bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
-          <%= link_to session_path, data: { "turbo-method": :delete }, class: "bg-white/20 hover:bg-white/30 p-2 rounded-lg transition-colors", title: "Sign Out" do %>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-            </svg>
-          <% end %>
-        </div>
-        
-        <!-- Mobile Stats and Menu Button -->
-        <div class="flex lg:hidden items-center gap-4">
-          <div class="flex gap-4">
-            <div class="text-center">
-              <div class="text-xl font-bold"><%= @points %></div>
-              <div class="text-xs text-primary-100">Points</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl font-bold"><%= @streak %></div>
-              <div class="text-xs text-primary-100">Streak</div>
-            </div>
-          </div>
-          <button data-action="click->mobile-menu#toggle" class="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors" aria-label="Toggle menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Mobile Navigation Menu -->
-      <div data-mobile-menu-target="menu" class="hidden mt-4 pt-4 border-t border-white/20">
-        <div class="flex flex-col gap-2">
-          <%= link_to "Sprites", sprites_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
-          <%= link_to "Calendar", calendar_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
-          <%= link_to "Backlog", tasks_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
-          <%= link_to "Feedback", new_feedback_path, class: "bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition-colors text-center" %>
-          <%= link_to session_path, data: { "turbo-method": :delete }, class: "bg-red-500/20 hover:bg-red-500/30 px-4 py-3 rounded-lg transition-colors flex items-center justify-center gap-2" do %>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-            </svg>
-            <span>Sign Out</span>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render 'shared/header' %>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Newly Unlocked Sprites Notification -->
@@ -86,7 +20,27 @@
         <%= link_to "View Collection →", sprites_path, class: "inline-block mt-4 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
       </div>
     <% end %>
-    
+
+    <!-- Welcome Banner with Stats -->
+    <div class="bg-gradient-to-r from-primary-600 to-secondary-700 rounded-xl shadow-lg p-6 mb-8 text-white">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold mb-1">Welcome back, <%= @user.first_name %>!</h1>
+          <p class="text-primary-100">Let's make today productive</p>
+        </div>
+        <div class="flex gap-6">
+          <div class="text-center">
+            <div class="text-3xl font-bold"><%= @points %></div>
+            <div class="text-sm text-primary-100">Points</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold"><%= @streak %></div>
+            <div class="text-sm text-primary-100">Day Streak</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       <!-- Main Column -->
@@ -135,20 +89,37 @@
                       </div>
                       <div class="flex items-center gap-2 ml-4">
                         <% if task.status == 'pending' %>
-                          <button class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                          <button class="p-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                                   data-action="click->task#start"
-                                  data-url="<%= start_task_path(task) %>">
-                            Start
+                                  data-url="<%= start_task_path(task) %>"
+                                  title="Start task">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                          </button>
+                          <button class="p-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                                  data-action="click->task#complete"
+                                  data-url="<%= complete_task_path(task) %>"
+                                  title="Mark as complete">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                           </button>
                         <% elsif task.status == 'in_progress' %>
-                          <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                          <button class="p-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                                   data-action="click->task#complete"
-                                  data-url="<%= complete_task_path(task) %>">
-                            Complete
+                                  data-url="<%= complete_task_path(task) %>"
+                                  title="Mark as complete">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                           </button>
                         <% else %>
-                          <span class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg">
-                            ✓ Done
+                          <span class="p-2.5 bg-gray-100 text-gray-600 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
                           </span>
                         <% end %>
                         
@@ -193,42 +164,7 @@
 
         <!-- Brain Dump Section -->
         <%= turbo_frame_tag "brain_dump_form" do %>
-          <div class="bg-white rounded-xl shadow-lg p-6" data-controller="brain-dump">
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold text-gray-800">Quick Brain Dump</h2>
-              <%= link_to "View All Dumps →", brain_dumps_path,
-                  class: "text-sm text-primary-600 hover:text-primary-700 font-medium",
-                  data: { turbo_frame: "_top" } %>
-            </div>
-            <%= form_with model: BrainDump.new, url: brain_dumps_path, method: :post, local: false do |form| %>
-              <div class="space-y-4">
-                <%= form.text_area :content,
-                    placeholder: "What's on your mind? Just dump it all here...",
-                    class: "w-full p-4 border-2 border-gray-200 rounded-lg focus:border-primary-400 focus:outline-none resize-none text-lg",
-                    rows: 4,
-                    maxlength: 500,
-                    data: { 
-                      brain_dump_target: "input",
-                      action: "input->brain-dump#updateCharCount"
-                    } %>
-                <div class="text-sm text-gray-500" data-brain-dump-target="charCount">500 characters remaining</div>
-                <div class="flex justify-between items-center">
-                  <button type="button" 
-                          class="text-gray-500 hover:text-gray-700 transition-colors"
-                          data-brain-dump-target="voiceButton"
-                          data-action="click->brain-dump#toggleVoiceInput">
-                    🎤 Voice Input
-                  </button>
-                  <button type="button"
-                          class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
-                          data-brain-dump-target="submitButton"
-                          data-action="click->brain-dump#quickSave">
-                    Save Thought
-                  </button>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <%= render "brain_dumps/form", brain_dump: BrainDump.new %>
         <% end %>
 
         <!-- Completed Tasks Section -->
@@ -311,7 +247,7 @@
         <% end %>
 
         <!-- Today's Unlocked Sprites -->
-        <% if @todays_sprites.any? %>
+        <% if @user.can_access_sprites? && @todays_sprites.any? %>
           <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
             <h3 class="text-xl font-bold mb-4">Today's Sprites</h3>
             <div class="space-y-3">
@@ -360,25 +296,24 @@
                   class: "text-xs text-primary-600 hover:text-primary-700 font-medium",
                   data: { turbo_frame: "_top" } %>
             </div>
-            <% if @brain_dumps.any? %>
-              <div class="space-y-2" id="brain_dumps">
-                <% @brain_dumps.each do |dump| %>
-                  <%= turbo_frame_tag dom_id(dump) do %>
-                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <p class="text-sm"><%= truncate(dump.content, length: 80) %></p>
-                      <div class="flex justify-between items-center mt-1">
-                        <p class="text-xs text-gray-500"><%= time_ago_in_words(dump.created_at) %> ago</p>
-                        <span class="text-xs px-2 py-1 rounded-full <%= dump.processed? ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %>">
-                          <%= dump.processed? ? 'Processed' : 'Pending' %>
-                        </span>
-                      </div>
+            <div class="space-y-2" id="brain_dumps">
+              <% @brain_dumps.each do |dump| %>
+                <%= turbo_frame_tag dom_id(dump) do %>
+                  <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <p class="text-sm"><%= truncate(dump.content, length: 80) %></p>
+                    <div class="flex justify-between items-center mt-1">
+                      <p class="text-xs text-gray-500"><%= time_ago_in_words(dump.created_at) %> ago</p>
+                      <span class="text-xs px-2 py-1 rounded-full <%= dump.processed? ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %>">
+                        <%= dump.processed? ? 'Processed' : 'Pending' %>
+                      </span>
                     </div>
-                  <% end %>
+                  </div>
                 <% end %>
-              </div>
-            <% else %>
-              <p class="text-gray-600">No brain dumps yet. Start capturing your thoughts!</p>
-            <% end %>
+              <% end %>
+              <% if @brain_dumps.empty? %>
+                <p class="text-gray-600" id="no_brain_dumps">No brain dumps yet. Start capturing your thoughts!</p>
+              <% end %>
+            </div>
           </div>
         <% end %>
       </div>

@@ -1,4 +1,6 @@
 class CalendarController < ApplicationController
+  before_action :require_pro_subscription
+
   def index
     @user = Current.session.user
     
@@ -43,11 +45,17 @@ class CalendarController < ApplicationController
   end
   
   private
-  
+
+  def require_pro_subscription
+    unless current_user&.can_access_calendar?
+      redirect_to pricing_path, alert: "Calendar access is a Pro feature. Upgrade to unlock!"
+    end
+  end
+
   def calculate_completion_rate(tasks)
     scheduled = tasks.where(scheduled_for: @week_start..@week_end).count
     return 0 if scheduled.zero?
-    
+
     completed = tasks.where(status: 'completed', scheduled_for: @week_start..@week_end).count
     ((completed.to_f / scheduled) * 100).round
   end

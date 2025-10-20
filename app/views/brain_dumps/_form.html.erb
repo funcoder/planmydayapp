@@ -1,0 +1,34 @@
+<div class="bg-white rounded-xl shadow-lg p-6" data-controller="brain-dump">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Quick Brain Dump</h2>
+    <%= link_to "View All Dumps →", brain_dumps_path,
+        class: "text-sm text-primary-600 hover:text-primary-700 font-medium",
+        data: { turbo_frame: "_top" } %>
+  </div>
+  <%= form_with model: brain_dump, url: brain_dumps_path, method: :post,
+                data: { action: "turbo:submit-end->brain-dump#handleSuccess" } do |form| %>
+    <div class="space-y-4">
+      <%= form.text_area :content,
+          placeholder: "What's on your mind? Just dump it all here...",
+          class: "w-full p-4 border-2 border-gray-200 rounded-lg focus:border-primary-400 focus:outline-none resize-none text-lg",
+          rows: 4,
+          maxlength: 500,
+          data: {
+            brain_dump_target: "input",
+            action: "input->brain-dump#updateCharCount"
+          } %>
+      <div class="text-sm text-gray-500" data-brain-dump-target="charCount">500 characters remaining</div>
+      <div class="flex justify-between items-center">
+        <button type="button"
+                class="text-gray-500 hover:text-gray-700 transition-colors"
+                data-brain-dump-target="voiceButton"
+                data-action="click->brain-dump#toggleVoiceInput">
+          🎤 Voice Input
+        </button>
+        <%= form.submit "Save Thought",
+            class: "px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors",
+            data: { brain_dump_target: "submitButton" } %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -27,3 +27,6 @@ application.register("task", TaskController)
 
 import TaskFilterController from "controllers/task_filter_controller"
 application.register("task-filter", TaskFilterController)
+
+import UserMenuController from "controllers/user_menu_controller"
+application.register("user-menu", UserMenuController)

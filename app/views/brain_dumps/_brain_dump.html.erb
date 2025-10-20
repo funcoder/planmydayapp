@@ -1,0 +1,11 @@
+<%= turbo_frame_tag dom_id(brain_dump) do %>
+  <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+    <p class="text-sm"><%= truncate(brain_dump.content, length: 80) %></p>
+    <div class="flex justify-between items-center mt-1">
+      <p class="text-xs text-gray-500"><%= time_ago_in_words(brain_dump.created_at) %> ago</p>
+      <span class="text-xs px-2 py-1 rounded-full <%= brain_dump.processed? ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %>">
+        <%= brain_dump.processed? ? 'Processed' : 'Pending' %>
+      </span>
+    </div>
+  </div>
+<% end %>

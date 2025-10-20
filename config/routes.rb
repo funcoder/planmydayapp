@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "users/profile"
+  get "users/update_profile"
   # Rails 8 built-in authentication routes
   resource :session
   resources :passwords, param: :token
@@ -57,7 +59,23 @@ Rails.application.routes.draw do
   resources :achievements, only: [:index, :show]
   
   resources :feedbacks, only: [:new, :create, :index]
-  
+
+  # Subscription routes
+  get 'pricing', to: 'pricing#index', as: :pricing
+  resources :subscriptions, only: [:new, :create] do
+    collection do
+      get :success, to: 'subscriptions#success', as: :success
+      get :manage, to: 'subscriptions#manage', as: :manage
+      get :cancel, to: 'subscriptions#cancel', as: :cancel
+      post :process_cancellation, to: 'subscriptions#process_cancellation', as: :process_cancellation
+      post :reactivate, to: 'subscriptions#reactivate', as: :reactivate
+      get :portal, to: 'subscriptions#portal', as: :portal
+    end
+  end
+
+  # Stripe webhooks
+  post 'webhooks/stripe', to: 'webhooks#stripe'
+
   get 'dashboard', to: 'dashboard#index'
   get 'profile', to: 'users#profile'
   patch 'profile', to: 'users#update_profile'
