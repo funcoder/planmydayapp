@@ -1,0 +1,238 @@
+<% content_for :title, "Support & Help" %>
+<% content_for :meta_description, "Get help with PlanMyDay. Find answers to common questions about our ADHD-friendly productivity features, account management, and subscription." %>
+
+<%
+  faq_data = [
+    {
+      question: "How do I create an account?",
+      answer: "Click the 'Get Started' button on the homepage, fill in your name, email, and password, and you're ready to go! No credit card required for the free plan."
+    },
+    {
+      question: "What's the difference between Free and Pro plans?",
+      answer: "The Free plan gives you access to all core features including task management, brain dump, and focus sessions with a limit of 5 tasks per day. The Pro plan ($5/month) removes all limits, adds advanced analytics, priority support, and early access to new features."
+    },
+    {
+      question: "What is the Brain Dump feature?",
+      answer: "Brain Dump is where you can quickly capture all your racing thoughts and ideas without organizing them immediately. You can type or use voice input. Later, you can process these entries and convert them into actionable tasks."
+    },
+    {
+      question: "Why are tasks limited to 3-5 per day?",
+      answer: "Research shows that people with ADHD are more successful when they focus on fewer, prioritized tasks. Long to-do lists can be overwhelming and lead to paralysis. By limiting tasks, you're forced to prioritize what truly matters and are more likely to complete them."
+    },
+    {
+      question: "How does the Pomodoro timer work?",
+      answer: "Start a focus session on any task, and the timer will guide you through 25-minute work periods followed by 5-minute breaks. After 4 sessions, you get a longer 15-minute break. You can also track interruptions during your focus sessions."
+    },
+    {
+      question: "Can I cancel my Pro subscription?",
+      answer: "Yes, you can cancel anytime from your account settings. You'll retain Pro access until the end of your current billing period, then automatically switch to the Free plan."
+    },
+    {
+      question: "Is my data private?",
+      answer: "Absolutely. Your tasks, brain dumps, and personal information are encrypted and only accessible by you. We never sell your data to third parties."
+    }
+  ]
+%>
+
+<% content_for :head do %>
+  <%= structured_data(faq_page_schema(faq_data)) %>
+<% end %>
+
+<div class="min-h-screen bg-gray-50 py-12">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <%= link_to root_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to home
+      <% end %>
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Support & Help</h1>
+      <p class="text-gray-600">We're here to help you get the most out of PlanMyDay</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">FAQs</h3>
+        <p class="text-gray-600 text-sm">Find answers to common questions</p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Email Support</h3>
+        <a href="mailto:support@planmyday.me" class="text-primary-600 hover:text-primary-700 text-sm">support@planmyday.me</a>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Documentation</h3>
+        <p class="text-gray-600 text-sm">Coming soon</p>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-white rounded-lg shadow-sm p-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+
+      <div class="space-y-6">
+        <!-- Getting Started -->
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Getting Started</h3>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">How do I create an account?</h4>
+              <p class="text-gray-600">
+                Click the "Get Started" button on the homepage, fill in your name, email, and password, and you're ready to go!
+                No credit card required for the free plan.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">What's the difference between Free and Pro plans?</h4>
+              <p class="text-gray-600">
+                The Free plan gives you access to all core features including task management, brain dump, and focus sessions
+                with a limit of 5 tasks per day. The Pro plan ($5/month) removes all limits, adds advanced analytics, priority support,
+                and early access to new features.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Features</h3>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">What is the Brain Dump feature?</h4>
+              <p class="text-gray-600">
+                Brain Dump is where you can quickly capture all your racing thoughts and ideas without organizing them immediately.
+                You can type or use voice input. Later, you can process these entries and convert them into actionable tasks.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Why are tasks limited to 3-5 per day?</h4>
+              <p class="text-gray-600">
+                Research shows that people with ADHD are more successful when they focus on fewer, prioritized tasks.
+                Long to-do lists can be overwhelming and lead to paralysis. By limiting tasks, you're forced to prioritize
+                what truly matters and are more likely to complete them.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">How does the Pomodoro timer work?</h4>
+              <p class="text-gray-600">
+                Start a focus session on any task, and the timer will guide you through 25-minute work periods followed by
+                5-minute breaks. After 4 sessions, you get a longer 15-minute break. You can also track interruptions during
+                your focus sessions to understand what breaks your concentration.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">What happens to incomplete tasks?</h4>
+              <p class="text-gray-600">
+                At the start of each day, you'll be prompted to review incomplete tasks from yesterday. You can choose to
+                roll them over to today, reschedule them, or mark them as no longer needed. This prevents tasks from
+                getting lost while not cluttering your daily list.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account & Billing -->
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Account & Billing</h3>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">How do I upgrade to Pro?</h4>
+              <p class="text-gray-600">
+                Visit the <%= link_to "Pricing page", pricing_path, class: "text-primary-600 hover:text-primary-700" %> and click
+                "Upgrade to Pro". You'll be redirected to our secure Stripe checkout page to complete payment.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Can I cancel my Pro subscription?</h4>
+              <p class="text-gray-600">
+                Yes, you can cancel anytime from your account settings. You'll retain Pro access until the end of your
+                current billing period, then automatically switch to the Free plan.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Is my payment information secure?</h4>
+              <p class="text-gray-600">
+                Yes! We use Stripe for payment processing, and we never store your credit card information.
+                Stripe is a PCI-DSS compliant payment processor used by millions of businesses worldwide.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">How do I delete my account?</h4>
+              <p class="text-gray-600">
+                You can delete your account from your profile settings. This will permanently delete all your data
+                within 30 days. If you have an active Pro subscription, it will be automatically canceled.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy & Security -->
+        <div class="pb-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Privacy & Security</h3>
+
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Is my data private?</h4>
+              <p class="text-gray-600">
+                Absolutely. Your tasks, brain dumps, and personal information are encrypted and only accessible by you.
+                We never sell your data to third parties. Read our <%= link_to "Privacy Policy", privacy_path, class: "text-primary-600 hover:text-primary-700" %>
+                for full details.
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Can I export my data?</h4>
+              <p class="text-gray-600">
+                Data export functionality is coming soon. When available, you'll be able to download all your tasks,
+                brain dumps, and session history in CSV or JSON format.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="mt-12 bg-primary-50 rounded-lg p-8 text-center">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Still Need Help?</h2>
+      <p class="text-gray-600 mb-6">
+        Can't find the answer you're looking for? We're here to help!
+      </p>
+      <a href="mailto:support@planmyday.me" class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        Contact Support
+      </a>
+    </div>
+  </div>
+</div>

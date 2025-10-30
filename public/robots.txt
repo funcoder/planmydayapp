@@ -1,1 +1,23 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+# Allow all crawlers to access public pages
+User-agent: *
+Allow: /
+Allow: /pricing
+Allow: /signup
+
+# Disallow authenticated pages
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /tasks
+Disallow: /brain_dumps
+Disallow: /focus_sessions
+Disallow: /sprites
+Disallow: /calendar
+Disallow: /feedbacks
+Disallow: /subscriptions/manage
+Disallow: /subscriptions/cancel
+Disallow: /session
+
+# Sitemap location
+Sitemap: https://planmyday.me/sitemap.xml

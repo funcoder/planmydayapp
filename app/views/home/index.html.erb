@@ -1,3 +1,12 @@
+<% content_for :title, "ADHD-Friendly Productivity App for Freelancers" %>
+<% content_for :meta_description, "Stop fighting your brain. PlanMyDay helps freelancers with ADHD stay focused with task limiting (3-5 tasks max), brain dump with voice input, pomodoro timer, and gamification. Start free today." %>
+<% content_for :canonical_url, root_url %>
+
+<% content_for :head do %>
+  <%= structured_data(organization_schema) %>
+  <%= structured_data(software_application_schema) %>
+<% end %>
+
 <div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
   <!-- Navigation -->
   <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
@@ -518,9 +527,9 @@
         </div>
         <div class="flex gap-6 text-sm text-gray-500">
           <%= link_to "Pricing", pricing_path, class: "hover:text-primary-600" %>
-          <a href="#" class="hover:text-primary-600">Privacy</a>
-          <a href="#" class="hover:text-primary-600">Terms</a>
-          <a href="#" class="hover:text-primary-600">Support</a>
+          <%= link_to "Privacy", privacy_path, class: "hover:text-primary-600" %>
+          <%= link_to "Terms", terms_path, class: "hover:text-primary-600" %>
+          <%= link_to "Support", support_path, class: "hover:text-primary-600" %>
         </div>
       </div>
     </div>

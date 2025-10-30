@@ -1,0 +1,124 @@
+<% content_for :title, "Privacy Policy" %>
+<% content_for :meta_description, "PlanMyDay's privacy policy. Learn how we collect, use, and protect your personal information." %>
+
+<div class="min-h-screen bg-gray-50 py-12">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <%= link_to root_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to home
+      <% end %>
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
+      <p class="text-gray-600">Last updated: <%= Date.today.strftime("%B %d, %Y") %></p>
+    </div>
+
+    <!-- Content -->
+    <div class="bg-white rounded-lg shadow-sm p-8 prose prose-lg max-w-none">
+      <h2>Introduction</h2>
+      <p>
+        Welcome to PlanMyDay. We respect your privacy and are committed to protecting your personal data.
+        This privacy policy explains how we collect, use, and safeguard your information when you use our service.
+      </p>
+
+      <h2>Information We Collect</h2>
+      <h3>Personal Information</h3>
+      <p>When you create an account, we collect:</p>
+      <ul>
+        <li>Name (first and last)</li>
+        <li>Email address</li>
+        <li>Password (encrypted)</li>
+      </ul>
+
+      <h3>Usage Data</h3>
+      <p>We automatically collect certain information when you use PlanMyDay:</p>
+      <ul>
+        <li>Tasks and brain dump entries you create</li>
+        <li>Focus session data and interruption logs</li>
+        <li>Your preferences and settings</li>
+        <li>Browser type and version</li>
+        <li>IP address and location data</li>
+        <li>Pages visited and time spent on our service</li>
+      </ul>
+
+      <h3>Payment Information</h3>
+      <p>
+        Payment processing is handled securely by Stripe. We do not store your credit card information.
+        We receive only limited information from Stripe necessary to manage your subscription (such as the last 4 digits of your card and subscription status).
+      </p>
+
+      <h2>How We Use Your Information</h2>
+      <p>We use your information to:</p>
+      <ul>
+        <li>Provide and maintain our service</li>
+        <li>Process your subscription payments</li>
+        <li>Send you important updates about your account</li>
+        <li>Respond to your support requests</li>
+        <li>Improve and optimize our service</li>
+        <li>Protect against fraud and abuse</li>
+      </ul>
+
+      <h2>Data Security</h2>
+      <p>
+        We implement appropriate technical and organizational security measures to protect your personal data, including:
+      </p>
+      <ul>
+        <li>Encryption of sensitive data at rest and in transit</li>
+        <li>Secure password hashing</li>
+        <li>Regular security audits</li>
+        <li>Access controls and authentication</li>
+      </ul>
+
+      <h2>Data Retention</h2>
+      <p>
+        We retain your personal data for as long as your account is active or as needed to provide you services.
+        If you delete your account, we will delete your personal data within 30 days, except where we are required
+        by law to retain certain information.
+      </p>
+
+      <h2>Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Access your personal data</li>
+        <li>Correct inaccurate data</li>
+        <li>Request deletion of your data</li>
+        <li>Export your data</li>
+        <li>Opt-out of marketing communications</li>
+      </ul>
+
+      <h2>Cookies</h2>
+      <p>
+        We use cookies to maintain your session and remember your preferences. You can control cookies through
+        your browser settings, but some features may not work properly if cookies are disabled.
+      </p>
+
+      <h2>Third-Party Services</h2>
+      <p>We use the following third-party services:</p>
+      <ul>
+        <li><strong>Stripe</strong>: Payment processing</li>
+        <li><strong>Fly.io</strong>: Hosting infrastructure</li>
+      </ul>
+      <p>These services have their own privacy policies governing their use of your information.</p>
+
+      <h2>Children's Privacy</h2>
+      <p>
+        PlanMyDay is not intended for children under 13. We do not knowingly collect personal information
+        from children under 13. If you believe we have collected such information, please contact us.
+      </p>
+
+      <h2>Changes to This Policy</h2>
+      <p>
+        We may update this privacy policy from time to time. We will notify you of any significant changes
+        by email or through a notice on our service.
+      </p>
+
+      <h2>Contact Us</h2>
+      <p>
+        If you have questions about this privacy policy or our data practices, please contact us at:
+        <a href="mailto:privacy@planmyday.me" class="text-primary-600 hover:text-primary-700">privacy@planmyday.me</a>
+      </p>
+    </div>
+  </div>
+</div>
