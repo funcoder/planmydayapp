@@ -9,8 +9,14 @@
           <div class="flex items-center justify-between mb-4">
             <div>
               <div class="flex items-center gap-3 mb-2">
-                <h2 class="text-2xl font-bold text-gray-900">Pro Plan</h2>
-                <% if current_user.subscription_grace_period? %>
+                <h2 class="text-2xl font-bold text-gray-900">
+                  <%= current_user.lifetime? ? 'Lifetime Plan' : 'Pro Plan' %>
+                </h2>
+                <% if current_user.lifetime? %>
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
+                    LIFETIME
+                  </span>
+                <% elsif current_user.subscription_grace_period? %>
                   <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800">
                     CANCELLING
                   </span>
@@ -20,7 +26,9 @@
                   </span>
                 <% end %>
               </div>
-              <p class="text-gray-600">$5.00 / month</p>
+              <p class="text-gray-600">
+                <%= current_user.lifetime? ? 'One-time payment of $49.99' : '$5.00 / month' %>
+              </p>
               <% if current_user.subscription_grace_period? %>
                 <p class="text-sm text-yellow-700 mt-2">
                   Pro access until <%= current_user.subscription_period_end.strftime('%B %d, %Y') %>
@@ -54,30 +62,39 @@
 
         <!-- Manage Options -->
         <div class="space-y-4">
-          <% if current_user.subscription_grace_period? %>
-            <!-- Reactivation Option -->
-            <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-4">
-              <p class="text-sm text-yellow-800 mb-3">
-                Your subscription is scheduled to cancel on <%= current_user.subscription_period_end.strftime('%B %d, %Y') %>.
-                You can reactivate it at any time before then to continue your Pro access.
+          <% if current_user.lifetime? %>
+            <!-- Lifetime Message -->
+            <div class="bg-purple-50 border-2 border-purple-200 rounded-xl p-4">
+              <p class="text-sm text-purple-800">
+                🎉 You have lifetime access! No subscription to manage - you're all set forever.
               </p>
-              <%= button_to "Reactivate Subscription", reactivate_subscriptions_path,
-                  method: :post,
-                  class: "block w-full py-3 px-6 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-center" %>
             </div>
-          <% end %>
-
-          <% if current_user.stripe_customer_id.present? %>
-            <%= link_to portal_subscriptions_path,
-                class: "block w-full py-3 px-6 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold text-center" do %>
-              <span>Manage Billing in Stripe Portal</span>
+          <% else %>
+            <% if current_user.subscription_grace_period? %>
+              <!-- Reactivation Option -->
+              <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-4">
+                <p class="text-sm text-yellow-800 mb-3">
+                  Your subscription is scheduled to cancel on <%= current_user.subscription_period_end.strftime('%B %d, %Y') %>.
+                  You can reactivate it at any time before then to continue your Pro access.
+                </p>
+                <%= button_to "Reactivate Subscription", reactivate_subscriptions_path,
+                    method: :post,
+                    class: "block w-full py-3 px-6 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-center" %>
+              </div>
             <% end %>
-            <p class="text-xs text-center text-gray-500">Update payment method, view invoices, or cancel subscription</p>
-          <% end %>
 
-          <% unless current_user.subscription_grace_period? %>
-            <%= link_to "Cancel Subscription", cancel_subscriptions_path,
-                class: "block w-full py-3 px-6 border-2 border-red-500 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-semibold text-center" %>
+            <% if current_user.stripe_customer_id.present? %>
+              <%= link_to portal_subscriptions_path,
+                  class: "block w-full py-3 px-6 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold text-center" do %>
+                <span>Manage Billing in Stripe Portal</span>
+              <% end %>
+              <p class="text-xs text-center text-gray-500">Update payment method, view invoices, or cancel subscription</p>
+            <% end %>
+
+            <% unless current_user.subscription_grace_period? %>
+              <%= link_to "Cancel Subscription", cancel_subscriptions_path,
+                  class: "block w-full py-3 px-6 border-2 border-red-500 text-red-600 rounded-lg hover:bg-red-50 transition-colors font-semibold text-center" %>
+            <% end %>
           <% end %>
         </div>
 

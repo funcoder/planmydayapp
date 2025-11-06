@@ -69,7 +69,11 @@
             <div>
               <p class="text-sm text-gray-500">Account Type</p>
               <div class="flex items-center gap-2 mt-1">
-                <% if @user.pro? %>
+                <% if @user.lifetime? %>
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-purple-100 text-purple-800">
+                    ✨ LIFETIME
+                  </span>
+                <% elsif @user.pro? %>
                   <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-yellow-100 text-yellow-800">
                     ⭐ PRO
                   </span>
