@@ -1,0 +1,30 @@
+<div data-controller="pwa-install" data-pwa-install-banner-value="true" class="hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-2xl" data-pwa-install-target="banner">
+  <div class="max-w-4xl mx-auto px-4 py-4">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 flex-1">
+        <div class="flex-shrink-0 w-12 h-12 bg-white rounded-xl p-2 shadow-lg">
+          <img src="/icon.svg" alt="PlanMyDay" class="w-full h-full" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-bold text-lg leading-tight">Install PlanMyDay</h3>
+          <p class="text-sm text-white/90 leading-tight">Add to your home screen for quick access and offline support</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button type="button"
+                data-action="click->pwa-install#install"
+                class="px-6 py-2.5 bg-white text-primary-700 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg">
+          Install
+        </button>
+        <button type="button"
+                data-action="click->pwa-install#dismissBanner"
+                class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

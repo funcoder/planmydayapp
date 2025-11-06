@@ -54,6 +54,9 @@
   </head>
 
   <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col" data-controller="service-worker">
+    <!-- PWA Install Banner -->
+    <%= render "shared/pwa_install_banner" %>
+
     <!-- Notifications at the top -->
     <% if notice.present? %>
       <div class="bg-green-500 text-white px-4 py-3 text-center">
