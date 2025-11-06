@@ -43,8 +43,9 @@
     </div>
 
     <!-- Tasks List -->
-    <%= turbo_frame_tag "tasks_content", class: "bg-white rounded-xl shadow-lg p-6" do %>
-      <% if @tasks.any? %>
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <%= turbo_frame_tag "tasks_content" do %>
+        <% if @tasks.any? %>
         <div class="space-y-4" id="tasks-list">
           <% @tasks.each do |task| %>
             <div>
@@ -130,7 +131,8 @@
               class: "inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
         </div>
       <% end %>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
