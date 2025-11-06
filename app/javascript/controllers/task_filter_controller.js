@@ -4,17 +4,31 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["task", "container"]
 
+  connect() {
+    // Apply pending filter by default on page load
+    this.applyFilter('pending')
+  }
+
   filter(event) {
     const filterValue = event.currentTarget.dataset.filterValue
+    this.applyFilter(filterValue)
+  }
+
+  applyFilter(filterValue) {
     const filterButtons = this.element.querySelectorAll('button[data-action*="task-filter#filter"]')
 
     // Update active button style
     filterButtons.forEach(btn => {
-      btn.classList.remove('bg-purple-600', 'text-white')
+      btn.classList.remove('bg-primary-600', 'text-white')
       btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
     })
-    event.currentTarget.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
-    event.currentTarget.classList.add('bg-purple-600', 'text-white')
+
+    // Find and activate the button for this filter
+    const activeButton = this.element.querySelector(`button[data-filter-value="${filterValue}"]`)
+    if (activeButton) {
+      activeButton.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
+      activeButton.classList.add('bg-primary-600', 'text-white')
+    }
 
     // Filter tasks
     this.taskTargets.forEach(task => {
