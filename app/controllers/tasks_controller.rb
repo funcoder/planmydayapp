@@ -3,17 +3,27 @@ class TasksController < ApplicationController
 
   def index
     @filter = params[:filter] || 'pending'
+    @view = params[:view] || 'list'
 
-    @tasks = case @filter
-             when 'today'
-               current_user.tasks.where(scheduled_for: Date.current).order(created_at: :desc)
-             when 'pending'
-               current_user.tasks.where(status: 'pending').order(scheduled_for: :desc, created_at: :desc)
-             when 'completed'
-               current_user.tasks.where(status: 'completed').order(updated_at: :desc)
-             else # 'all'
-               current_user.tasks.order(scheduled_for: :desc, created_at: :desc)
-             end
+    if @view == 'kanban'
+      # For kanban, get all tasks organized by status/schedule
+      @pending_tasks = current_user.tasks.where(status: 'pending').order(created_at: :desc)
+      @today_tasks = current_user.tasks.where(scheduled_for: Date.current).where.not(status: 'completed').order(created_at: :desc)
+      @completed_tasks = current_user.tasks.where(status: 'completed').order(updated_at: :desc).limit(20)
+      @tasks = current_user.tasks # For total count
+    else
+      # List view with filtering
+      @tasks = case @filter
+               when 'today'
+                 current_user.tasks.where(scheduled_for: Date.current).order(created_at: :desc)
+               when 'pending'
+                 current_user.tasks.where(status: 'pending').order(scheduled_for: :desc, created_at: :desc)
+               when 'completed'
+                 current_user.tasks.where(status: 'completed').order(updated_at: :desc)
+               else # 'all'
+                 current_user.tasks.order(scheduled_for: :desc, created_at: :desc)
+               end
+    end
   end
 
   def new
