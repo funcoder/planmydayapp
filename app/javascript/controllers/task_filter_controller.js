@@ -53,9 +53,14 @@ export default class extends Controller {
           break
       }
 
-      // Show/hide the turbo-frame wrapper
+      // Show/hide the turbo-frame wrapper using hidden attribute
       const elementToToggle = taskFrame || task
-      elementToToggle.style.display = shouldShow ? '' : 'none'
+      if (shouldShow) {
+        elementToToggle.removeAttribute('hidden')
+        elementToToggle.style.display = ''
+      } else {
+        elementToToggle.setAttribute('hidden', '')
+      }
     })
   }
 }
