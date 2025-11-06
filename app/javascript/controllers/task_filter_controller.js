@@ -34,7 +34,6 @@ export default class extends Controller {
     this.taskTargets.forEach(task => {
       const taskStatus = task.dataset.status
       const taskScheduled = task.dataset.scheduled
-      const taskFrame = task.closest('turbo-frame')
 
       let shouldShow = false
 
@@ -53,13 +52,12 @@ export default class extends Controller {
           break
       }
 
-      // Show/hide the turbo-frame wrapper using hidden attribute
-      const elementToToggle = taskFrame || task
+      // Show/hide the task wrapper div
       if (shouldShow) {
-        elementToToggle.removeAttribute('hidden')
-        elementToToggle.style.display = ''
+        task.removeAttribute('hidden')
+        task.style.display = ''
       } else {
-        elementToToggle.setAttribute('hidden', '')
+        task.setAttribute('hidden', '')
       }
     })
   }

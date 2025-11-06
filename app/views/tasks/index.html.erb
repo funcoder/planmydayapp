@@ -39,12 +39,12 @@
       <% if @tasks.any? %>
         <div class="space-y-4" id="tasks-list">
           <% @tasks.each do |task| %>
-            <%= turbo_frame_tag dom_id(task) do %>
-              <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors"
-                   data-task-filter-target="task"
-                   data-status="<%= task.status %>"
-                   data-scheduled="<%= task.scheduled_for&.to_date == Date.current ? 'today' : 'other' %>"
-                   style="border-left: 4px solid <%= task.color || '#14b8a6' %>">
+            <div data-task-filter-target="task"
+                 data-status="<%= task.status %>"
+                 data-scheduled="<%= task.scheduled_for&.to_date == Date.current ? 'today' : 'other' %>">
+              <%= turbo_frame_tag dom_id(task) do %>
+                <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors"
+                     style="border-left: 4px solid <%= task.color || '#14b8a6' %>">
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
                     <div class="flex items-center gap-3">
@@ -112,7 +112,8 @@
                   </div>
                 </div>
               </div>
-            <% end %>
+              <% end %>
+            </div>
           <% end %>
         </div>
       <% else %>
