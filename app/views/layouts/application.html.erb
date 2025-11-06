@@ -53,7 +53,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col" data-controller="service-worker">
     <!-- Notifications at the top -->
     <% if notice.present? %>
       <div class="bg-green-500 text-white px-4 py-3 text-center">
@@ -81,20 +81,5 @@
     <% unless native_app? %>
       <%= render "shared/cookie_consent" %>
     <% end %>
-
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-              console.log('ServiceWorker registered:', registration);
-            })
-            .catch(error => {
-              console.log('ServiceWorker registration failed:', error);
-            });
-        });
-      }
-    </script>
   </body>
 </html>

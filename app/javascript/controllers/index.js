@@ -28,6 +28,9 @@ application.register("pomodoro", PomodoroController)
 import PwaInstallController from "./pwa_install_controller"
 application.register("pwa-install", PwaInstallController)
 
+import ServiceWorkerController from "./service_worker_controller"
+application.register("service-worker", ServiceWorkerController)
+
 import TaskController from "./task_controller"
 application.register("task", TaskController)
 
