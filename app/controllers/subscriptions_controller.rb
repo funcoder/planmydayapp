@@ -80,16 +80,8 @@ class SubscriptionsController < ApplicationController
 
   def success
     # Show success message after successful subscription
+    # The webhook will handle updating the user's subscription tier
     @user = current_user
-
-    # Ensure user is upgraded to Pro (in case webhook hasn't fired yet)
-    if @user && @user.subscription_tier != 'pro'
-      Rails.logger.info "Manually activating Pro for user #{@user.id} from success page"
-      @user.update(
-        subscription_tier: 'pro',
-        subscription_status: 'active'
-      )
-    end
   end
 
   def manage
