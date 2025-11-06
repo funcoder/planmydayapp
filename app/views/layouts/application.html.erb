@@ -3,8 +3,13 @@
   <head>
     <title><%= content_for(:title) ? page_title(content_for(:title)) : page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <%# PWA Meta Tags %>
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PlanMyDay">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#14b8a6">
 
     <%# Hotwire Native: Show navigation bar %>
     <meta name="hotwire-native:navigation-bar" content="visible">
@@ -33,12 +38,13 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <%# PWA Manifest %>
+    <link rel="manifest" href="/manifest.json">
 
+    <%# Icons %>
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="apple-touch-icon" href="/icon-192.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
@@ -75,5 +81,20 @@
     <% unless native_app? %>
       <%= render "shared/cookie_consent" %>
     <% end %>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('ServiceWorker registered:', registration);
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
