@@ -2,7 +2,18 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :schedule_for_today]
 
   def index
-    @tasks = current_user.tasks.order(scheduled_for: :desc, created_at: :desc)
+    @filter = params[:filter] || 'pending'
+
+    @tasks = case @filter
+             when 'today'
+               current_user.tasks.where(scheduled_for: Date.current).order(created_at: :desc)
+             when 'pending'
+               current_user.tasks.where(status: 'pending').order(scheduled_for: :desc, created_at: :desc)
+             when 'completed'
+               current_user.tasks.where(status: 'completed').order(updated_at: :desc)
+             else # 'all'
+               current_user.tasks.order(scheduled_for: :desc, created_at: :desc)
+             end
   end
 
   def new
