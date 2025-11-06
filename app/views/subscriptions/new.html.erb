@@ -69,7 +69,7 @@
 
       <% if @user %>
         <!-- Logged in user: Direct checkout -->
-        <%= form_with url: subscriptions_path, method: :post do |f| %>
+        <%= form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f| %>
           <%= hidden_field_tag :plan, @plan %>
           <div class="space-y-4">
             <%= button_tag type: "submit",
@@ -90,7 +90,7 @@
         <!-- Not logged in: Offer both options -->
         <div class="space-y-6">
           <!-- Option 1: Checkout directly -->
-          <%= form_with url: subscriptions_path, method: :post do |f| %>
+          <%= form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f| %>
             <%= hidden_field_tag :plan, @plan %>
             <%= button_tag type: "submit",
                 class: "w-full py-4 px-6 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-bold text-lg",
