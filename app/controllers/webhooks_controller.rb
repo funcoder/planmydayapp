@@ -42,6 +42,7 @@ class WebhooksController < ApplicationController
 
   def handle_checkout_session_completed(session)
     Rails.logger.info "Handling checkout.session.completed for customer: #{session.customer}"
+    Rails.logger.info "Session mode: #{session.mode}, metadata: #{session.metadata.to_h}"
 
     user = User.find_by(stripe_customer_id: session.customer)
 
@@ -50,17 +51,34 @@ class WebhooksController < ApplicationController
       return
     end
 
-    subscription = Stripe::Subscription.retrieve(session.subscription)
-    Rails.logger.info "Retrieved subscription: #{subscription.id}"
+    # Check if this is a one-time payment (lifetime) or subscription
+    if session.mode == 'payment'
+      # Lifetime purchase - one-time payment
+      Rails.logger.info "Processing lifetime purchase for user #{user.id}"
 
-    user.update(
-      stripe_subscription_id: subscription.id,
-      subscription_tier: 'pro',
-      subscription_status: 'active',
-      subscription_period_end: Time.at(subscription.current_period_end)
-    )
+      user.update(
+        subscription_tier: 'lifetime',
+        subscription_status: 'active',
+        subscription_period_end: nil # Lifetime has no end date
+      )
 
-    Rails.logger.info "Subscription activated for user #{user.id} (#{user.email_address})"
+      Rails.logger.info "Lifetime access activated for user #{user.id} (#{user.email_address})"
+    elsif session.mode == 'subscription'
+      # Monthly subscription
+      subscription = Stripe::Subscription.retrieve(session.subscription)
+      Rails.logger.info "Retrieved subscription: #{subscription.id}"
+
+      user.update(
+        stripe_subscription_id: subscription.id,
+        subscription_tier: 'pro',
+        subscription_status: 'active',
+        subscription_period_end: Time.at(subscription.current_period_end)
+      )
+
+      Rails.logger.info "Monthly subscription activated for user #{user.id} (#{user.email_address})"
+    else
+      Rails.logger.error "Unknown session mode: #{session.mode}"
+    end
   rescue => e
     Rails.logger.error "Error in handle_checkout_session_completed: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
@@ -69,6 +87,12 @@ class WebhooksController < ApplicationController
   def handle_subscription_updated(subscription)
     user = User.find_by(stripe_customer_id: subscription.customer)
     return unless user
+
+    # Don't downgrade lifetime users
+    if user.lifetime?
+      Rails.logger.info "Ignoring subscription update for lifetime user #{user.id}"
+      return
+    end
 
     # Determine status
     status = case subscription.status

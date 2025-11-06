@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get "settings", to: "settings#index", as: :settings
+    post "settings/toggle_lifetime_offer", to: "settings#toggle_lifetime_offer", as: :toggle_lifetime_offer_settings
+  end
   get "users/profile"
   get "users/update_profile"
   # Rails 8 built-in authentication routes

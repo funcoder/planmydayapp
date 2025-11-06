@@ -1,5 +1,5 @@
-<% content_for :title, "PlanMyDay" %>
-<% content_for :meta_description, "Stop fighting your brain. PlanMyDay helps freelancers with ADHD stay focused with task limiting (3-5 tasks max), brain dump with voice input, pomodoro timer, and gamification. Start free today." %>
+<% content_for :title, "PlanMyDay - ADHD-Friendly Productivity App" %>
+<% content_for :meta_description, "Stop fighting your brain. PlanMyDay helps freelancers with ADHD stay focused with task limiting (3-5 tasks max), brain dump with voice input, pomodoro timer, and gamification. Plans starting at $5/month." %>
 <% content_for :canonical_url, root_url %>
 
 <% content_for :head do %>
@@ -31,7 +31,7 @@
             <% else %>
               <%= link_to "Pricing", pricing_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
               <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
-              <%= link_to "Get Started", new_registration_path, class: "bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-all" %>
+              <%= link_to "Get Started", pricing_path, class: "bg-gradient-to-r from-primary-600 to-secondary-700 text-white px-4 py-2 rounded-lg hover:from-primary-700 hover:to-secondary-800 transition-all shadow" %>
             <% end %>
           </div>
         </div>
@@ -50,17 +50,22 @@
           </span>
         </h2>
         <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-          Stop fighting your brain. Start working with it. PlanMyDay helps freelancers with ADHD 
+          Stop fighting your brain. Start working with it. PlanMyDay helps freelancers with ADHD
           focus on what matters today—without the overwhelm.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <%= link_to "Start Free Today", new_registration_path,
-              class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105" %>
+          <%= link_to "Start Your Journey →", pricing_path,
+              class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105 shadow-lg" %>
           <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
             See How It Works
           </a>
         </div>
-        <p class="mt-4 text-sm text-gray-500">No credit card required • Free plan available • Upgrade to Pro for only $5/month</p>
+        <p class="mt-4 text-sm text-gray-600">
+          <span class="font-semibold text-primary-600">Join hundreds of ADHD freelancers</span> who've found their productivity breakthrough
+          <% if AppSetting.lifetime_offer_enabled? %>
+            • Limited time: Lifetime access at $49.99!
+          <% end %>
+        </p>
       </div>
     </div>
     <!-- Animated decoration -->
@@ -318,125 +323,49 @@
   </section>
 
   <!-- Pricing Section -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h3 class="text-4xl font-bold text-gray-900 mb-4">Simple, Honest Pricing</h3>
-        <p class="text-xl text-gray-600">Start free, upgrade when you're ready</p>
+  <section class="py-20 bg-gradient-to-br from-primary-600 to-secondary-700 text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h3 class="text-4xl md:text-5xl font-bold mb-6">
+        <% if AppSetting.lifetime_offer_enabled? %>
+          ⚡ Limited Time Offer!
+        <% else %>
+          Simple, Affordable Pricing
+        <% end %>
+      </h3>
+      <p class="text-xl md:text-2xl text-primary-100 mb-8 max-w-3xl mx-auto">
+        <% if AppSetting.lifetime_offer_enabled? %>
+          Get lifetime access to all features for just <span class="font-bold text-yellow-300">$49.99</span> or go monthly at <span class="font-bold">$5/month</span>
+        <% else %>
+          Full access to all ADHD-friendly features for just <span class="font-bold text-yellow-300">$5/month</span>
+        <% end %>
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-8 text-left">
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+          <div class="text-3xl mb-3">🧠</div>
+          <h4 class="font-bold text-lg mb-2">Brain Dump + Voice Input</h4>
+          <p class="text-primary-100 text-sm">Capture racing thoughts instantly</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+          <div class="text-3xl mb-3">🎯</div>
+          <h4 class="font-bold text-lg mb-2">3-5 Tasks Daily Limit</h4>
+          <p class="text-primary-100 text-sm">No more overwhelming lists</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+          <div class="text-3xl mb-3">🏆</div>
+          <h4 class="font-bold text-lg mb-2">Gamification & Rewards</h4>
+          <p class="text-primary-100 text-sm">Instant dopamine hits for tasks</p>
+        </div>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <%= link_to "View All Plans & Features →", pricing_path,
+          class: "inline-flex items-center px-8 py-4 bg-white text-primary-600 text-lg font-bold rounded-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all transform hover:scale-105 shadow-xl" %>
 
-        <!-- Free Plan -->
-        <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow">
-          <div class="text-center mb-6">
-            <h4 class="text-2xl font-bold text-gray-900 mb-2">Free</h4>
-            <div class="text-4xl font-bold text-gray-900 mb-2">$0<span class="text-lg text-gray-600 font-normal">/month</span></div>
-            <p class="text-gray-600">Perfect for getting started</p>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-gray-700">Up to 5 daily tasks</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-gray-700">Brain dump with voice input</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-gray-700">Pomodoro focus timer</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-gray-700">Up to 5 backlog tasks</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-              <span class="text-gray-400">Calendar view</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-              <span class="text-gray-400">Sprite rewards</span>
-            </li>
-          </ul>
-
-          <%= link_to "Start Free", new_registration_path,
-              class: "block text-center py-3 px-6 border-2 border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors font-semibold" %>
-        </div>
-
-        <!-- Pro Plan -->
-        <div class="bg-gradient-to-br from-primary-600 to-secondary-700 rounded-2xl shadow-xl p-8 transform md:scale-105 relative">
-          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-yellow-900 px-4 py-1 rounded-full font-bold text-sm shadow-lg">
-            BEST VALUE
-          </div>
-
-          <div class="text-center mb-6">
-            <h4 class="text-2xl font-bold text-white mb-2">Pro</h4>
-            <div class="text-4xl font-bold text-white mb-2">$5<span class="text-lg text-primary-100 font-normal">/month</span></div>
-            <p class="text-primary-100">Everything you need</p>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-white font-medium">Unlimited daily tasks</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-white font-medium">Unlimited backlog tasks</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-white font-medium">Calendar view for planning</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-white font-medium">Sprite rewards & gamification</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-white font-medium">All future features</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="text-white font-medium">Priority support</span>
-            </li>
-          </ul>
-
-          <%= link_to "Upgrade to Pro", pricing_path,
-              class: "block text-center py-3 px-6 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold" %>
-        </div>
-
-      </div>
-
-      <p class="text-center text-gray-500 mt-8 text-sm">
-        No credit card required to start • Cancel anytime • 100% money-back guarantee
+      <p class="mt-6 text-sm text-primary-100">
+        <% if AppSetting.lifetime_offer_enabled? %>
+          🔥 Lifetime offer won't last forever •
+        <% end %>
+        Cancel anytime • Secure payment by Stripe
       </p>
     </div>
   </section>
@@ -503,22 +432,31 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="py-20">
+  <section class="py-20 bg-gradient-to-r from-primary-50 via-white to-secondary-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h3 class="text-4xl font-bold text-gray-900 mb-6">
+      <h3 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
         Ready to Work <span class="text-primary-600">With</span> Your ADHD?
       </h3>
-      <p class="text-xl text-gray-600 mb-8">
-        Join freelancers who've finally found a productivity system that works for their brain.
+      <p class="text-xl text-gray-600 mb-4">
+        Join hundreds of ADHD freelancers who've finally found a productivity system that works for their brain.
       </p>
+      <% if AppSetting.lifetime_offer_enabled? %>
+        <div class="inline-block bg-yellow-100 border-2 border-yellow-400 rounded-lg px-6 py-3 mb-8">
+          <p class="text-yellow-900 font-bold text-lg">
+            ⚡ Limited Time: Lifetime Access for $49.99
+          </p>
+          <p class="text-yellow-800 text-sm">Save over $600 compared to monthly pricing!</p>
+        </div>
+      <% end %>
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <%= link_to "Start Free Today", new_registration_path,
-            class: "inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105" %>
-        <%= link_to "View Pricing", pricing_path,
-            class: "inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all" %>
+        <%= link_to "Choose Your Plan →", pricing_path,
+            class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105 shadow-lg" %>
+        <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
+          Learn More
+        </a>
       </div>
       <p class="text-sm text-gray-500">
-        Free plan available • Pro for $5/month • No credit card required to start
+        Plans from $5/month • Cancel anytime • Secure payment by Stripe
       </p>
     </div>
   </section>

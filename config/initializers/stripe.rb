@@ -22,4 +22,5 @@ end
 
 # Stripe Price IDs for subscription products
 # These should be set in your environment variables after creating products in Stripe Dashboard
-STRIPE_PRO_PRICE_ID = ENV['STRIPE_PRO_PRICE_ID'] || 'price_1234567890' # Replace with actual price ID from Stripe
+STRIPE_PRO_PRICE_ID = ENV['STRIPE_PRO_PRICE_ID'] || 'price_1234567890' # Replace with actual price ID from Stripe ($5/month recurring)
+STRIPE_LIFETIME_PRICE_ID = ENV['STRIPE_LIFETIME_PRICE_ID'] || 'price_0987654321' # Replace with actual price ID from Stripe ($49.99 one-time)

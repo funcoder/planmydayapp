@@ -15,21 +15,37 @@ class SubscriptionsController < ApplicationController
       return
     end
 
+    plan_type = params[:plan] || 'monthly'
+
     Rails.logger.info "Starting Stripe checkout"
     Rails.logger.info "Logged in user: #{current_user&.id || 'none'}"
-    Rails.logger.info "Stripe Price ID: #{STRIPE_PRO_PRICE_ID}"
+    Rails.logger.info "Plan type: #{plan_type}"
+
+    # Determine price ID and mode based on plan
+    if plan_type == 'lifetime'
+      price_id = STRIPE_LIFETIME_PRICE_ID
+      mode = 'payment'  # One-time payment
+    else
+      price_id = STRIPE_PRO_PRICE_ID
+      mode = 'subscription'  # Recurring
+    end
+
+    Rails.logger.info "Stripe Price ID: #{price_id}"
 
     # Create Stripe Checkout Session
     begin
       checkout_params = {
-        mode: 'subscription',
+        mode: mode,
         line_items: [{
-          price: STRIPE_PRO_PRICE_ID,
+          price: price_id,
           quantity: 1
         }],
         success_url: success_subscriptions_url,
         cancel_url: pricing_url,
-        allow_promotion_codes: true
+        allow_promotion_codes: true,
+        metadata: {
+          plan_type: plan_type
+        }
       }
 
       # If user is logged in, pre-fill their info

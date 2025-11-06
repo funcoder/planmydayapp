@@ -1,5 +1,5 @@
-<% content_for :title, "Pricing - Affordable ADHD Productivity App" %>
-<% content_for :meta_description, "PlanMyDay offers a free plan with core ADHD-friendly features. Upgrade to Pro for just $5/month to unlock unlimited tasks, priority support, and advanced analytics. Start free today." %>
+<% content_for :title, "Choose Your Plan - ADHD Productivity App" %>
+<% content_for :meta_description, "Choose between monthly or lifetime access to PlanMyDay. Get unlimited tasks, calendar view, sprite rewards, and all ADHD-friendly features. Limited time lifetime offer at $49.99!" %>
 <% content_for :canonical_url, pricing_url %>
 
 <% content_for :head do %>
@@ -10,19 +10,19 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Header -->
     <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h1>
-      <p class="text-xl text-gray-600">Choose the plan that works for you</p>
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Choose Your Plan</h1>
+      <p class="text-xl text-gray-600">Get full access to all ADHD-friendly productivity features</p>
     </div>
 
     <!-- Pricing Cards -->
-    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+    <div class="grid <%= AppSetting.lifetime_offer_enabled? ? 'md:grid-cols-2' : 'md:grid-cols-1' %> gap-8 max-w-5xl mx-auto">
 
-      <!-- Free Plan -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
+      <!-- Pro Monthly Plan -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 <%= AppSetting.lifetime_offer_enabled? ? '' : 'md:max-w-md md:mx-auto' %>">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-gray-900 mb-2">Free</h2>
-          <div class="text-4xl font-bold text-gray-900 mb-2">$0<span class="text-lg text-gray-600 font-normal">/month</span></div>
-          <p class="text-gray-600">Get started with the basics</p>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Pro Monthly</h2>
+          <div class="text-4xl font-bold text-gray-900 mb-2">$5<span class="text-lg text-gray-600 font-normal">/month</span></div>
+          <p class="text-gray-600">Full access with flexible monthly billing</p>
         </div>
 
         <div class="space-y-4 mb-8">
@@ -30,7 +30,13 @@
             <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span class="text-gray-700">Up to 5 tasks per day</span>
+            <span class="text-gray-700">Unlimited daily tasks</span>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Unlimited backlog tasks</span>
           </div>
           <div class="flex items-start gap-3">
             <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,102 +54,110 @@
             <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span class="text-gray-700">Up to 5 backlog tasks</span>
+            <span class="text-gray-700">Calendar view</span>
           </div>
           <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-            <span class="text-gray-400 line-through">Calendar view</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-            <span class="text-gray-400 line-through">Sprite rewards</span>
-          </div>
-        </div>
-
-        <% if @user&.free_tier? %>
-          <div class="text-center py-3 px-6 bg-gray-100 text-gray-600 rounded-lg font-semibold">
-            Current Plan
-          </div>
-        <% elsif !@user %>
-          <%= link_to "Get Started", new_registration_path,
-              class: "block text-center py-3 px-6 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold" %>
-        <% end %>
-      </div>
-
-      <!-- Pro Plan -->
-      <div class="bg-gradient-to-br from-primary-600 to-secondary-700 rounded-2xl shadow-xl p-8 border-2 border-primary-700 relative transform md:scale-105">
-        <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 px-4 py-1 rounded-bl-lg rounded-tr-xl font-bold text-sm">
-          POPULAR
-        </div>
-
-        <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-white mb-2">Pro</h2>
-          <div class="text-4xl font-bold text-white mb-2">$5<span class="text-lg text-primary-100 font-normal">/month</span></div>
-          <p class="text-primary-100">Everything you need to stay productive</p>
-        </div>
-
-        <div class="space-y-4 mb-8">
-          <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span class="text-white font-medium">Unlimited daily tasks</span>
+            <span class="text-gray-700">Sprite rewards & gamification</span>
           </div>
           <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span class="text-white font-medium">Unlimited backlog tasks</span>
+            <span class="text-gray-700">All future features</span>
           </div>
           <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span class="text-white font-medium">Calendar view</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span class="text-white font-medium">Sprite rewards & gamification</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span class="text-white font-medium">All future features</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span class="text-white font-medium">Priority support</span>
+            <span class="text-gray-700">Priority support</span>
           </div>
         </div>
 
         <% if @user&.pro? %>
-          <div class="text-center py-3 px-6 bg-white/20 text-white rounded-lg font-semibold">
+          <div class="text-center py-3 px-6 bg-gray-100 text-gray-600 rounded-lg font-semibold">
             Current Plan
           </div>
         <% elsif @user %>
-          <%= link_to "Upgrade to Pro", new_subscription_path,
-              class: "block text-center py-3 px-6 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold" %>
+          <%= link_to "Upgrade to Pro", new_subscription_path(plan: 'monthly'),
+              class: "block text-center py-3 px-6 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold" %>
         <% else %>
-          <%= link_to "Get Pro", new_subscription_path,
-              class: "block text-center py-3 px-6 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold" %>
+          <%= link_to "Get Pro Monthly", new_subscription_path(plan: 'monthly'),
+              class: "block text-center py-3 px-6 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold" %>
         <% end %>
+
+        <p class="text-center text-sm text-gray-500 mt-4">Cancel anytime</p>
       </div>
+
+      <!-- Lifetime Plan -->
+      <% if AppSetting.lifetime_offer_enabled? %>
+        <div class="bg-gradient-to-br from-primary-600 to-secondary-700 rounded-2xl shadow-xl p-8 border-2 border-primary-700 relative transform md:scale-105">
+          <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 px-4 py-1 rounded-bl-lg rounded-tr-xl font-bold text-sm">
+            LIMITED TIME
+          </div>
+
+          <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-white mb-2">Lifetime Access</h2>
+            <div class="text-5xl font-bold text-white mb-2">$49.99<span class="text-lg text-primary-100 font-normal block mt-1">one-time payment</span></div>
+            <p class="text-primary-100">Pay once, use forever</p>
+          </div>
+
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-white font-medium">Everything in Pro Monthly</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-yellow-300 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/>
+              </svg>
+              <span class="text-white font-medium">Never pay again</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-yellow-300 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/>
+              </svg>
+              <span class="text-white font-medium">Lifetime updates</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-yellow-300 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/>
+              </svg>
+              <span class="text-white font-medium">Priority support forever</span>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-white/20">
+              <div class="text-center">
+                <p class="text-white text-sm mb-2">Pays for itself in 10 months!</p>
+                <p class="text-primary-100 text-xs">Regular monthly price would be $600+ over 10 years</p>
+              </div>
+            </div>
+          </div>
+
+          <% if @user&.lifetime? %>
+            <div class="text-center py-3 px-6 bg-white/20 text-white rounded-lg font-semibold">
+              Current Plan
+            </div>
+          <% elsif @user %>
+            <%= link_to "Get Lifetime Access", new_subscription_path(plan: 'lifetime'),
+                class: "block text-center py-3 px-6 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold" %>
+          <% else %>
+            <%= link_to "Get Lifetime Access", new_subscription_path(plan: 'lifetime'),
+                class: "block text-center py-3 px-6 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold" %>
+          <% end %>
+        </div>
+      <% end %>
 
     </div>
 
-    <!-- FAQ or Additional Info -->
+    <!-- Additional Info -->
     <div class="max-w-3xl mx-auto mt-16 text-center">
       <p class="text-gray-600 mb-4">All plans include our core ADHD-friendly features designed to help you stay focused without overwhelm.</p>
-      <p class="text-sm text-gray-500">Cancel anytime. No questions asked.</p>
+      <p class="text-sm text-gray-500">Secure payment processing by Stripe. <% unless @user %>New to PlanMyDay? <%= link_to "Sign up now", new_registration_path, class: "text-primary-600 hover:text-primary-700 font-medium" %><% end %></p>
     </div>
 
   </div>

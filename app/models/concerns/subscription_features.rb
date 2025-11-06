@@ -16,6 +16,13 @@ module SubscriptionFeatures
       has_sprites_access: true,
       price_cents: 500, # $5.00
       name: 'Pro'
+    },
+    'lifetime' => {
+      max_backlog_tasks: Float::INFINITY,
+      has_calendar_access: true,
+      has_sprites_access: true,
+      price_cents: 4999, # $49.99 one-time
+      name: 'Lifetime'
     }
   }.freeze
 
@@ -35,9 +42,14 @@ module SubscriptionFeatures
       end
     end
 
-    # Check if user has pro subscription (including grace period)
+    # Check if user has pro or lifetime subscription (including grace period)
     def pro?
-      effective_subscription_tier == 'pro'
+      ['pro', 'lifetime'].include?(effective_subscription_tier)
+    end
+
+    # Check if user has lifetime subscription
+    def lifetime?
+      effective_subscription_tier == 'lifetime'
     end
 
     # Check if user is on free tier
