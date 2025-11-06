@@ -5,6 +5,7 @@ class SubscriptionsController < ApplicationController
   def new
     # Show subscription page before checkout
     @user = current_user
+    @plan = params[:plan] || 'monthly'
   end
 
   def create
