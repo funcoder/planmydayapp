@@ -152,3 +152,196 @@ bin/dev
 - ✅ PostgreSQL with proper indexes
 - ✅ JSONB fields for flexible data
 - ✅ Array fields for tags
+
+## Hotwire Native Mobile Apps
+
+PlanMyDay includes full support for native iOS and Android apps using Hotwire Native. This allows the Rails web app to be wrapped in a native shell with native navigation and features.
+
+### Architecture
+
+**Web-First Approach:**
+- Single Rails codebase serves web, iOS, and Android
+- Views are rendered once and reused across all platforms
+- Native apps use WKWebView (iOS) / WebView (Android) to display web content
+- Cookie-based authentication works seamlessly across platforms
+- Turbo Drive and Stimulus work identically in native apps
+
+### Backend Implementation
+
+#### 1. Path Configuration Endpoint
+**File:** `app/controllers/hotwire_native_controller.rb`
+
+Serves dynamic path configuration to native apps:
+```ruby
+GET /path-configuration.json
+```
+
+**Patterns:**
+- `.*` - Default context with pull-to-refresh
+- `/tasks/new$`, `/tasks/.*/edit$` - Modal presentation
+- `/signup$`, `/session/new$` - Auth flows as modals
+- `/profile$` - Settings as modal
+- `/pricing$`, `/subscriptions` - Subscription flows as modals
+
+**Updating:** Modify `app/controllers/hotwire_native_controller.rb` to add new route patterns.
+
+#### 2. Native App Detection
+**File:** `app/controllers/application_controller.rb`
+
+```ruby
+def native_app?
+  request.user_agent&.match?(/Hotwire Native/)
+end
+```
+
+**Usage in views:**
+```erb
+<% unless native_app? %>
+  <!-- Web-only content -->
+<% end %>
+```
+
+**Current Usage:**
+- Hides cookie consent banner for native apps
+- Can be extended for native-specific navigation or features
+
+#### 3. Push Notifications Backend
+**Model:** `DeviceToken` (app/models/device_token.rb)
+
+Stores device tokens for push notifications:
+- `user_id` - Associated user
+- `token` - APNs (iOS) or FCM (Android) device token
+- `platform` - 'ios' or 'android'
+- `active` - Boolean flag for token status
+
+**API Endpoints:**
+```ruby
+POST /api/v1/device_tokens
+  params: { token: string, platform: string }
+
+DELETE /api/v1/device_tokens/:id
+```
+
+**Registration:**
+```ruby
+DeviceToken.register(user, token, platform)
+```
+
+### Mobile-Specific Optimizations
+
+#### Touch Target Sizes
+- All interactive elements meet iOS/Android minimum 44x44px touch targets
+- Icon buttons use `p-3` padding (44px total)
+- Dropdown menu items use `py-3` padding with `text-base` font
+- Touch-optimization class: `touch-manipulation` for better responsiveness
+
+#### Drag and Drop
+**File:** `app/javascript/controllers/task_controller.js`
+
+- Desktop: Full HTML5 drag-and-drop for task reordering
+- Mobile: Drag disabled automatically (touch detection)
+- Mobile users can still edit and reorder tasks via other UI controls
+
+#### Responsive Design
+- All pages tested at mobile widths: 375px (iPhone SE), 390px (iPhone 14), 430px (iPhone 14 Pro Max)
+- Tailwind responsive classes used throughout (`sm:`, `md:`, `lg:`)
+- Mobile-first navigation with hamburger menu
+- Form inputs optimized for touch keyboards
+
+### iOS App Setup (Future Implementation)
+
+When ready to build the iOS app:
+
+1. **Create Xcode Project**
+   - iOS App with Storyboard
+   - Minimum: iOS 14+
+
+2. **Add Hotwire Native Package**
+   ```
+   https://github.com/hotwired/hotwire-native-ios
+   ```
+
+3. **Configure Navigator**
+   ```swift
+   let rootURL = URL(string: "https://planmyday-app.fly.dev")!
+   // Or for development: http://localhost:3000
+   ```
+
+4. **Load Path Configuration**
+   ```swift
+   let serverURL = URL(string: "https://planmyday-app.fly.dev/path-configuration.json")!
+   Hotwire.loadPathConfiguration(from: [.server(serverURL)])
+   ```
+
+5. **Push Notifications**
+   - Add Push Notifications capability
+   - Request notification permissions
+   - Register device token via API: `POST /api/v1/device_tokens`
+
+### Android App Setup (Future Implementation)
+
+When ready to build the Android app:
+
+1. **Add Dependencies**
+   ```kotlin
+   implementation("dev.hotwire:core:1.1.0")
+   implementation("dev.hotwire:navigation-fragments:1.1.0")
+   ```
+
+2. **Configure MainActivity**
+   ```kotlin
+   NavigatorConfiguration(
+     name = "main",
+     startLocation = "https://planmyday-app.fly.dev",
+     // Development: "http://10.0.2.2:3000"
+   )
+   ```
+
+3. **Push Notifications**
+   - Configure FCM (Firebase Cloud Messaging)
+   - Register device token via API: `POST /api/v1/device_tokens`
+
+### Authentication in Native Apps
+
+**Current Implementation:**
+- Cookie-based session authentication works perfectly
+- Native apps automatically persist cookies in WKWebView/WebView
+- Login flow: User navigates to `/session/new`, logs in, cookie is set, subsequent requests authenticated
+
+**No changes needed!** The existing Rails session authentication is compatible with Hotwire Native.
+
+### Testing Mobile Features
+
+**Local Testing:**
+1. Start Rails server: `bin/dev`
+2. Test in mobile browsers (Safari iOS, Chrome Android)
+3. Use browser dev tools to simulate mobile devices
+4. Test touch interactions, dropdowns, forms
+
+**Native App Testing:**
+- iOS: Point Xcode simulator to `http://localhost:3000`
+- Android: Point emulator to `http://10.0.2.2:3000`
+- Verify path configuration loads correctly
+- Test navigation (modal vs default contexts)
+- Test authentication flow
+- Test push notification registration
+
+### Future Enhancements
+
+**Potential Native Features:**
+- [ ] Native voice input for brain dumps (bridge component)
+- [ ] Background Pomodoro timer (bridge component)
+- [ ] Native share functionality
+- [ ] Haptic feedback for task completion
+- [ ] Widget support (iOS 14+, Android 12+)
+- [ ] Offline support with local storage
+
+**Bridge Components:**
+When web capabilities aren't sufficient, create Swift/Kotlin bridge components that communicate with JavaScript via Hotwire's bridge system.
+
+### Resources
+
+- **Hotwire Native Docs:** https://native.hotwired.dev/
+- **iOS Package:** https://github.com/hotwired/hotwire-native-ios
+- **Android Package:** https://github.com/hotwired/hotwire-native-android
+- **Path Configuration:** https://native.hotwired.dev/overview/path-configuration

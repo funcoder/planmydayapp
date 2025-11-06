@@ -4,11 +4,21 @@ Rails.application.routes.draw do
   # Rails 8 built-in authentication routes
   resource :session
   resources :passwords, param: :token
-  
+
   # Registration routes
   get "signup", to: "registrations#new", as: :new_registration
   post "signup", to: "registrations#create", as: :registration
-  
+
+  # Hotwire Native
+  get "path-configuration", to: "hotwire_native#path_configuration", defaults: { format: :json }, as: :path_configuration
+
+  # API routes for mobile apps
+  namespace :api do
+    namespace :v1 do
+      resources :device_tokens, only: [:create, :destroy]
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

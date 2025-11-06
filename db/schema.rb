@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_20_142516) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_06_080555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -89,6 +89,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_20_142516) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_cancellation_feedbacks_on_user_id"
+  end
+
+  create_table "device_tokens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.string "platform", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["platform"], name: "index_device_tokens_on_platform"
+    t.index ["user_id", "token"], name: "index_device_tokens_on_user_id_and_token", unique: true
+    t.index ["user_id"], name: "index_device_tokens_on_user_id"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -223,6 +235,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_20_142516) do
   add_foreign_key "api_usages", "users"
   add_foreign_key "brain_dumps", "users"
   add_foreign_key "cancellation_feedbacks", "users"
+  add_foreign_key "device_tokens", "users"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "focus_sessions", "tasks"
   add_foreign_key "focus_sessions", "users"

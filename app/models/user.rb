@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :sprite_characters, through: :user_sprites
   has_many :feedbacks, dependent: :destroy
   has_many :cancellation_feedbacks, dependent: :destroy
+  has_many :device_tokens, dependent: :destroy
 
   # Rails 8 features
   # Encrypt sensitive preferences

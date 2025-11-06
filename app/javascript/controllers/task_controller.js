@@ -6,7 +6,22 @@ export default class extends Controller {
   
   connect() {
     console.log("Task controller connected with", this.itemTargets.length, "items")
-    this.addDragListeners()
+    // Only enable drag and drop on non-touch devices
+    if (!this.isTouchDevice()) {
+      this.addDragListeners()
+    } else {
+      // Remove draggable attribute on mobile
+      this.itemTargets.forEach(item => {
+        item.removeAttribute('draggable')
+        item.style.cursor = 'default'
+      })
+    }
+  }
+
+  isTouchDevice() {
+    return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0))
   }
 
   addDragListeners() {
@@ -14,12 +29,12 @@ export default class extends Controller {
       // Remove any existing listeners
       item.removeEventListener('dragstart', this.dragStart)
       item.removeEventListener('dragend', this.dragEnd)
-      
+
       // Add new listeners
       item.addEventListener('dragstart', this.dragStart.bind(this))
       item.addEventListener('dragend', this.dragEnd.bind(this))
     })
-    
+
     // Add listeners to the list container
     if (this.hasListTarget) {
       this.listTarget.addEventListener('dragover', this.dragOver.bind(this))

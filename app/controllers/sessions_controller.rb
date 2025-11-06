@@ -6,10 +6,16 @@ class SessionsController < ApplicationController
   end
 
   def create
+    Rails.logger.info "=== SESSION CREATE CALLED ===="
+    Rails.logger.info "Params: #{params.inspect}"
+    Rails.logger.info "Email: #{params[:email_address]}"
+
     if user = User.authenticate_by(params.permit(:email_address, :password))
+      Rails.logger.info "User authenticated: #{user.email_address}"
       start_new_session_for user
       redirect_to after_authentication_url
     else
+      Rails.logger.info "Authentication failed"
       redirect_to new_session_path, alert: "Try another email address or password."
     end
   end

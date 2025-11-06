@@ -1,4 +1,4 @@
-<% content_for :title, "ADHD-Friendly Productivity App for Freelancers" %>
+<% content_for :title, "PlanMyDay" %>
 <% content_for :meta_description, "Stop fighting your brain. PlanMyDay helps freelancers with ADHD stay focused with task limiting (3-5 tasks max), brain dump with voice input, pomodoro timer, and gamification. Start free today." %>
 <% content_for :canonical_url, root_url %>
 
@@ -9,27 +9,35 @@
 
 <div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
   <!-- Navigation -->
-  <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <h1 class="text-2xl font-bold text-primary-700">
-            PlanMyDay
-          </h1>
-        </div>
-        <div class="flex items-center gap-4">
-          <% if authenticated? %>
-            <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
-          <% else %>
-            <%= link_to "Pricing", pricing_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
-            <%= link_to "Get Started", new_registration_path, class: "bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-all" %>
-          <% end %>
+  <% if native_app? %>
+    <!-- Native app: Simple sign in link at top -->
+    <div class="flex justify-end px-4 pt-4 pb-2">
+      <%= link_to "Already have an account? Sign In", new_session_path, class: "text-primary-600 hover:text-primary-700 text-sm font-medium underline" %>
+    </div>
+  <% else %>
+    <!-- Web: Full navigation bar -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <h1 class="text-2xl font-bold text-primary-700">
+              PlanMyDay
+            </h1>
+          </div>
+          <div class="flex items-center gap-4">
+            <% if authenticated? %>
+              <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
+            <% else %>
+              <%= link_to "Pricing", pricing_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
+              <%= link_to "Get Started", new_registration_path, class: "bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-all" %>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  <% end %>
 
   <!-- Hero Section -->
   <section class="relative overflow-hidden">

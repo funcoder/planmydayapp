@@ -6,6 +6,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
 
+    <%# Hotwire Native: Show navigation bar %>
+    <meta name="hotwire-native:navigation-bar" content="visible">
+
     <%# SEO Meta Tags %>
     <meta name="description" content="<%= content_for?(:meta_description) ? content_for(:meta_description) : meta_description %>">
     <link rel="canonical" href="<%= content_for?(:canonical_url) ? content_for(:canonical_url) : canonical_url %>">
@@ -64,8 +67,13 @@
     </div>
     
     <!-- Beta badge at bottom -->
-    <%= render "shared/beta_badge" %>
-    
-    <%= render "shared/cookie_consent" %>
+    <% unless content_for?(:hide_beta_badge) %>
+      <%= render "shared/beta_badge" %>
+    <% end %>
+
+    <!-- Cookie consent (hidden for native apps) -->
+    <% unless native_app? %>
+      <%= render "shared/cookie_consent" %>
+    <% end %>
   </body>
 </html>

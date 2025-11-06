@@ -4,6 +4,13 @@ module ApplicationHelper
   # Page title with fallback
   def page_title(title = nil)
     base_title = "PlanMyDay - ADHD-Friendly Productivity App for Freelancers"
+
+    # For native apps, use simpler titles without suffix
+    if native_app?
+      return title || "PlanMyDay"
+    end
+
+    # For web, use full titles with suffix
     title ? "#{title} | PlanMyDay" : base_title
   end
 

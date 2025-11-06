@@ -1,7 +1,37 @@
-<div class="min-h-screen bg-gray-50">
-  <%= render 'shared/header' %>
+<% content_for :title, "Dashboard" %>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="min-h-screen bg-gray-50">
+  <% unless native_app? %>
+    <%= render 'shared/header' %>
+  <% end %>
+
+  <% if native_app? %>
+    <!-- Native App Header -->
+    <div class="bg-white border-b border-gray-200 px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-gradient-to-br from-primary-600 to-secondary-700 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">P</span>
+          </div>
+          <span class="text-lg font-bold text-gray-900">PlanMyDay</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= link_to profile_path, class: "p-2 text-gray-600 hover:text-primary-600 transition-colors touch-manipulation" do %>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          <% end %>
+          <%= link_to session_path, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to sign out?" }, class: "p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors touch-manipulation" do %>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'py-3' : 'py-8' %>">
     <!-- Newly Unlocked Sprites Notification -->
     <% if @newly_unlocked_sprites.any? %>
       <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl shadow-lg p-6 mb-6 animate-pulse">
@@ -22,110 +52,105 @@
     <% end %>
 
     <!-- Welcome Banner with Stats -->
-    <div class="bg-gradient-to-r from-primary-600 to-secondary-700 rounded-xl shadow-lg p-6 mb-8 text-white">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-bold mb-1">Welcome back, <%= @user.first_name %>!</h1>
-          <p class="text-primary-100">Let's make today productive</p>
+    <div class="bg-gradient-to-r from-primary-600 to-secondary-700 rounded-xl shadow-sm p-4 mb-4 text-white">
+      <div class="flex justify-between items-center">
+        <div class="flex-1">
+          <h1 class="text-lg font-bold mb-0.5">Hey <%= @user.first_name %>!</h1>
+          <p class="text-xs text-primary-100">Let's be productive</p>
         </div>
-        <div class="flex gap-6">
+        <div class="flex gap-4">
           <div class="text-center">
-            <div class="text-3xl font-bold"><%= @points %></div>
-            <div class="text-sm text-primary-100">Points</div>
+            <div class="text-xl font-bold"><%= @points %></div>
+            <div class="text-xs text-primary-100">Points</div>
           </div>
           <div class="text-center">
-            <div class="text-3xl font-bold"><%= @streak %></div>
-            <div class="text-sm text-primary-100">Day Streak</div>
+            <div class="text-xl font-bold"><%= @streak %></div>
+            <div class="text-xs text-primary-100">Streak</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
+
       <!-- Main Column -->
-      <div class="lg:col-span-2 space-y-8">
+      <div class="lg:col-span-2 space-y-4 lg:space-y-8">
         
         <!-- Today's Tasks -->
-        <div class="bg-white rounded-xl shadow-lg p-6" data-controller="task">
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Today's Focus</h2>
-            <div class="flex items-center gap-4">
-              <% if @today_completed_tasks.any? %>
-                <span class="text-sm text-green-600 font-medium">✓ <%= @today_completed_tasks.count %> completed today</span>
-              <% end %>
-              <span class="text-sm text-gray-500"><%= @today_incomplete_tasks.count %> / <%= @user.daily_task_limit %> active tasks</span>
-              <% if @today_incomplete_tasks.count < @user.daily_task_limit %>
-                <%= link_to "+ Add Task", new_task_path,
-                    class: "text-sm px-3 py-1 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
-              <% end %>
+        <div class="bg-white rounded-xl shadow-sm p-4" data-controller="task">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-xl font-bold text-gray-800">Today's Focus</h2>
+              <div class="flex items-center gap-3 mt-1">
+                <% if @today_completed_tasks.any? %>
+                  <span class="text-xs text-green-600 font-medium">✓ <%= @today_completed_tasks.count %> done</span>
+                <% end %>
+                <span class="text-xs text-gray-500"><%= @today_incomplete_tasks.count %> / <%= @user.daily_task_limit %> active</span>
+              </div>
             </div>
+            <% if @today_incomplete_tasks.count < @user.daily_task_limit %>
+              <%= link_to new_task_path, class: "p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors touch-manipulation" do %>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+              <% end %>
+            <% end %>
           </div>
           
           <% if @today_incomplete_tasks.any? %>
-            <div class="space-y-3" data-task-target="list" id="tasks-list">
+            <div class="space-y-2" data-task-target="list" id="tasks-list">
               <% @today_incomplete_tasks.each do |task| %>
-                <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors cursor-move"
-                     style="border-left: 4px solid <%= task.color || '#14b8a6' %>"
+                <div class="task-item p-3 rounded-lg border border-gray-200 hover:border-primary-300 transition-colors"
+                     style="border-left: 3px solid <%= task.color || '#14b8a6' %>"
                      data-task-target="item"
-                     data-task-id="<%= task.id %>"
-                     draggable="true">
-                    <div class="flex items-center justify-between">
-                      <div class="flex-1">
-                        <h3 class="font-semibold text-lg"><%= task.title %></h3>
+                     data-task-id="<%= task.id %>">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-base leading-tight"><%= task.title %></h3>
                         <% if task.description.present? %>
-                          <p class="text-gray-600 text-sm mt-1"><%= truncate(task.description, length: 100) %></p>
+                          <p class="text-gray-600 text-xs mt-1 line-clamp-2"><%= truncate(task.description, length: 60) %></p>
                         <% end %>
-                        <div class="flex gap-2 mt-2">
-                          <span class="priority-badge px-2 py-1 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
+                        <div class="flex gap-2 mt-2 flex-wrap">
+                          <span class="priority-badge px-2 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
                             <%= task.priority.capitalize %>
                           </span>
                           <% if task.estimated_time.present? %>
-                            <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">
-                              ⏱ <%= task.estimated_time %> min
+                            <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">
+                              ⏱ <%= task.estimated_time %>m
                             </span>
                           <% end %>
                         </div>
                       </div>
-                      <div class="flex items-center gap-2 ml-4">
+                      <div class="flex items-start gap-1 flex-shrink-0">
                         <% if task.status == 'pending' %>
-                          <button class="p-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
-                                  data-action="click->task#start"
-                                  data-url="<%= start_task_path(task) %>"
-                                  title="Start task">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                          </button>
-                          <button class="p-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                          <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
                                   data-action="click->task#complete"
                                   data-url="<%= complete_task_path(task) %>"
-                                  title="Mark as complete">
+                                  title="Complete">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                           </button>
                         <% elsif task.status == 'in_progress' %>
-                          <button class="p-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                          <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
                                   data-action="click->task#complete"
                                   data-url="<%= complete_task_path(task) %>"
-                                  title="Mark as complete">
+                                  title="Complete">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                           </button>
                         <% else %>
-                          <span class="p-2.5 bg-gray-100 text-gray-600 rounded-lg">
+                          <span class="p-2 bg-gray-100 text-gray-600 rounded-lg">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                           </span>
                         <% end %>
-                        
+
                         <!-- More actions dropdown -->
                         <div class="relative" data-controller="dropdown">
-                          <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                          <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors touch-manipulation"
                                   data-action="click->dropdown#toggle">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
@@ -133,18 +158,18 @@
                           </button>
                           <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10"
                                data-dropdown-target="menu">
-                            <%= link_to "Edit", edit_task_path(task), 
-                                class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 first:rounded-t-lg" %>
-                            <%= link_to "Move to Tomorrow", rollover_task_path(task), 
+                            <%= link_to "Edit", edit_task_path(task),
+                                class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 first:rounded-t-lg touch-manipulation" %>
+                            <%= link_to "Move to Tomorrow", rollover_task_path(task),
                                 data: { turbo_method: :post },
-                                class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+                                class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
                             <hr class="my-1">
-                            <%= link_to "Delete", task_path(task), 
-                                data: { 
+                            <%= link_to "Delete", task_path(task),
+                                data: {
                                   turbo_method: :delete,
-                                  turbo_confirm: "Are you sure you want to delete this task?"
+                                  turbo_confirm: "Are you sure?"
                                 },
-                                class: "block px-4 py-2 text-sm text-red-600 hover:bg-red-50 last:rounded-b-lg" %>
+                                class: "block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 last:rounded-b-lg touch-manipulation" %>
                           </div>
                         </div>
                       </div>
@@ -153,11 +178,11 @@
               <% end %>
             </div>
           <% else %>
-            <div class="text-center py-12">
-              <div class="text-6xl mb-4">🎯</div>
-              <p class="text-gray-600 mb-4">No active tasks for today</p>
+            <div class="text-center py-8">
+              <div class="text-5xl mb-3">🎯</div>
+              <p class="text-gray-600 text-sm mb-3">No active tasks for today</p>
               <%= link_to "Add Today's Tasks", new_task_path,
-                  class: "inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
+                  class: "inline-block px-5 py-2.5 text-sm bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors touch-manipulation" %>
             </div>
           <% end %>
         </div>
@@ -169,40 +194,40 @@
 
         <!-- Completed Tasks Section -->
         <% if @today_completed_tasks.any? %>
-          <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold text-gray-800">Completed Today</h2>
-              <span class="text-sm text-green-600 font-medium">🎉 <%= @today_completed_tasks.count %> done!</span>
+          <div class="bg-white rounded-xl shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h2 class="text-xl font-bold text-gray-800">Completed Today</h2>
+              <span class="text-xs text-green-600 font-medium">🎉 <%= @today_completed_tasks.count %> done!</span>
             </div>
-            <div class="space-y-3">
+            <div class="space-y-2">
               <% @today_completed_tasks.each do |task| %>
-                <div class="task-item p-4 rounded-lg border-2 border-green-200 bg-green-50" 
-                     style="border-left: 4px solid #10b981">
-                  <div class="flex items-center justify-between">
-                    <div class="flex-1">
-                      <h3 class="font-semibold text-lg line-through text-gray-600"><%= task.title %></h3>
+                <div class="task-item p-3 rounded-lg border border-green-200 bg-green-50"
+                     style="border-left: 3px solid #10b981">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-base line-through text-gray-600"><%= task.title %></h3>
                       <% if task.description.present? %>
-                        <p class="text-gray-500 text-sm mt-1"><%= truncate(task.description, length: 100) %></p>
+                        <p class="text-gray-500 text-xs mt-1 line-clamp-1"><%= truncate(task.description, length: 60) %></p>
                       <% end %>
-                      <div class="flex gap-2 mt-2">
-                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                          ✓ Completed <%= task.completed_at.strftime("%l:%M %p") if task.completed_at %>
+                      <div class="flex gap-2 mt-1.5 flex-wrap">
+                        <span class="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">
+                          ✓ <%= task.completed_at.strftime("%l:%M%p") if task.completed_at %>
                         </span>
                         <% if task.actual_time.present? && task.actual_time > 0 %>
-                          <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">
-                            ⏱ <%= task.actual_time %> min
+                          <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">
+                            ⏱ <%= task.actual_time %>m
                           </span>
                         <% end %>
                       </div>
                     </div>
-                    <div class="flex items-center gap-2 ml-4">
-                      <%= link_to task_path(task), 
-                          data: { 
+                    <div class="flex items-start flex-shrink-0">
+                      <%= link_to task_path(task),
+                          data: {
                             turbo_method: :delete,
-                            turbo_confirm: "Are you sure you want to delete this completed task?"
+                            turbo_confirm: "Delete this task?"
                           },
-                          class: "p-2 text-gray-400 hover:text-red-600 transition-colors",
-                          title: "Delete task" do %>
+                          class: "p-2 text-gray-400 hover:text-red-600 transition-colors touch-manipulation",
+                          title: "Delete" do %>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                         </svg>
@@ -217,15 +242,15 @@
       </div>
 
       <!-- Sidebar -->
-      <div class="lg:col-span-1 space-y-8">
+      <div class="lg:col-span-1 space-y-4 lg:space-y-8">
 
         <!-- Focus Session Section -->
         <% if @current_focus_session %>
           <%= render partial: "focus_timer", locals: { focus_session: @current_focus_session } %>
         <% else %>
-          <div class="bg-white rounded-xl shadow-lg p-6">
-            <h3 class="text-xl font-bold mb-4">Start Focus Session</h3>
-            <p class="text-gray-600 mb-4">Ready to focus? Pick a task and start a Pomodoro session.</p>
+          <div class="bg-white rounded-xl shadow-sm p-4">
+            <h3 class="text-lg font-bold mb-2">Start Focus Session</h3>
+            <p class="text-gray-600 text-sm mb-3">Pick a task and start a Pomodoro session.</p>
 
             <% if @today_incomplete_tasks && (@today_incomplete_tasks.pending.any? || @today_incomplete_tasks.in_progress.any?) %>
               <%= form_with url: focus_sessions_path, method: :post, data: { turbo_frame: "_top" } do |form| %>
@@ -248,8 +273,8 @@
 
         <!-- Today's Unlocked Sprites -->
         <% if @user.can_access_sprites? && @todays_sprites.any? %>
-          <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
-            <h3 class="text-xl font-bold mb-4">Today's Sprites</h3>
+          <div class="bg-white rounded-xl shadow-sm p-4">
+            <h3 class="text-lg font-bold mb-3">Today's Sprites</h3>
             <div class="space-y-3">
               <% @todays_sprites.each do |user_sprite| %>
                 <div class="flex items-center gap-3">
@@ -268,8 +293,8 @@
         <% end %>
         
         <!-- Recent Achievements -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
-          <h3 class="text-xl font-bold mb-4">Recent Achievements</h3>
+        <div class="bg-white rounded-xl shadow-sm p-4">
+          <h3 class="text-lg font-bold mb-3">Recent Achievements</h3>
           <% if @recent_achievements.any? %>
             <div class="space-y-3">
               <% @recent_achievements.each do |achievement| %>
@@ -289,9 +314,9 @@
 
         <!-- Pending Brain Dumps -->
         <%= turbo_frame_tag "brain_dumps_list" do %>
-          <div class="bg-white rounded-xl shadow-lg p-6">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-xl font-bold">Recent Brain Dumps</h3>
+          <div class="bg-white rounded-xl shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="text-lg font-bold">Recent Brain Dumps</h3>
               <%= link_to "Process All →", brain_dumps_path,
                   class: "text-xs text-primary-600 hover:text-primary-700 font-medium",
                   data: { turbo_frame: "_top" } %>
