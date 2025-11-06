@@ -2,37 +2,37 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { application } from "controllers/application"
 
-import BrainDumpController from "./brain_dump_controller"
+import BrainDumpController from "controllers/brain_dump_controller"
 application.register("brain-dump", BrainDumpController)
 
-import CookieConsentController from "./cookie_consent_controller"
+import CookieConsentController from "controllers/cookie_consent_controller"
 application.register("cookie-consent", CookieConsentController)
 
-import DropdownController from "./dropdown_controller"
+import DropdownController from "controllers/dropdown_controller"
 application.register("dropdown", DropdownController)
 
-import HelloController from "./hello_controller"
+import HelloController from "controllers/hello_controller"
 application.register("hello", HelloController)
 
-import MobileMenuController from "./mobile_menu_controller"
+import MobileMenuController from "controllers/mobile_menu_controller"
 application.register("mobile-menu", MobileMenuController)
 
-import NotificationsController from "./notifications_controller"
+import NotificationsController from "controllers/notifications_controller"
 application.register("notifications", NotificationsController)
 
-import PomodoroController from "./pomodoro_controller"
+import PomodoroController from "controllers/pomodoro_controller"
 application.register("pomodoro", PomodoroController)
 
-import PwaInstallController from "./pwa_install_controller"
+import PwaInstallController from "controllers/pwa_install_controller"
 application.register("pwa-install", PwaInstallController)
 
-import ServiceWorkerController from "./service_worker_controller"
+import ServiceWorkerController from "controllers/service_worker_controller"
 application.register("service-worker", ServiceWorkerController)
 
-import TaskController from "./task_controller"
+import TaskController from "controllers/task_controller"
 application.register("task", TaskController)
 
-import UserMenuController from "./user_menu_controller"
+import UserMenuController from "controllers/user_menu_controller"
 application.register("user-menu", UserMenuController)
