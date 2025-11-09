@@ -7,23 +7,23 @@
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
     <!-- Page Header -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900">Task Backlog</h1>
-        <p class="text-gray-600 mt-1">Manage all your tasks in one place</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Task Backlog</h1>
+        <p class="text-sm sm:text-base text-gray-600 mt-1">Manage all your tasks in one place</p>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
         <!-- View Switcher -->
         <div class="flex bg-gray-100 rounded-lg p-1">
           <%= link_to tasks_path(view: 'list', filter: @filter),
-              class: "px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-2 #{@view == 'list' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}" do %>
+              class: "px-2 sm:px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1 sm:gap-2 #{@view == 'list' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}" do %>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
             </svg>
             <span>List</span>
           <% end %>
           <%= link_to tasks_path(view: 'kanban'),
-              class: "px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-2 #{@view == 'kanban' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}" do %>
+              class: "px-2 sm:px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1 sm:gap-2 #{@view == 'kanban' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}" do %>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
             </svg>
@@ -31,7 +31,7 @@
           <% end %>
         </div>
 
-        <%= link_to new_task_path(scheduled: 'backlog'), class: "px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2" do %>
+        <%= link_to new_task_path(scheduled: 'backlog'), class: "flex-1 sm:flex-initial px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2" do %>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
           </svg>
@@ -41,27 +41,27 @@
     </div>
     <% if @view == 'list' %>
       <!-- Filters (List View Only) -->
-      <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-        <div class="flex flex-wrap gap-4 items-center">
-          <div class="flex gap-2">
+      <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-8">
+        <div class="flex flex-col sm:flex-row sm:justify-between gap-4 items-start sm:items-center">
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
             <%= link_to "All Tasks", tasks_path(view: 'list', filter: 'all'),
-              class: "px-4 py-2 rounded-lg #{@filter == 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
               data: { turbo_frame: "tasks_content" } %>
-          <%= link_to "Today", tasks_path(view: 'list', filter: 'today'),
-              class: "px-4 py-2 rounded-lg #{@filter == 'today' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
+            <%= link_to "Today", tasks_path(view: 'list', filter: 'today'),
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'today' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
               data: { turbo_frame: "tasks_content" } %>
-          <%= link_to "Pending", tasks_path(view: 'list', filter: 'pending'),
-              class: "px-4 py-2 rounded-lg #{@filter == 'pending' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
+            <%= link_to "Pending", tasks_path(view: 'list', filter: 'pending'),
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'pending' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
               data: { turbo_frame: "tasks_content" } %>
-          <%= link_to "Completed", tasks_path(view: 'list', filter: 'completed'),
-              class: "px-4 py-2 rounded-lg #{@filter == 'completed' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
+            <%= link_to "Completed", tasks_path(view: 'list', filter: 'completed'),
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'completed' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
               data: { turbo_frame: "tasks_content" } %>
-        </div>
-        <div class="ml-auto text-sm text-gray-500">
-          Total: <%= @tasks.count %> tasks
+          </div>
+          <div class="text-sm text-gray-500 w-full sm:w-auto text-left sm:text-right">
+            Total: <%= @tasks.count %> tasks
+          </div>
         </div>
       </div>
-    </div>
     <% end %>
 
     <% if @view == 'list' %>
