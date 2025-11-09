@@ -92,17 +92,17 @@
                       <p class="text-gray-600 text-sm mt-2"><%= truncate(task.description, length: 150) %></p>
                     <% end %>
                     
-                    <div class="flex gap-3 mt-3">
-                      <span class="priority-badge px-2 py-1 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
+                    <div class="flex flex-wrap gap-2 mt-3">
+                      <span class="priority-badge px-2 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800 whitespace-nowrap">
                         <%= task.priority.capitalize %>
                       </span>
                       <% if task.estimated_time.present? %>
-                        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">
+                        <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">
                           ⏱ <%= task.estimated_time %> min
                         </span>
                       <% end %>
                       <% if task.scheduled_for.present? %>
-                        <span class="px-2 py-1 text-xs rounded-full bg-primary-100 text-primary-700">
+                        <span class="px-2 py-0.5 text-xs rounded-full bg-primary-100 text-primary-700 whitespace-nowrap">
                           📅 <%= task.scheduled_for.strftime("%b %d") %>
                         </span>
                       <% end %>
