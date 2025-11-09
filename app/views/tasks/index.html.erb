@@ -45,17 +45,13 @@
         <div class="flex flex-col sm:flex-row sm:justify-between gap-4 items-start sm:items-center">
           <div class="flex flex-wrap gap-2 w-full sm:w-auto">
             <%= link_to "All Tasks", tasks_path(view: 'list', filter: 'all'),
-              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
-              data: { turbo_frame: "tasks_content" } %>
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
             <%= link_to "Today", tasks_path(view: 'list', filter: 'today'),
-              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'today' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
-              data: { turbo_frame: "tasks_content" } %>
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'today' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
             <%= link_to "Pending", tasks_path(view: 'list', filter: 'pending'),
-              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'pending' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
-              data: { turbo_frame: "tasks_content" } %>
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'pending' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
             <%= link_to "Completed", tasks_path(view: 'list', filter: 'completed'),
-              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'completed' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}",
-              data: { turbo_frame: "tasks_content" } %>
+              class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'completed' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
           </div>
           <div class="text-sm text-gray-500 w-full sm:w-auto text-left sm:text-right">
             Total: <%= @tasks.count %> tasks
