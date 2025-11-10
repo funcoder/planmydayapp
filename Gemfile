@@ -24,7 +24,7 @@ gem "bcrypt", "~> 3.1.7"
 gem "tailwindcss-rails"
 
 # For handling voice-to-text and AI features (keeping this as it's specific functionality)
-gem "ruby-openai", "~> 6.0"
+gem "ruby-openai", "~> 8.3"
 
 # For drag-and-drop functionality
 gem "acts_as_list", "~> 1.1"
