@@ -49,8 +49,8 @@ RUN yarn install --frozen-lockfile
 # Copy application code
 COPY . .
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# Clear any stale bootsnap cache and precompile for faster boot times
+RUN rm -rf tmp/cache/bootsnap* && bundle exec bootsnap precompile app/ lib/
 
 # Build CSS and precompile assets for production without requiring secret RAILS_MASTER_KEY  
 RUN yarn build:css && SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
