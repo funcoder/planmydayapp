@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
 
   def require_payment
     return unless current_user
+    return if current_user.admin? # Admins bypass payment
     return if current_user.pro? # Includes lifetime
 
     # Redirect to pricing page if user is not subscribed
@@ -38,6 +39,8 @@ class ApplicationController < ActionController::Base
       api/v1/device_tokens
     ]
 
-    public_controllers.include?(controller_name) || controller_path.start_with?('api/')
+    public_controllers.include?(controller_name) ||
+      controller_path.start_with?('api/') ||
+      controller_path.start_with?('admin')
   end
 end
