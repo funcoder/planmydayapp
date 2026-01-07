@@ -364,6 +364,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sentry-rails (6.2.0)
+      railties (>= 5.2.0)
+      sentry-ruby (~> 6.2.0)
+    sentry-ruby (6.2.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     sqlite3 (2.7.3-aarch64-linux-gnu)
     sqlite3 (2.7.3-aarch64-linux-musl)
     sqlite3 (2.7.3-arm-linux-gnu)
@@ -454,6 +460,8 @@ DEPENDENCIES
   rubocop-rails-omakase
   ruby-openai (~> 6.0)
   selenium-webdriver
+  sentry-rails
+  sentry-ruby
   stimulus-rails
   stripe (~> 12.0)
   tailwindcss-rails
