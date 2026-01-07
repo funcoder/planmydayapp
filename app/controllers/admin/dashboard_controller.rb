@@ -1,4 +1,6 @@
-class Admin::DashboardController < Admin::BaseController
+class Admin::DashboardController < ApplicationController
+  before_action :require_admin
+
   def index
     @stats = {
       total_users: User.count,
@@ -17,5 +19,13 @@ class Admin::DashboardController < Admin::BaseController
     @recent_subscribers = User.where(subscription_tier: %w[pro lifetime])
                               .order(updated_at: :desc)
                               .limit(10)
+  end
+
+  private
+
+  def require_admin
+    unless current_user&.admin?
+      redirect_to root_path, alert: "Access denied"
+    end
   end
 end

@@ -1,4 +1,6 @@
-class Admin::SettingsController < Admin::BaseController
+class Admin::SettingsController < ApplicationController
+  before_action :require_admin
+
   def index
     @lifetime_offer_enabled = AppSetting.lifetime_offer_enabled?
   end
@@ -13,5 +15,13 @@ class Admin::SettingsController < Admin::BaseController
     end
 
     redirect_to admin_settings_path, notice: message
+  end
+
+  private
+
+  def require_admin
+    unless current_user&.admin?
+      redirect_to root_path, alert: "Access denied"
+    end
   end
 end
