@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   namespace :admin do
-    get "", to: "dashboard#index", as: :dashboard
     get "settings", to: "settings#index", as: :settings
     post "settings/toggle_lifetime_offer", to: "settings#toggle_lifetime_offer", as: :toggle_lifetime_offer_settings
   end
