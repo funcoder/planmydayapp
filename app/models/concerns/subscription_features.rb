@@ -43,8 +43,9 @@ module SubscriptionFeatures
     end
 
     # Check if user has pro or lifetime subscription (including grace period)
+    # Admins also get pro-level access
     def pro?
-      ['pro', 'lifetime'].include?(effective_subscription_tier)
+      admin? || ['pro', 'lifetime'].include?(effective_subscription_tier)
     end
 
     # Check if user has lifetime subscription
@@ -64,15 +65,15 @@ module SubscriptionFeatures
 
     # Feature-specific checks
     def can_access_calendar?
-      subscription_features[:has_calendar_access]
+      admin? || subscription_features[:has_calendar_access]
     end
 
     def can_access_sprites?
-      subscription_features[:has_sprites_access]
+      admin? || subscription_features[:has_sprites_access]
     end
 
     def max_backlog_tasks
-      subscription_features[:max_backlog_tasks]
+      admin? ? Float::INFINITY : subscription_features[:max_backlog_tasks]
     end
 
     def can_add_backlog_task?
