@@ -46,9 +46,6 @@ RUN bundle install && \
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Cache buster - change this value to force rebuild
-ARG CACHE_BUST=2
-
 # Copy application code
 COPY . .
 
