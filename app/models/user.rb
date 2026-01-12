@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # Associations
   has_many :brain_dumps, dependent: :destroy
   has_many :tasks, dependent: :destroy
+  has_many :projects, dependent: :destroy
+  has_many :notes, dependent: :destroy
   has_many :focus_sessions, dependent: :destroy
   has_many :rewards, dependent: :destroy
   has_many :achievements, dependent: :destroy
@@ -15,6 +17,8 @@ class User < ApplicationRecord
   has_many :feedbacks, dependent: :destroy
   has_many :cancellation_feedbacks, dependent: :destroy
   has_many :device_tokens, dependent: :destroy
+  has_many :user_feature_announcements, dependent: :destroy
+  has_many :seen_announcements, through: :user_feature_announcements, source: :feature_announcement
 
   # Rails 8 features
   # Encrypt sensitive preferences
@@ -60,6 +64,23 @@ class User < ApplicationRecord
 
   def preferred_colors
     preferences.dig('colors') || default_colors
+  end
+
+  # Feature announcements
+  def unseen_announcements
+    FeatureAnnouncement.unseen_by(self)
+  end
+
+  def unseen_announcements_count
+    unseen_announcements.count
+  end
+
+  def has_unseen_announcements?
+    unseen_announcements.exists?
+  end
+
+  def mark_announcements_as_seen(announcements)
+    announcements.each { |a| a.mark_as_seen_by(self) }
   end
 
   private

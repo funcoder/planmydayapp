@@ -1,0 +1,68 @@
+<%= turbo_frame_tag dom_id(note) do %>
+  <div class="p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors"
+       style="border-left: 4px solid <%= note.color || '#6366f1' %>">
+    <div class="flex items-start justify-between">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-3">
+          <% if note.pinned? %>
+            <svg class="w-4 h-4 text-yellow-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5 5a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V5zM5 13a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2z"/>
+            </svg>
+          <% end %>
+          <%= link_to note.title, note_path(note), class: "font-semibold text-lg text-gray-900 hover:text-primary-600 truncate" %>
+        </div>
+
+        <% if note.content.present? %>
+          <p class="text-gray-600 text-sm mt-2 line-clamp-2"><%= note.content_preview(200) %></p>
+        <% end %>
+
+        <div class="flex flex-wrap gap-2 mt-3 items-center">
+          <% if note.project.present? %>
+            <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100" style="border-left: 3px solid <%= note.project.color %>">
+              <%= note.project.name %>
+            </span>
+          <% end %>
+          <% if note.task.present? %>
+            <span class="px-2 py-0.5 text-xs rounded-full bg-blue-50 text-blue-700">
+              Task: <%= note.task.title.truncate(25) %>
+            </span>
+          <% end %>
+          <% note.tags.first(3).each do |tag| %>
+            <span class="px-2 py-0.5 text-xs rounded-full bg-primary-50 text-primary-700"><%= tag %></span>
+          <% end %>
+          <span class="text-xs text-gray-500"><%= time_ago_in_words(note.updated_at) %> ago</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1 ml-4 flex-shrink-0">
+        <% if note.pinned? %>
+          <%= button_to unpin_note_path(note), method: :post, class: "p-3 text-yellow-500 hover:text-yellow-600 transition-colors touch-manipulation", title: "Unpin" do %>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5 5a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V5z"/>
+            </svg>
+          <% end %>
+        <% else %>
+          <%= button_to pin_note_path(note), method: :post, class: "p-3 text-gray-400 hover:text-yellow-500 transition-colors touch-manipulation", title: "Pin" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+            </svg>
+          <% end %>
+        <% end %>
+
+        <%= link_to edit_note_path(note), class: "p-3 text-gray-400 hover:text-primary-600 transition-colors touch-manipulation", title: "Edit" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+        <% end %>
+
+        <%= button_to note_path(note), method: :delete,
+            form: { data: { turbo_confirm: "Delete this note?" } },
+            class: "p-3 text-gray-400 hover:text-red-600 transition-colors touch-manipulation", title: "Delete" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -61,7 +61,29 @@ Rails.application.routes.draw do
       post :update_order
     end
   end
-  
+
+  resources :projects do
+    member do
+      post :archive
+      post :complete
+      post :reactivate
+    end
+    collection do
+      post :update_order
+    end
+  end
+
+  resources :notes do
+    member do
+      post :pin
+      post :unpin
+    end
+    collection do
+      post :update_order
+      get :search_tasks
+    end
+  end
+
   resources :focus_sessions, only: [:create, :show, :update] do
     member do
       post :end_session
@@ -80,6 +102,13 @@ Rails.application.routes.draw do
   end
   
   resources :achievements, only: [:index, :show]
+
+  resources :announcements, only: [:index] do
+    collection do
+      post :mark_seen
+      post :mark_all_seen
+    end
+  end
   
   resources :feedbacks, only: [:new, :create, :index]
 

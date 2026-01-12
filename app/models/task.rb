@@ -3,6 +3,7 @@ class Task < ApplicationRecord
 
   belongs_to :user
   belongs_to :brain_dump, optional: true
+  belongs_to :project, optional: true
   has_many :focus_sessions, dependent: :destroy
 
   # ActsAsList configuration

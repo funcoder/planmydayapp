@@ -7,6 +7,7 @@ module SubscriptionFeatures
       max_backlog_tasks: 5,
       has_calendar_access: false,
       has_sprites_access: false,
+      has_notes_access: false,
       price_cents: 0,
       name: 'Free'
     },
@@ -14,6 +15,7 @@ module SubscriptionFeatures
       max_backlog_tasks: Float::INFINITY,
       has_calendar_access: true,
       has_sprites_access: true,
+      has_notes_access: true,
       price_cents: 500, # $5.00
       name: 'Pro'
     },
@@ -21,6 +23,7 @@ module SubscriptionFeatures
       max_backlog_tasks: Float::INFINITY,
       has_calendar_access: true,
       has_sprites_access: true,
+      has_notes_access: true,
       price_cents: 4999, # $49.99 one-time
       name: 'Lifetime'
     }
@@ -70,6 +73,10 @@ module SubscriptionFeatures
 
     def can_access_sprites?
       admin? || subscription_features[:has_sprites_access]
+    end
+
+    def can_access_notes?
+      admin? || subscription_features[:has_notes_access]
     end
 
     def max_backlog_tasks

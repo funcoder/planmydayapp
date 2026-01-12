@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_07_085845) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_12_173150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,6 +25,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_085845) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_achievements_on_user_id"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -112,6 +122,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_085845) do
     t.index ["user_id"], name: "index_device_tokens_on_user_id"
   end
 
+  create_table "feature_announcements", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.string "version"
+    t.string "icon", default: "sparkles"
+    t.datetime "published_at"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_feature_announcements_on_active"
+    t.index ["published_at"], name: "index_feature_announcements_on_published_at"
+  end
+
   create_table "feedbacks", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "feedback_type", null: false
@@ -143,6 +166,44 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_085845) do
     t.integer "total_paused_duration", default: 0
     t.index ["task_id"], name: "index_focus_sessions_on_task_id"
     t.index ["user_id"], name: "index_focus_sessions_on_user_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "project_id"
+    t.bigint "task_id"
+    t.string "title", null: false
+    t.string "color", default: "#6366f1"
+    t.string "tags", default: [], array: true
+    t.boolean "pinned", default: false
+    t.datetime "pinned_at"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pinned"], name: "index_notes_on_pinned"
+    t.index ["project_id", "position"], name: "index_notes_on_project_id_and_position"
+    t.index ["project_id"], name: "index_notes_on_project_id"
+    t.index ["tags"], name: "index_notes_on_tags", using: :gin
+    t.index ["task_id"], name: "index_notes_on_task_id"
+    t.index ["user_id", "pinned"], name: "index_notes_on_user_id_and_pinned"
+    t.index ["user_id", "position"], name: "index_notes_on_user_id_and_position"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "color", default: "#6366f1"
+    t.string "status", default: "active"
+    t.integer "position"
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_projects_on_status"
+    t.index ["user_id", "position"], name: "index_projects_on_user_id_and_position"
+    t.index ["user_id", "status"], name: "index_projects_on_user_id_and_status"
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -197,11 +258,25 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_085845) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "project_id"
     t.index ["brain_dump_id"], name: "index_tasks_on_brain_dump_id"
+    t.index ["project_id", "status"], name: "index_tasks_on_project_id_and_status"
+    t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["scheduled_for"], name: "index_tasks_on_scheduled_for"
     t.index ["status"], name: "index_tasks_on_status"
     t.index ["user_id", "position"], name: "index_tasks_on_user_id_and_position"
     t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
+  create_table "user_feature_announcements", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "feature_announcement_id", null: false
+    t.datetime "seen_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feature_announcement_id"], name: "index_user_feature_announcements_on_feature_announcement_id"
+    t.index ["user_id", "feature_announcement_id"], name: "idx_user_feature_announcements_unique", unique: true
+    t.index ["user_id"], name: "index_user_feature_announcements_on_user_id"
   end
 
   create_table "user_sprites", force: :cascade do |t|
@@ -249,10 +324,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_085845) do
   add_foreign_key "feedbacks", "users"
   add_foreign_key "focus_sessions", "tasks"
   add_foreign_key "focus_sessions", "users"
+  add_foreign_key "notes", "projects"
+  add_foreign_key "notes", "tasks"
+  add_foreign_key "notes", "users"
+  add_foreign_key "projects", "users"
   add_foreign_key "rewards", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tasks", "brain_dumps"
+  add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "users"
+  add_foreign_key "user_feature_announcements", "feature_announcements"
+  add_foreign_key "user_feature_announcements", "users"
   add_foreign_key "user_sprites", "sprite_characters"
   add_foreign_key "user_sprites", "users"
 end

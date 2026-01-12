@@ -1,0 +1,73 @@
+<% if current_user&.has_unseen_announcements? %>
+  <div data-controller="announcement-modal" data-announcement-modal-shown-value="false" class="relative z-50">
+    <!-- Backdrop -->
+    <div data-announcement-modal-target="backdrop"
+         data-action="click->announcement-modal#close"
+         class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity hidden"></div>
+
+    <!-- Modal -->
+    <div data-announcement-modal-target="modal"
+         class="fixed inset-0 flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden flex flex-col"
+           data-action="click->announcement-modal#stopPropagation">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-primary-500 to-secondary-600 px-6 py-5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold text-white">What's New!</h2>
+                <p class="text-white/80 text-sm">Check out the latest updates</p>
+              </div>
+            </div>
+            <button type="button"
+                    data-action="click->announcement-modal#close"
+                    class="p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto p-6">
+          <div class="space-y-6">
+            <% current_user.unseen_announcements.limit(5).each do |announcement| %>
+              <div class="border-l-4 border-primary-500 pl-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <%= render_announcement_icon(announcement.icon) rescue '' %>
+                  <h3 class="font-bold text-gray-900"><%= announcement.title %></h3>
+                  <% if announcement.version.present? %>
+                    <span class="text-xs bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full font-medium">v<%= announcement.version %></span>
+                  <% end %>
+                </div>
+                <div class="text-sm text-gray-600 space-y-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1">
+                  <%= sanitize(announcement.description, tags: %w[p strong em ul ol li br]) %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-gray-200 px-6 py-4 bg-gray-50 flex items-center justify-between">
+          <%= link_to announcements_path, class: "text-sm text-primary-600 hover:text-primary-700 font-medium" do %>
+            View all updates
+          <% end %>
+          <%= form_with url: mark_all_seen_announcements_path, method: :post, local: true, class: "inline" do %>
+            <button type="submit"
+                    data-action="click->announcement-modal#markSeenAndClose"
+                    class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors">
+              Got it!
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

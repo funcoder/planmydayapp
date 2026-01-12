@@ -1,0 +1,99 @@
+<% content_for :title, @note.title %>
+
+<div class="min-h-screen bg-gray-50">
+  <% unless native_app? %>
+    <%= render 'shared/header' %>
+  <% end %>
+
+  <div class="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
+    <!-- Back Link -->
+    <%= link_to notes_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Back to Notes
+    <% end %>
+
+    <!-- Note Content -->
+    <div class="bg-white rounded-xl shadow-lg p-6" style="border-top: 4px solid <%= @note.color || '#6366f1' %>">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+        <div class="flex-1">
+          <div class="flex items-center gap-3 mb-2">
+            <% if @note.pinned? %>
+              <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 5a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V5zM5 13a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2z"/>
+              </svg>
+            <% end %>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900"><%= @note.title %></h1>
+          </div>
+          <div class="flex flex-wrap gap-2 text-sm text-gray-500">
+            <% if @note.project.present? %>
+              <%= link_to project_path(@note.project), class: "px-2 py-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors", style: "border-left: 3px solid #{@note.project.color}" do %>
+                <%= @note.project.name %>
+              <% end %>
+            <% end %>
+            <% if @note.task.present? %>
+              <span class="px-2 py-1 rounded-full bg-blue-50 text-blue-700">
+                Linked to: <%= @note.task.title %>
+              </span>
+            <% end %>
+            <span>Updated <%= time_ago_in_words(@note.updated_at) %> ago</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <% if @note.pinned? %>
+            <%= button_to unpin_note_path(@note), method: :post, class: "p-2 text-yellow-500 hover:text-yellow-600 transition-colors rounded-lg hover:bg-yellow-50", title: "Unpin" do %>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M5 5a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V5z"/>
+              </svg>
+            <% end %>
+          <% else %>
+            <%= button_to pin_note_path(@note), method: :post, class: "p-2 text-gray-400 hover:text-yellow-500 transition-colors rounded-lg hover:bg-gray-100", title: "Pin" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+              </svg>
+            <% end %>
+          <% end %>
+          <%= link_to edit_note_path(@note), class: "px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2" do %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+            Edit
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <% if @note.tags.any? %>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <% @note.tags.each do |tag| %>
+            <%= link_to notes_path(tag: tag), class: "px-3 py-1 text-sm rounded-full bg-primary-50 text-primary-700 hover:bg-primary-100 transition-colors" do %>
+              <%= tag %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Rich Text Content -->
+      <% if @note.content.present? %>
+        <div class="prose prose-lg max-w-none">
+          <%= @note.content %>
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic">No content yet.</p>
+      <% end %>
+    </div>
+
+    <!-- Actions Footer -->
+    <div class="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+      <%= link_to notes_path, class: "px-4 py-2 border-2 border-gray-300 hover:border-gray-400 text-gray-700 rounded-lg transition-colors font-medium text-center" do %>
+        Back to All Notes
+      <% end %>
+      <%= button_to note_path(@note), method: :delete,
+          form: { data: { turbo_confirm: "Are you sure you want to delete this note?" } },
+          class: "px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors font-medium" do %>
+        Delete Note
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<% content_for :head do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
+<div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <%= link_to notes_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to Notes
+      <% end %>
+
+      <h1 class="text-3xl font-bold text-gray-900">Edit Note</h1>
+      <p class="text-gray-600 mt-2">Update your note</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <%= form_with model: @note, data: { turbo: false } do |form| %>
+        <% if @note.errors.any? %>
+          <div class="rounded-lg bg-red-50 border-2 border-red-200 p-4 mb-6">
+            <h3 class="text-sm font-medium text-red-800 mb-2">Please fix these issues:</h3>
+            <ul class="list-disc pl-5 space-y-1 text-sm text-red-700">
+              <% @note.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="space-y-6">
+          <!-- Title -->
+          <div>
+            <%= form.label :title, "Note Title", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_field :title,
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg transition-all",
+                placeholder: "What's this note about?",
+                autofocus: true,
+                required: true %>
+          </div>
+
+          <!-- Rich Text Content -->
+          <div>
+            <%= form.label :content, "Content", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.rich_text_area :content,
+                class: "w-full border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[500px]",
+                placeholder: "Start writing your note here..." %>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Project -->
+            <div>
+              <%= form.label :project_id, "Project (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.select :project_id,
+                  options_from_collection_for_select(@projects, :id, :name, @note.project_id),
+                  { include_blank: "No project" },
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all" %>
+            </div>
+
+            <!-- Linked Task -->
+            <div data-controller="task-search"
+                 data-task-search-url-value="<%= search_tasks_notes_path %>"
+                 data-task-search-selected-id-value="<%= @note.task_id %>"
+                 data-task-search-selected-title-value="<%= @note.task&.title %>">
+              <%= form.label :task_id, "Link to Task (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.hidden_field :task_id, data: { task_search_target: "hiddenInput" } %>
+
+              <!-- Selected task display -->
+              <div data-task-search-target="selectedDisplay" class="<%= @note.task_id.blank? ? 'hidden' : '' %>"></div>
+
+              <!-- Search input -->
+              <div class="relative <%= @note.task_id.present? ? 'hidden' : '' %>">
+                <input type="text"
+                       data-task-search-target="input"
+                       data-action="input->task-search#search focus->task-search#search"
+                       placeholder="Search tasks..."
+                       autocomplete="off"
+                       class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                <div data-task-search-target="results"
+                     class="hidden absolute z-10 w-full mt-1 bg-white border-2 border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color -->
+          <div>
+            <%= form.label :color, "Pick a color", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <div class="flex gap-3 flex-wrap">
+              <% %w[#14b8a6 #8b5cf6 #ec4899 #f43f5e #f59e0b #10b981 #06b6d4 #3b82f6].each do |color| %>
+                <label class="cursor-pointer">
+                  <%= form.radio_button :color, color, class: "sr-only peer" %>
+                  <div class="w-12 h-12 rounded-lg peer-checked:ring-4 peer-checked:ring-offset-2 peer-checked:ring-purple-500 transition-all"
+                       style="background-color: <%= color %>"></div>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div>
+            <%= form.label :tag_list, "Tags (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_field :tag_list,
+                class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all",
+                placeholder: "ideas, meeting, reference" %>
+            <p class="mt-1 text-xs text-gray-500">Separate tags with commas</p>
+          </div>
+
+          <!-- Submit -->
+          <div class="flex gap-4 pt-4">
+            <%= form.submit "Update Note",
+                class: "flex-1 py-3 px-6 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all cursor-pointer" %>
+
+            <%= link_to "Cancel", notes_path,
+                class: "px-6 py-3 border-2 border-gray-300 text-lg font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all text-center" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

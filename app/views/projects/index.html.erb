@@ -1,0 +1,72 @@
+<% content_for :title, "Projects" %>
+
+<div class="min-h-screen bg-gray-50">
+  <% unless native_app? %>
+    <%= render 'shared/header' %>
+  <% end %>
+
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Projects</h1>
+        <p class="text-sm sm:text-base text-gray-600 mt-1">Organize your work into focused projects</p>
+      </div>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <%= link_to new_project_path, class: "flex-1 sm:flex-initial px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          <span>New Project</span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 mb-8">
+      <div class="flex flex-wrap gap-2">
+        <%= link_to "Active", projects_path(filter: 'active'),
+          class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'active' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
+        <%= link_to "Completed", projects_path(filter: 'completed'),
+          class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'completed' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
+        <%= link_to "Archived", projects_path(filter: 'archived'),
+          class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'archived' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
+      </div>
+    </div>
+
+    <!-- Projects List -->
+    <% if @projects.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @projects.each do |project| %>
+          <%= render 'projects/project', project: project %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">No <%= @filter %> projects</h3>
+        <p class="text-gray-600 mb-6">
+          <% if @filter == 'active' %>
+            Create your first project to start organizing your work.
+          <% elsif @filter == 'completed' %>
+            Completed projects will appear here.
+          <% else %>
+            Archived projects will appear here.
+          <% end %>
+        </p>
+        <% if @filter == 'active' %>
+          <%= link_to new_project_path, class: "inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Create Your First Project
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

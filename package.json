@@ -5,7 +5,9 @@
     "build:css": "npx @tailwindcss/cli -i ./app/assets/tailwind/application.css -o ./app/assets/builds/tailwind.css --minify"
   },
   "dependencies": {
+    "@rails/actiontext": "^8.1.200",
     "@tailwindcss/cli": "^4.1.11",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "trix": "^2.1.16"
   }
 }

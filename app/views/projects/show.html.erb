@@ -1,0 +1,139 @@
+<% content_for :title, @project.name %>
+
+<div class="min-h-screen bg-gray-50">
+  <% unless native_app? %>
+    <%= render 'shared/header' %>
+  <% end %>
+
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
+    <!-- Back Link -->
+    <%= link_to projects_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Back to Projects
+    <% end %>
+
+    <!-- Project Header -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6" style="border-top: 4px solid <%= @project.color || '#6366f1' %>">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900"><%= @project.name %></h1>
+          <% if @project.description.present? %>
+            <p class="text-gray-600 mt-2"><%= @project.description %></p>
+          <% end %>
+          <div class="flex flex-wrap gap-3 mt-4 text-sm text-gray-500">
+            <span><%= @project.notes_count %> notes</span>
+            <span><%= @project.completed_tasks_count %>/<%= @project.tasks_count %> tasks</span>
+            <% if @project.status != 'active' %>
+              <span class="px-2 py-1 text-xs font-medium rounded-full <%= @project.status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600' %>">
+                <%= @project.status.capitalize %>
+              </span>
+            <% end %>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= link_to new_note_path(project_id: @project.id), class: "px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Add Note
+          <% end %>
+          <%= link_to edit_project_path(@project), class: "px-4 py-2 border-2 border-gray-300 hover:border-gray-400 text-gray-700 rounded-lg transition-colors font-medium" do %>
+            Edit
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Notes Section -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Notes</h2>
+          <% if @notes.any? %>
+            <div class="space-y-4">
+              <% @notes.each do |note| %>
+                <div class="p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors"
+                     style="border-left: 4px solid <%= note.color || '#6366f1' %>">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2">
+                        <% if note.pinned? %>
+                          <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 5a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V5z"/>
+                          </svg>
+                        <% end %>
+                        <%= link_to note.title, note_path(note), class: "font-semibold text-gray-900 hover:text-primary-600" %>
+                      </div>
+                      <% if note.content.present? %>
+                        <p class="text-gray-600 text-sm mt-1"><%= note.content_preview(100) %></p>
+                      <% end %>
+                    </div>
+                    <%= link_to edit_note_path(note), class: "p-2 text-gray-400 hover:text-primary-600 transition-colors" do %>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                      </svg>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8 text-gray-500">
+              <p>No notes yet.</p>
+              <%= link_to "Create your first note", new_note_path(project_id: @project.id), class: "text-primary-600 hover:text-primary-700 font-medium" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Tasks Sidebar -->
+      <div>
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Active Tasks</h2>
+          <% if @tasks.any? %>
+            <div class="space-y-3">
+              <% @tasks.each do |task| %>
+                <div class="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                  <div class="flex items-start gap-3">
+                    <!-- Complete checkbox -->
+                    <%= button_to complete_task_path(task), method: :post, class: "flex-shrink-0 mt-0.5", data: { turbo: false } do %>
+                      <div class="w-5 h-5 rounded-full border-2 border-gray-300 hover:border-primary-500 hover:bg-primary-50 transition-colors flex items-center justify-center">
+                        <svg class="w-3 h-3 text-transparent hover:text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                      </div>
+                    <% end %>
+
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full flex-shrink-0" style="background-color: <%= task.color %>"></div>
+                        <span class="font-medium text-sm text-gray-900 truncate"><%= task.title %></span>
+                      </div>
+                      <div class="mt-1 flex items-center gap-2 text-xs text-gray-500">
+                        <span class="capitalize"><%= task.priority %></span>
+                        <% if task.scheduled_for.present? %>
+                          <span><%= task.scheduled_for == Date.current ? 'Today' : task.scheduled_for.strftime('%b %d') %></span>
+                        <% end %>
+                      </div>
+                    </div>
+
+                    <!-- Edit button -->
+                    <%= link_to edit_task_path(task), class: "flex-shrink-0 p-1.5 text-gray-400 hover:text-primary-600 transition-colors" do %>
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                      </svg>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-center py-4 text-gray-500 text-sm">No active tasks</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

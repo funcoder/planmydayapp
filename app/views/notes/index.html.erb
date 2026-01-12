@@ -1,0 +1,106 @@
+<% content_for :title, "Notes" %>
+
+<div class="min-h-screen bg-gray-50">
+  <% unless native_app? %>
+    <%= render 'shared/header' %>
+  <% end %>
+
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Notes</h1>
+        <p class="text-sm sm:text-base text-gray-600 mt-1">Capture and organize your thoughts</p>
+      </div>
+      <div class="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
+        <!-- View Switcher -->
+        <div class="flex bg-gray-100 rounded-lg p-1">
+          <%= link_to notes_path(view: 'list', filter: @filter, project_id: @project_id),
+              class: "px-2 sm:px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1 sm:gap-2 #{@view == 'list' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}" do %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+            </svg>
+            <span>List</span>
+          <% end %>
+          <%= link_to notes_path(view: 'cards', filter: @filter, project_id: @project_id),
+              class: "px-2 sm:px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1 sm:gap-2 #{@view == 'cards' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}" do %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
+            </svg>
+            <span>Cards</span>
+          <% end %>
+        </div>
+
+        <%= link_to new_note_path, class: "flex-1 sm:flex-initial px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          <span>New Note</span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 mb-8">
+      <div class="flex flex-col lg:flex-row lg:justify-between gap-4 items-start lg:items-center">
+        <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+          <%= link_to "All", notes_path(view: @view, filter: 'all'),
+            class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
+          <%= link_to "Pinned", notes_path(view: @view, filter: 'pinned'),
+            class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'pinned' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
+          <%= link_to "Recent", notes_path(view: @view, filter: 'recent'),
+            class: "px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base #{@filter == 'recent' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}" %>
+        </div>
+
+        <!-- Project Filter & Search -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:w-auto">
+          <%= form_with url: notes_path, method: :get, local: true, class: "flex items-center" do |f| %>
+            <%= f.hidden_field :view, value: @view %>
+            <%= f.hidden_field :filter, value: @filter %>
+            <%= f.select :project_id,
+                options_from_collection_for_select(@projects, :id, :name, @project_id),
+                { include_blank: "All Projects" },
+                class: "px-3 py-2 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500",
+                onchange: "this.form.submit()" %>
+          <% end %>
+
+          <!-- Search -->
+          <%= form_with url: notes_path, method: :get, local: true, class: "flex items-center gap-2" do |f| %>
+            <%= f.hidden_field :view, value: @view %>
+            <%= f.hidden_field :filter, value: @filter %>
+            <%= f.hidden_field :project_id, value: @project_id %>
+            <%= f.search_field :search,
+                value: @search,
+                placeholder: "Search notes...",
+                class: "px-3 py-2 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 w-full sm:w-48" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Content -->
+    <%= turbo_frame_tag "notes_content" do %>
+      <% if @notes.any? %>
+        <% if @view == 'cards' %>
+          <!-- Card Grid View -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <% @notes.each do |note| %>
+              <%= render 'notes/note_card', note: note %>
+            <% end %>
+          </div>
+        <% else %>
+          <!-- List View -->
+          <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6">
+            <div class="space-y-4">
+              <% @notes.each do |note| %>
+                <%= render 'notes/note_list_item', note: note %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <%= render 'notes/empty_state' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

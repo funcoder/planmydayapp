@@ -1,0 +1,80 @@
+<%= turbo_frame_tag dom_id(note) do %>
+  <div class="bg-white rounded-xl shadow-lg p-5 hover:shadow-xl transition-shadow relative"
+       style="border-top: 4px solid <%= note.color || '#6366f1' %>">
+    <div class="flex items-start justify-between mb-3">
+      <div class="flex items-center gap-2 flex-1 min-w-0">
+        <% if note.pinned? %>
+          <svg class="w-4 h-4 text-yellow-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M5 5a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V5zM5 13a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2z"/>
+          </svg>
+        <% end %>
+        <h3 class="font-bold text-lg text-gray-900 truncate"><%= note.title %></h3>
+      </div>
+
+      <!-- Dropdown Menu -->
+      <div class="relative flex-shrink-0 ml-2" data-controller="dropdown">
+        <button type="button" data-action="click->dropdown#toggle" class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 touch-manipulation relative z-10">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+          </svg>
+        </button>
+        <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
+          <%= link_to edit_note_path(note), class: "block px-4 py-3 text-base text-gray-700 hover:bg-gray-50 touch-manipulation" do %>
+            Edit
+          <% end %>
+          <% if note.pinned? %>
+            <%= button_to unpin_note_path(note), method: :post, class: "block w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 touch-manipulation" do %>
+              Unpin
+            <% end %>
+          <% else %>
+            <%= button_to pin_note_path(note), method: :post, class: "block w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 touch-manipulation" do %>
+              Pin
+            <% end %>
+          <% end %>
+          <%= button_to note_path(note), method: :delete,
+              form: { data: { turbo_confirm: "Delete this note?" } },
+              class: "block w-full text-left px-4 py-3 text-base text-red-600 hover:bg-red-50 touch-manipulation" do %>
+            Delete
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Preview -->
+    <% if note.content.present? %>
+      <p class="text-gray-600 text-sm line-clamp-3 mb-3"><%= note.content_preview(120) %></p>
+    <% end %>
+
+    <!-- Meta Info -->
+    <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+      <% if note.project.present? %>
+        <span class="px-2 py-1 rounded-full bg-gray-100" style="border-left: 3px solid <%= note.project.color %>">
+          <%= note.project.name %>
+        </span>
+      <% end %>
+      <% if note.task.present? %>
+        <span class="px-2 py-1 rounded-full bg-blue-50 text-blue-700">
+          Task: <%= note.task.title.truncate(20) %>
+        </span>
+      <% end %>
+      <span><%= time_ago_in_words(note.updated_at) %> ago</span>
+    </div>
+
+    <!-- Tags -->
+    <% if note.tags.any? %>
+      <div class="flex flex-wrap gap-1 mt-3">
+        <% note.tags.first(3).each do |tag| %>
+          <span class="px-2 py-0.5 text-xs rounded-full bg-primary-50 text-primary-700"><%= tag %></span>
+        <% end %>
+        <% if note.tags.size > 3 %>
+          <span class="px-2 py-0.5 text-xs text-gray-500">+<%= note.tags.size - 3 %> more</span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Click to View -->
+    <%= link_to note_path(note), class: "absolute inset-0 z-0" do %>
+      <span class="sr-only">View note</span>
+    <% end %>
+  </div>
+<% end %>

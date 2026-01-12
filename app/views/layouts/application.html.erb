@@ -49,6 +49,7 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "sprites", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -83,6 +84,11 @@
     <!-- Cookie consent (hidden for native apps) -->
     <% unless native_app? %>
       <%= render "shared/cookie_consent" %>
+    <% end %>
+
+    <!-- Announcement modal for new features -->
+    <% if authenticated? %>
+      <%= render "announcements/modal" %>
     <% end %>
   </body>
 </html>

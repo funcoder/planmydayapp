@@ -30,8 +30,10 @@ class TasksController < ApplicationController
     # If coming from backlog page, don't set scheduled_for
     scheduled_date = params[:scheduled] == 'backlog' ? nil : Date.current
     @task = current_user.tasks.build(scheduled_for: scheduled_date, status: 'pending')
+    @task.project_id = params[:project_id] if params[:project_id].present?
     @unscheduled_tasks = current_user.tasks.unscheduled.pending
     @brain_dumps = current_user.brain_dumps.unprocessed.recent.limit(5)
+    @projects = current_user.projects.active.ordered if current_user.can_access_notes?
   end
 
   def create
@@ -58,17 +60,20 @@ class TasksController < ApplicationController
     else
       @unscheduled_tasks = current_user.tasks.unscheduled.pending
       @brain_dumps = current_user.brain_dumps.unprocessed.recent.limit(5)
+      @projects = current_user.projects.active.ordered if current_user.can_access_notes?
       render :new
     end
   end
 
   def edit
+    @projects = current_user.projects.active.ordered if current_user.can_access_notes?
   end
 
   def update
     if @task.update(task_params)
       redirect_to dashboard_path, notice: "Task updated successfully!"
     else
+      @projects = current_user.projects.active.ordered if current_user.can_access_notes?
       render :edit
     end
   end
@@ -81,9 +86,9 @@ class TasksController < ApplicationController
   def complete
     @task.complete!
     current_user.update_streak
-    
+
     respond_to do |format|
-      format.html { redirect_to dashboard_path, notice: "Great job! Task completed! 🎉" }
+      format.html { redirect_back fallback_location: dashboard_path, notice: "Great job! Task completed!" }
       format.turbo_stream
     end
   end
@@ -129,6 +134,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :priority, :estimated_time, :due_date, :scheduled_for, :tag_list, :color, :brain_dump_id, :status)
+    params.require(:task).permit(:title, :description, :priority, :estimated_time, :due_date, :scheduled_for, :tag_list, :color, :brain_dump_id, :status, :project_id)
   end
 end

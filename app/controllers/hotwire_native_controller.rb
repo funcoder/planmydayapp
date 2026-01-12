@@ -16,7 +16,12 @@ class HotwireNativeController < ApplicationController
         },
         # Modal presentation for forms and editing
         {
-          patterns: ["/tasks/new$", "/tasks/.*/edit$", "/brain_dumps/new$"],
+          patterns: [
+            "/tasks/new$", "/tasks/.*/edit$",
+            "/brain_dumps/new$",
+            "/notes/new$", "/notes/.*/edit$",
+            "/projects/new$", "/projects/.*/edit$"
+          ],
           properties: {
             context: "modal",
             pull_to_refresh_enabled: false
