@@ -2,32 +2,32 @@
 
 one:
   user: one
-  title: MyString
-  description: MyText
-  status: MyString
-  priority: MyString
+  title: Test Task One
+  description: A test task description
+  status: pending
+  priority: medium
   due_date: 2025-07-18
   scheduled_for: 2025-07-18
   position: 1
   brain_dump: one
-  estimated_time: 1
-  actual_time: 1
-  tags: MyString
-  color: MyString
-  completed_at: 2025-07-18 23:20:00
+  estimated_time: 30
+  actual_time: 25
+  tags: "{work,urgent}"
+  color: "#6366f1"
+  completed_at:
 
 two:
   user: two
-  title: MyString
-  description: MyText
-  status: MyString
-  priority: MyString
+  title: Test Task Two
+  description: Another test task
+  status: completed
+  priority: low
   due_date: 2025-07-18
   scheduled_for: 2025-07-18
-  position: 1
+  position: 2
   brain_dump: two
-  estimated_time: 1
-  actual_time: 1
-  tags: MyString
-  color: MyString
+  estimated_time: 60
+  actual_time: 45
+  tags: "{personal}"
+  color: "#10b981"
   completed_at: 2025-07-18 23:20:00

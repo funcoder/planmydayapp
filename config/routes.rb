@@ -40,7 +40,8 @@ Rails.application.routes.draw do
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Service worker with no-cache headers (critical for updates)
+  get "service-worker.js" => "pwa#service_worker", as: :pwa_service_worker
 
   # App routes
   resources :brain_dumps do

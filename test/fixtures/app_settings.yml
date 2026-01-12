@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  key: MyString
-  value: MyString
-  value_type: MyString
+lifetime_offer_enabled:
+  key: lifetime_offer_enabled
+  value: "true"
+  value_type: boolean
 
-two:
-  key: MyString
-  value: MyString
-  value_type: MyString
+test_setting:
+  key: test_setting
+  value: "test_value"
+  value_type: string

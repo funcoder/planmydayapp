@@ -2,18 +2,18 @@
 
 one:
   user: one
-  content: MyText
+  content: Need to finish the report and call the client
   processed: false
-  processed_at: 2025-07-18 23:19:55
-  tags: MyString
-  status: MyString
-  voice_recording_url: MyString
+  processed_at:
+  tags: "{work,urgent}"
+  status: pending
+  voice_recording_url:
 
 two:
   user: two
-  content: MyText
-  processed: false
+  content: Remember to buy groceries
+  processed: true
   processed_at: 2025-07-18 23:19:55
-  tags: MyString
-  status: MyString
-  voice_recording_url: MyString
+  tags: "{personal}"
+  status: processed
+  voice_recording_url:
