@@ -24,9 +24,10 @@ module Planmyday
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # TEMPORARY: Clear stale service worker caches for existing users
-    # Remove after 2026-01-19 (one week)
-    require_relative "../app/middleware/clear_site_data_middleware"
-    config.middleware.use ClearSiteDataMiddleware
+    # REMOVED 2026-01-12: Clear-Site-Data middleware was causing slow navigation
+    # by forcing browser to clear cache on every request, defeating Turbo Drive.
+    # Original purpose (clearing stale service workers) should be complete by now.
+    # require_relative "../app/middleware/clear_site_data_middleware"
+    # config.middleware.use ClearSiteDataMiddleware
   end
 end
