@@ -1,5 +1,6 @@
 class PwaController < ApplicationController
   skip_before_action :require_authentication
+  skip_forgery_protection only: :service_worker
 
   def service_worker
     # Service worker must NEVER be cached by the browser

@@ -19,7 +19,7 @@
           </svg>
         </button>
         <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
-          <%= link_to edit_note_path(note), class: "block px-4 py-3 text-base text-gray-700 hover:bg-gray-50 touch-manipulation" do %>
+          <%= link_to edit_note_path(note), data: { turbo_frame: "_top" }, class: "block px-4 py-3 text-base text-gray-700 hover:bg-gray-50 touch-manipulation" do %>
             Edit
           <% end %>
           <% if note.pinned? %>

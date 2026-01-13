@@ -30,13 +30,13 @@ export default class extends Controller {
       })
       console.log('ServiceWorker registered:', registration)
 
-      // Check for updates immediately
-      registration.update()
-
-      // Check for updates periodically (every 60 seconds)
-      setInterval(() => {
-        registration.update()
-      }, 60000)
+      // Check for updates on page load (browser handles this automatically,
+      // but we call it once for visibility changes)
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          registration.update()
+        }
+      })
 
       // Handle updates
       registration.addEventListener('updatefound', () => {
@@ -52,14 +52,9 @@ export default class extends Controller {
         })
       })
 
-      // When the new service worker takes over, refresh the page
-      let refreshing = false
+      // Log when new service worker takes over (no auto-reload to avoid disruption)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true
-          console.log('Service worker updated, refreshing page...')
-          window.location.reload()
-        }
+        console.log('Service worker updated - changes will apply on next navigation')
       })
 
     } catch (error) {
