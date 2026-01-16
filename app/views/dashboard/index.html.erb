@@ -1,6 +1,6 @@
 <% content_for :title, "Dashboard" %>
 
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50" data-controller="date-picker-modal">
   <% unless native_app? %>
     <%= render 'shared/header' %>
   <% end %>
@@ -163,7 +163,17 @@
                             <%= link_to "Move to Tomorrow", rollover_task_path(task),
                                 data: { turbo_method: :post },
                                 class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
+                            <button type="button"
+                                    class="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation"
+                                    data-action="click->date-picker-modal#open"
+                                    data-task-id="<%= task.id %>"
+                                    data-task-url="<%= move_to_date_task_path(task) %>">
+                              Move to Another Date
+                            </button>
                             <hr class="my-1">
+                            <%= link_to "Remove from Today", remove_from_today_task_path(task),
+                                data: { turbo_method: :post },
+                                class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
                             <%= link_to "Delete", task_path(task),
                                 data: {
                                   turbo_method: :delete,
@@ -339,6 +349,50 @@
                 <p class="text-gray-600" id="no_brain_dumps">No brain dumps yet. Start capturing your thoughts!</p>
               <% end %>
             </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Date Picker Modal -->
+  <!-- Backdrop -->
+  <div class="hidden fixed inset-0 bg-black/50 z-40 opacity-0 transition-opacity duration-200"
+       data-date-picker-modal-target="backdrop"
+       data-action="click->date-picker-modal#close"></div>
+
+  <!-- Modal -->
+  <div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4"
+       data-date-picker-modal-target="modalContainer">
+    <div class="bg-white rounded-xl shadow-xl max-w-sm w-full opacity-0 scale-95 transition-all duration-200"
+         data-date-picker-modal-target="modal"
+         data-action="click->date-picker-modal#stopPropagation">
+      <div class="p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4">Move Task to Date</h3>
+
+        <%= form_with url: "#", method: :post, data: {
+          date_picker_modal_target: "form",
+          turbo_frame: "_top"
+        } do |f| %>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Select date</label>
+            <input type="date"
+                   name="date"
+                   data-date-picker-modal-target="dateInput"
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none text-base">
+          </div>
+
+          <div class="flex gap-3">
+            <button type="button"
+                    class="flex-1 px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                    data-action="click->date-picker-modal#close">
+              Cancel
+            </button>
+            <button type="submit"
+                    class="flex-1 px-4 py-3 text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors font-medium"
+                    data-action="click->date-picker-modal#submit">
+              Move Task
+            </button>
           </div>
         <% end %>
       </div>
