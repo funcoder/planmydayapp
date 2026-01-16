@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :schedule_for_today]
+  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :schedule_for_today, :remove_from_today, :move_to_date]
 
   def index
     @filter = params[:filter] || 'pending'
@@ -80,7 +80,11 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to dashboard_path, notice: "Task removed"
+
+    respond_to do |format|
+      format.html { redirect_back fallback_location: dashboard_path, notice: "Task removed" }
+      format.turbo_stream
+    end
   end
 
   def complete
@@ -112,6 +116,29 @@ class TasksController < ApplicationController
 
     @task.update(scheduled_for: Date.current)
     redirect_to tasks_path, notice: "Task scheduled for today!"
+  end
+
+  def remove_from_today
+    @task.update(scheduled_for: nil)
+    redirect_to dashboard_path, notice: "Task moved to backlog"
+  end
+
+  def move_to_date
+    new_date = Date.parse(params[:date]) rescue nil
+
+    if new_date.nil?
+      redirect_to dashboard_path, alert: "Invalid date selected"
+      return
+    end
+
+    # Check daily task limit if moving to today
+    if new_date == Date.current && current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
+      redirect_to dashboard_path, alert: "You've reached your daily task limit for today."
+      return
+    end
+
+    @task.update(scheduled_for: new_date)
+    redirect_to dashboard_path, notice: "Task moved to #{new_date.strftime('%B %d, %Y')}"
   end
 
   def update_order
