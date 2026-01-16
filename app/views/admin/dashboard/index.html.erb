@@ -175,7 +175,7 @@
                   <h4 class="font-semibold text-gray-900"><%= feedback.subject %></h4>
                   <p class="text-sm text-gray-600 mt-1 line-clamp-2"><%= feedback.message %></p>
                   <div class="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                    <span>From: <%= feedback.user.email %></span>
+                    <span>From: <%= feedback.user.email_address %></span>
                     <span><%= time_ago_in_words(feedback.created_at) %> ago</span>
                   </div>
                 </div>
