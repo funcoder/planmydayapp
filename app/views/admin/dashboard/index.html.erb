@@ -131,6 +131,102 @@
       </div>
     </div>
 
+    <!-- Feedback Section -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold text-gray-900">User Feedback</h2>
+        <div class="flex gap-3">
+          <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+            <%= @new_feedback_count %> new
+          </span>
+          <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+            <%= @in_progress_feedback_count %> in progress
+          </span>
+        </div>
+      </div>
+
+      <% if @feedbacks.any? %>
+        <div class="space-y-4">
+          <% @feedbacks.each do |feedback| %>
+            <div class="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors">
+              <div class="flex justify-between items-start gap-4">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="px-2 py-0.5 text-xs font-medium rounded-full
+                      <%= case feedback.feedback_type
+                          when 'bug_report' then 'bg-red-100 text-red-800'
+                          when 'feature_request' then 'bg-purple-100 text-purple-800'
+                          when 'general_feedback' then 'bg-blue-100 text-blue-800'
+                          else 'bg-gray-100 text-gray-800'
+                          end %>">
+                      <%= feedback.feedback_type.titleize %>
+                    </span>
+                    <span class="px-2 py-0.5 text-xs font-medium rounded-full
+                      <%= case feedback.status
+                          when 'new' then 'bg-blue-100 text-blue-800'
+                          when 'in_progress' then 'bg-yellow-100 text-yellow-800'
+                          when 'resolved' then 'bg-green-100 text-green-800'
+                          when 'closed' then 'bg-gray-100 text-gray-800'
+                          else 'bg-gray-100 text-gray-800'
+                          end %>">
+                      <%= feedback.status.titleize %>
+                    </span>
+                  </div>
+                  <h4 class="font-semibold text-gray-900"><%= feedback.subject %></h4>
+                  <p class="text-sm text-gray-600 mt-1 line-clamp-2"><%= feedback.message %></p>
+                  <div class="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                    <span>From: <%= feedback.user.email %></span>
+                    <span><%= time_ago_in_words(feedback.created_at) %> ago</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <!-- Status Actions -->
+                  <div class="relative" data-controller="dropdown">
+                    <button class="px-3 py-1.5 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                            data-action="click->dropdown#toggle">
+                      Status
+                    </button>
+                    <div class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-10"
+                         data-dropdown-target="menu">
+                      <%= link_to "Mark as Todo", admin_update_feedback_status_path(feedback, status: 'in_progress'),
+                          data: { turbo_method: :post },
+                          class: "block px-4 py-2 text-sm text-yellow-700 hover:bg-yellow-50" %>
+                      <%= link_to "Mark Resolved", admin_update_feedback_status_path(feedback, status: 'resolved'),
+                          data: { turbo_method: :post },
+                          class: "block px-4 py-2 text-sm text-green-700 hover:bg-green-50" %>
+                      <%= link_to "Close", admin_update_feedback_status_path(feedback, status: 'closed'),
+                          data: { turbo_method: :post },
+                          class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" %>
+                    </div>
+                  </div>
+
+                  <!-- Delete -->
+                  <%= link_to admin_destroy_feedback_path(feedback),
+                      data: {
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure you want to delete this feedback?"
+                      },
+                      class: "p-1.5 text-gray-400 hover:text-red-600 transition-colors" do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8">
+          <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+          </svg>
+          <p class="text-gray-500">No feedback submitted yet</p>
+        </div>
+      <% end %>
+    </div>
+
     <!-- Quick Links -->
     <div class="bg-white rounded-lg shadow-sm p-6">
       <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Links</h3>

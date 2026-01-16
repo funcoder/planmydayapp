@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     get "", to: "dashboard#index", as: :dashboard
     get "settings", to: "settings#index", as: :settings
     post "settings/toggle_lifetime_offer", to: "settings#toggle_lifetime_offer", as: :toggle_lifetime_offer_settings
+    post "feedback/:id/status", to: "dashboard#update_feedback_status", as: :update_feedback_status
+    delete "feedback/:id", to: "dashboard#destroy_feedback", as: :destroy_feedback
   end
   get "users/profile"
   get "users/update_profile"
@@ -57,6 +59,8 @@ Rails.application.routes.draw do
       post :start
       post :rollover
       post :schedule_for_today
+      post :remove_from_today
+      post :move_to_date
     end
     collection do
       post :update_order

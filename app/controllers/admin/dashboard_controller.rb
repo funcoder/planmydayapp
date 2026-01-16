@@ -17,6 +17,26 @@ class Admin::DashboardController < ApplicationController
     # Revenue estimates
     @monthly_recurring_revenue = @pro_users * 5.00
     @lifetime_revenue = @lifetime_users * 49.99
+
+    # Feedback
+    @feedbacks = Feedback.recent.includes(:user).limit(20)
+    @new_feedback_count = Feedback.by_status('new').count
+    @in_progress_feedback_count = Feedback.by_status('in_progress').count
+  end
+
+  def update_feedback_status
+    @feedback = Feedback.find(params[:id])
+    if @feedback.update(status: params[:status])
+      redirect_to admin_dashboard_path, notice: "Feedback status updated to #{params[:status]}"
+    else
+      redirect_to admin_dashboard_path, alert: "Failed to update feedback status"
+    end
+  end
+
+  def destroy_feedback
+    @feedback = Feedback.find(params[:id])
+    @feedback.destroy
+    redirect_to admin_dashboard_path, notice: "Feedback deleted"
   end
 
   private

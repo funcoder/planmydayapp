@@ -114,6 +114,16 @@
                 </div>
               <% end %>
             <% end %>
+            <% if current_user&.admin? %>
+              <%= link_to admin_dashboard_path, class: "block px-4 py-3 text-base #{current_page?(admin_dashboard_path) ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50'} touch-manipulation" do %>
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                  <span>Admin Dashboard</span>
+                </div>
+              <% end %>
+            <% end %>
             <div class="border-t border-gray-100 mt-1 pt-1">
               <%= link_to session_path, data: { "turbo-method": :delete }, class: "block px-4 py-3 text-base text-red-600 hover:bg-red-50 touch-manipulation" do %>
                 <div class="flex items-center gap-2">
@@ -184,6 +194,14 @@
             <% end %>
           <% else %>
             <%= link_to "Upgrade to Pro ⭐", pricing_path, class: "px-4 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 hover:from-yellow-500 hover:to-yellow-600 rounded-lg transition-colors font-semibold text-center" %>
+          <% end %>
+          <% if current_user&.admin? %>
+            <%= link_to admin_dashboard_path, class: "px-4 py-3 rounded-lg transition-colors font-medium flex items-center gap-2 #{current_page?(admin_dashboard_path) ? 'bg-primary-100 text-primary-700' : 'text-gray-700 hover:bg-gray-50'}" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              <span>Admin Dashboard</span>
+            <% end %>
           <% end %>
           <%= link_to session_path, data: { "turbo-method": :delete }, class: "px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium flex items-center gap-2" do %>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
