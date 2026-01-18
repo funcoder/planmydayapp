@@ -83,6 +83,15 @@
                       min: 5,
                       step: 5 %>
                 </div>
+
+                <!-- Scheduled For -->
+                <div>
+                  <%= form.label :scheduled_for, "Schedule for", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                  <%= form.date_field :scheduled_for,
+                      class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all",
+                      value: @task.scheduled_for %>
+                  <p class="mt-1 text-xs text-gray-500">Leave blank for backlog</p>
+                </div>
               </div>
 
               <% if current_user.can_access_notes? && @projects.present? %>
@@ -120,7 +129,6 @@
               </div>
 
               <!-- Hidden fields -->
-              <%= form.hidden_field :scheduled_for, value: @task.scheduled_for %>
               <%= form.hidden_field :status, value: 'pending' %>
               <%= form.hidden_field :brain_dump_id, value: nil %>
 
