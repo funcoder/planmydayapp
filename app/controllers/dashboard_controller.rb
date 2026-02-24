@@ -10,6 +10,7 @@ class DashboardController < ApplicationController
     )
     @grouped_incomplete_tasks = @today_incomplete_tasks.group_by(&:project)
     @today_completed_tasks = @today_tasks.completed
+    @on_hold_tasks = @today_tasks.on_hold.includes(:project)
     @brain_dumps = @user.brain_dumps.pending.recent.limit(5)
     @current_focus_session = @user.focus_sessions.in_progress.first
     @recent_achievements = @user.achievements.recent.limit(3)

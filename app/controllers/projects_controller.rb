@@ -17,6 +17,32 @@ class ProjectsController < ApplicationController
   def show
     @notes = @project.notes.includes(:rich_text_content).recent
     @tasks = @project.tasks.incomplete.order(created_at: :desc)
+
+    # Time tracking data
+    @year = (params[:year] || Date.current.year).to_i
+    @month = (params[:month] || Date.current.month).to_i
+
+    # Monthly aggregation for the year chart
+    completed_tasks_for_year = @project.tasks.completed
+      .where(completed_at: Date.new(@year, 1, 1).beginning_of_day..Date.new(@year, 12, 31).end_of_day)
+
+    @monthly_data = (1..12).map do |m|
+      month_start = Date.new(@year, m, 1).beginning_of_day
+      month_end = Date.new(@year, m, 1).end_of_month.end_of_day
+      month_tasks = completed_tasks_for_year.select { |t| t.completed_at >= month_start && t.completed_at <= month_end }
+
+      estimated = month_tasks.sum { |t| t.estimated_time.to_i }
+      actual = month_tasks.sum { |t| t.actual_time.to_i }
+
+      { month: m, estimated_minutes: estimated, actual_minutes: actual, task_count: month_tasks.size }
+    end
+
+    # Completed tasks for the selected month
+    month_start = Date.new(@year, @month, 1).beginning_of_day
+    month_end = Date.new(@year, @month, 1).end_of_month.end_of_day
+    @monthly_completed_tasks = @project.tasks.completed
+      .where(completed_at: month_start..month_end)
+      .order(completed_at: :desc)
   end
 
   def new

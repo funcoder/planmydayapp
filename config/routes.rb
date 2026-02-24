@@ -58,6 +58,8 @@ Rails.application.routes.draw do
       post :complete
       post :start
       post :rollover
+      post :hold
+      post :resume
       post :schedule_for_today
       post :remove_from_today
       post :move_to_date

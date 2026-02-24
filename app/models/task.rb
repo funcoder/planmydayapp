@@ -11,7 +11,7 @@ class Task < ApplicationRecord
 
   # Validations
   validates :title, presence: true
-  validates :status, inclusion: { in: %w[pending in_progress completed archived] }
+  validates :status, inclusion: { in: %w[pending in_progress completed archived on_hold] }
   validates :priority, inclusion: { in: %w[low medium high urgent] }
   validates :color, format: { with: /\A#[0-9A-F]{6}\z/i }, allow_blank: true
 
@@ -19,7 +19,8 @@ class Task < ApplicationRecord
   scope :pending, -> { where(status: 'pending') }
   scope :in_progress, -> { where(status: 'in_progress') }
   scope :completed, -> { where(status: 'completed') }
-  scope :incomplete, -> { where.not(status: 'completed') }
+  scope :incomplete, -> { where.not(status: %w[completed on_hold]) }
+  scope :on_hold, -> { where(status: 'on_hold') }
   scope :scheduled_for_date, ->(date) { where(scheduled_for: date) }
   scope :overdue, -> { where('due_date < ?', Date.current).incomplete }
   scope :by_priority, -> { order(Arel.sql("CASE priority WHEN 'urgent' THEN 0 WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END")) }
@@ -64,6 +65,18 @@ class Task < ApplicationRecord
 
   def in_progress?
     status == 'in_progress'
+  end
+
+  def on_hold?
+    status == 'on_hold'
+  end
+
+  def hold!(reason = nil)
+    update(status: 'on_hold', on_hold_reason: reason)
+  end
+
+  def resume!
+    update(status: 'pending', on_hold_reason: nil)
   end
 
   def tag_list

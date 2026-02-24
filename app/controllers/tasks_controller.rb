@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :schedule_for_today, :remove_from_today, :move_to_date]
+  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date]
 
   def index
     @filter = params[:filter] || 'pending'
@@ -106,6 +106,17 @@ class TasksController < ApplicationController
     redirect_to dashboard_path, notice: "Task started!"
   end
 
+  def hold
+    reason = params[:on_hold_reason]
+    @task.hold!(reason)
+    redirect_to dashboard_path, notice: "Task put on hold"
+  end
+
+  def resume
+    @task.resume!
+    redirect_to dashboard_path, notice: "Task resumed!"
+  end
+
   def rollover
     @task.rollover_to_tomorrow!
     redirect_to dashboard_path, notice: "Task moved to tomorrow"
@@ -165,6 +176,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description, :priority, :estimated_time, :due_date, :scheduled_for, :tag_list, :color, :brain_dump_id, :status, :project_id)
+    params.require(:task).permit(:title, :description, :priority, :estimated_time, :due_date, :scheduled_for, :tag_list, :color, :brain_dump_id, :status, :project_id, :on_hold_reason)
   end
 end

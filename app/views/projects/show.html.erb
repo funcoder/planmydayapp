@@ -1,5 +1,16 @@
 <% content_for :title, @project.name %>
 
+<%
+  project_color = @project.color || '#6366f1'
+  month_names = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
+  max_minutes = @monthly_data.map { |d| [d[:estimated_minutes], d[:actual_minutes]].max }.max || 0
+  chart_height = 200
+  chart_width = 720
+  bar_group_width = chart_width / 12.0
+  bar_width = bar_group_width * 0.3
+  bar_gap = 2
+%>
+
 <div class="min-h-screen bg-gray-50">
   <% unless native_app? %>
     <%= render 'shared/header' %>
@@ -15,7 +26,7 @@
     <% end %>
 
     <!-- Project Header -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-6" style="border-top: 4px solid <%= @project.color || '#6366f1' %>">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6" style="border-top: 4px solid <%= project_color %>">
       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div>
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900"><%= @project.name %></h1>
@@ -33,10 +44,13 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <%= link_to new_note_path(project_id: @project.id), class: "px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2" do %>
+          <%= link_to new_task_path(project_id: @project.id), class: "px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2" do %>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
+            Add Task
+          <% end %>
+          <%= link_to new_note_path(project_id: @project.id), class: "px-4 py-2 border-2 border-primary-300 hover:border-primary-400 text-primary-700 rounded-lg transition-colors font-medium" do %>
             Add Note
           <% end %>
           <%= link_to edit_project_path(@project), class: "px-4 py-2 border-2 border-gray-300 hover:border-gray-400 text-gray-700 rounded-lg transition-colors font-medium" do %>
@@ -46,6 +60,191 @@
       </div>
     </div>
 
+    <!-- Year Chart Section -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6" id="time-chart">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-gray-900">Time Tracking</h2>
+        <div class="flex items-center gap-3">
+          <%= link_to project_path(@project, year: @year - 1, month: @month),
+              class: "p-1.5 text-gray-400 hover:text-gray-600 transition-colors",
+              data: { turbo_action: "replace" } do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          <% end %>
+          <span class="text-base font-bold text-gray-800 min-w-[4rem] text-center"><%= @year %></span>
+          <%= link_to project_path(@project, year: @year + 1, month: @month),
+              class: "p-1.5 text-gray-400 hover:text-gray-600 transition-colors",
+              data: { turbo_action: "replace" } do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          <% end %>
+        </div>
+      </div>
+
+      <% if max_minutes > 0 %>
+        <%
+          max_hours = (max_minutes / 60.0).ceil
+          max_hours = [max_hours, 1].max
+          y_scale = chart_height.to_f / (max_hours * 60)
+        %>
+        <!-- Legend -->
+        <div class="flex items-center gap-4 mb-3 text-xs text-gray-500">
+          <div class="flex items-center gap-1.5">
+            <div class="w-3 h-3 rounded-sm opacity-40" style="background-color: <%= project_color %>"></div>
+            <span>Estimated</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <div class="w-3 h-3 rounded-sm" style="background-color: <%= project_color %>"></div>
+            <span>Actual</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <svg viewBox="0 0 <%= chart_width + 50 %> <%= chart_height + 40 %>" class="w-full" style="min-width: 500px;" preserveAspectRatio="xMidYMid meet">
+            <!-- Y axis labels -->
+            <% (0..max_hours).each do |h| %>
+              <% y = chart_height - (h * 60 * y_scale) + 10 %>
+              <text x="30" y="<%= y + 4 %>" text-anchor="end" class="fill-gray-400" font-size="11"><%= h %>h</text>
+              <line x1="35" y1="<%= y %>" x2="<%= chart_width + 45 %>" y2="<%= y %>" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,4"/>
+            <% end %>
+
+            <!-- Bars -->
+            <% @monthly_data.each_with_index do |data, i| %>
+              <%
+                x_offset = 40 + (i * bar_group_width) + (bar_group_width / 2.0) - bar_width - (bar_gap / 2.0)
+                est_height = data[:estimated_minutes] * y_scale
+                act_height = data[:actual_minutes] * y_scale
+                est_y = chart_height + 10 - est_height
+                act_y = chart_height + 10 - act_height
+              %>
+
+              <!-- Estimated bar -->
+              <% if data[:estimated_minutes] > 0 %>
+                <%= link_to project_path(@project, year: @year, month: i + 1, anchor: 'monthly-tasks') do %>
+                  <rect x="<%= x_offset %>" y="<%= est_y %>" width="<%= bar_width %>" height="<%= est_height %>"
+                        fill="<%= project_color %>" opacity="0.3" rx="2">
+                    <title>Est: <%= (data[:estimated_minutes] / 60.0).round(1) %>h (<%= data[:estimated_minutes] %>m)</title>
+                  </rect>
+                <% end %>
+              <% end %>
+
+              <!-- Actual bar -->
+              <% if data[:actual_minutes] > 0 %>
+                <%= link_to project_path(@project, year: @year, month: i + 1, anchor: 'monthly-tasks') do %>
+                  <rect x="<%= x_offset + bar_width + bar_gap %>" y="<%= act_y %>" width="<%= bar_width %>" height="<%= act_height %>"
+                        fill="<%= project_color %>" rx="2">
+                    <title>Actual: <%= (data[:actual_minutes] / 60.0).round(1) %>h (<%= data[:actual_minutes] %>m)</title>
+                  </rect>
+                <% end %>
+              <% end %>
+
+              <!-- Task count label above bars -->
+              <% if data[:task_count] > 0 %>
+                <text x="<%= x_offset + bar_width + (bar_gap / 2.0) %>" y="<%= [est_y, act_y].min - 4 %>"
+                      text-anchor="middle" font-size="10" class="fill-gray-500">
+                  <%= data[:task_count] %>
+                </text>
+              <% end %>
+
+              <!-- Month label -->
+              <text x="<%= 40 + (i * bar_group_width) + (bar_group_width / 2.0) %>" y="<%= chart_height + 28 %>"
+                    text-anchor="middle" font-size="11"
+                    class="<%= i + 1 == @month ? 'fill-gray-900 font-bold' : 'fill-gray-400' %>">
+                <%= month_names[i] %>
+              </text>
+            <% end %>
+          </svg>
+        </div>
+      <% else %>
+        <div class="text-center py-12 text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+          <p class="text-sm">No completed tasks in <%= @year %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Monthly Completed Tasks -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6" id="monthly-tasks">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-gray-900">Completed Tasks</h2>
+        <div class="flex items-center gap-3">
+          <%
+            prev_month = @month == 1 ? 12 : @month - 1
+            prev_year = @month == 1 ? @year - 1 : @year
+            next_month = @month == 12 ? 1 : @month + 1
+            next_year = @month == 12 ? @year + 1 : @year
+          %>
+          <%= link_to project_path(@project, year: prev_year, month: prev_month, anchor: 'monthly-tasks'),
+              class: "p-1.5 text-gray-400 hover:text-gray-600 transition-colors",
+              data: { turbo_action: "replace" } do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          <% end %>
+          <span class="text-base font-bold text-gray-800 min-w-[10rem] text-center">
+            <%= Date::MONTHNAMES[@month] %> <%= @year %>
+          </span>
+          <%= link_to project_path(@project, year: next_year, month: next_month, anchor: 'monthly-tasks'),
+              class: "p-1.5 text-gray-400 hover:text-gray-600 transition-colors",
+              data: { turbo_action: "replace" } do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @monthly_completed_tasks.any? %>
+        <div class="space-y-2">
+          <% @monthly_completed_tasks.each do |task| %>
+            <div class="p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
+                 style="border-left: 3px solid <%= task.color || project_color %>">
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-medium text-sm text-gray-900"><%= task.title %></h3>
+                  <div class="flex gap-2 mt-1.5 flex-wrap items-center">
+                    <span class="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">
+                      <%= task.completed_at&.strftime('%b %d') %>
+                    </span>
+                    <% if task.estimated_time.present? && task.estimated_time > 0 %>
+                      <span class="text-xs text-gray-500">Est: <%= task.estimated_time %>m</span>
+                    <% end %>
+                    <% if task.actual_time.present? && task.actual_time > 0 %>
+                      <span class="text-xs text-gray-500">Actual: <%= task.actual_time %>m</span>
+                    <% end %>
+                    <span class="px-2 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
+                      <%= task.priority.capitalize %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <% total_est = @monthly_completed_tasks.sum { |t| t.estimated_time.to_i } %>
+        <% total_act = @monthly_completed_tasks.sum { |t| t.actual_time.to_i } %>
+        <div class="mt-4 pt-3 border-t border-gray-200 flex gap-6 text-sm text-gray-500">
+          <span><strong class="text-gray-700"><%= @monthly_completed_tasks.count %></strong> tasks</span>
+          <% if total_est > 0 %>
+            <span>Est: <strong class="text-gray-700"><%= (total_est / 60.0).round(1) %></strong>h</span>
+          <% end %>
+          <% if total_act > 0 %>
+            <span>Actual: <strong class="text-gray-700"><%= (total_act / 60.0).round(1) %></strong>h</span>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8 text-gray-400">
+          <p class="text-sm">No completed tasks in <%= Date::MONTHNAMES[@month] %> <%= @year %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Notes + Active Tasks Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Notes Section -->
       <div class="lg:col-span-2">
