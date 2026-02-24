@@ -1,6 +1,6 @@
 <% content_for :title, "Dashboard" %>
 
-<div class="min-h-screen bg-gray-50" data-controller="date-picker-modal">
+<div class="min-h-screen bg-gray-50" data-controller="date-picker-modal hold-modal">
   <% unless native_app? %>
     <%= render 'shared/header' %>
   <% end %>
@@ -176,9 +176,13 @@
                                         data-task-url="<%= move_to_date_task_path(task) %>">
                                   Move to Another Date
                                 </button>
-                                <%= link_to "Put On Hold", hold_task_path(task),
-                                    data: { turbo_method: :post },
-                                    class: "block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 touch-manipulation" %>
+                                <button type="button"
+                                        class="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 touch-manipulation"
+                                        data-action="click->hold-modal#open"
+                                        data-task-id="<%= task.id %>"
+                                        data-task-url="<%= hold_task_path(task) %>">
+                                  Put On Hold
+                                </button>
                                 <hr class="my-1">
                                 <%= link_to "Remove from Today", remove_from_today_task_path(task),
                                     data: { turbo_method: :post },
@@ -404,6 +408,51 @@
                 <p class="text-gray-600" id="no_brain_dumps">No brain dumps yet. Start capturing your thoughts!</p>
               <% end %>
             </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hold Reason Modal -->
+  <!-- Backdrop -->
+  <div class="hidden fixed inset-0 bg-black/50 z-40 opacity-0 transition-opacity duration-200"
+       data-hold-modal-target="backdrop"
+       data-action="click->hold-modal#close"></div>
+
+  <!-- Modal -->
+  <div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4"
+       data-hold-modal-target="modalContainer">
+    <div class="bg-white rounded-xl shadow-xl max-w-sm w-full opacity-0 scale-95 transition-all duration-200"
+         data-hold-modal-target="modal"
+         data-action="click->hold-modal#stopPropagation">
+      <div class="p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4">Put Task On Hold</h3>
+
+        <%= form_with url: "#", method: :post, data: {
+          hold_modal_target: "form",
+          turbo_frame: "_top"
+        } do |f| %>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Reason (optional)</label>
+            <textarea name="on_hold_reason"
+                      rows="3"
+                      placeholder="Why are you putting this on hold?"
+                      data-hold-modal-target="reasonInput"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none text-base resize-none"></textarea>
+          </div>
+
+          <div class="flex gap-3">
+            <button type="button"
+                    class="flex-1 px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                    data-action="click->hold-modal#close">
+              Cancel
+            </button>
+            <button type="submit"
+                    class="flex-1 px-4 py-3 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors font-medium"
+                    data-action="click->hold-modal#submit">
+              Put On Hold
+            </button>
           </div>
         <% end %>
       </div>
