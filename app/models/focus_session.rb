@@ -18,12 +18,19 @@ class FocusSession < ApplicationRecord
   before_save :calculate_duration
   after_create :start_task
   after_update :award_focus_points, if: :completed?
+  after_update :update_task_actual_time, if: :completed?
   after_update_commit :broadcast_timer_update
 
   # Instance methods
   def end_session!(quality: nil, notes: nil)
+    # If paused, account for the current pause before ending
+    if timer_state == 'paused' && paused_at.present?
+      self.total_paused_duration += (Time.current - paused_at).to_i
+    end
+
     self.ended_at = Time.current
     self.timer_state = 'stopped'
+    self.paused_at = nil
     self.focus_quality = quality if quality.present?
     self.notes = notes if notes.present?
     save
@@ -107,8 +114,14 @@ class FocusSession < ApplicationRecord
 
   def calculate_duration
     if ended_at.present? && started_at.present?
-      self.duration = (ended_at - started_at).to_i
+      self.duration = [(ended_at - started_at).to_i - (total_paused_duration || 0), 0].max
     end
+  end
+
+  def update_task_actual_time
+    return unless ended_at_previously_was.nil?
+
+    task.update_column(:actual_time, task.total_focus_time / 60)
   end
 
   def start_task

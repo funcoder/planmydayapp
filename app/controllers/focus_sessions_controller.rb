@@ -2,8 +2,8 @@ class FocusSessionsController < ApplicationController
   before_action :set_focus_session, only: [:show, :update, :end_session, :add_interruption, :pause_timer, :resume_timer]
   
   def create
-    # End any existing focus session
-    current_user.focus_sessions.in_progress.update_all(ended_at: Time.current, timer_state: 'stopped')
+    # End any existing focus sessions (use end_session! to trigger callbacks)
+    current_user.focus_sessions.in_progress.each(&:end_session!)
 
     @task = current_user.tasks.find(params[:task_id])
     @focus_session = current_user.focus_sessions.build(
@@ -40,7 +40,7 @@ class FocusSessionsController < ApplicationController
   end
   
   def end_session
-    @focus_session.update(ended_at: Time.current)
+    @focus_session.end_session!
     redirect_to dashboard_path, notice: "Focus session ended"
   end
   
