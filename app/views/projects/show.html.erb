@@ -140,14 +140,6 @@
                 <% end %>
               <% end %>
 
-              <!-- Task count label above bars -->
-              <% if data[:task_count] > 0 %>
-                <text x="<%= x_offset + bar_width + (bar_gap / 2.0) %>" y="<%= [est_y, act_y].min - 4 %>"
-                      text-anchor="middle" font-size="10" class="fill-gray-500">
-                  <%= data[:task_count] %>
-                </text>
-              <% end %>
-
               <!-- Month label -->
               <text x="<%= 40 + (i * bar_group_width) + (bar_group_width / 2.0) %>" y="<%= chart_height + 28 %>"
                     text-anchor="middle" font-size="11"
