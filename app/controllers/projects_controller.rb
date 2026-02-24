@@ -32,22 +32,41 @@ class ProjectsController < ApplicationController
       .group("EXTRACT(MONTH FROM started_at)::integer")
       .sum(:duration)
 
-    # Estimated minutes — attribute each task's estimate to the month of its first session
+    # Estimated minutes — attribute each task's estimate to the month of its first session,
+    # falling back to completed_at/updated_at for tasks without focus sessions
     first_session_months = @project.focus_sessions.completed
       .where(started_at: year_start..year_end)
       .group(:task_id).minimum(:started_at)
 
-    tasks_by_id = @project.tasks.where(id: first_session_months.keys).index_by(&:id)
+    # Also include tasks with estimates but no focus sessions (completed/on_hold)
+    session_task_ids = first_session_months.keys
+    no_session_tasks = @project.tasks
+      .where.not(estimated_time: [nil, 0])
+      .where.not(id: session_task_ids)
+      .where(status: %w[completed on_hold in_progress pending])
+      .where("completed_at BETWEEN ? AND ? OR updated_at BETWEEN ? AND ?", year_start, year_end, year_start, year_end)
+
+    all_estimated_tasks = @project.tasks.where(id: session_task_ids + no_session_tasks.pluck(:id)).index_by(&:id)
     monthly_estimates = Hash.new(0)
     first_session_months.each do |task_id, first_started|
-      monthly_estimates[first_started.month] += tasks_by_id[task_id]&.estimated_time.to_i
+      monthly_estimates[first_started.month] += all_estimated_tasks[task_id]&.estimated_time.to_i
+    end
+    no_session_tasks.each do |task|
+      ref_date = task.completed_at || task.updated_at
+      next unless ref_date && ref_date >= year_start && ref_date <= year_end
+      monthly_estimates[ref_date.month] += task.estimated_time.to_i
     end
 
-    # Unique task count per month
+    # Unique task count per month (sessions + no-session tasks)
     monthly_task_counts = @project.focus_sessions.completed
       .where(started_at: year_start..year_end)
       .group("EXTRACT(MONTH FROM started_at)::integer")
       .distinct.count(:task_id)
+    no_session_tasks.each do |task|
+      ref_date = task.completed_at || task.updated_at
+      next unless ref_date && ref_date >= year_start && ref_date <= year_end
+      monthly_task_counts[ref_date.month] = (monthly_task_counts[ref_date.month] || 0) + 1
+    end
 
     @monthly_data = (1..12).map do |m|
       {
@@ -58,13 +77,21 @@ class ProjectsController < ApplicationController
       }
     end
 
-    # Tasks that had focus sessions in the selected month
+    # Tasks for the selected month: those with sessions OR completed/tracked in this month
     month_start = Date.new(@year, @month, 1).beginning_of_day
     month_end = Date.new(@year, @month, 1).end_of_month.end_of_day
-    month_task_ids = @project.focus_sessions.completed
+    session_task_ids_for_month = @project.focus_sessions.completed
       .where(started_at: month_start..month_end)
       .distinct.pluck(:task_id)
-    @monthly_completed_tasks = @project.tasks.where(id: month_task_ids).order(updated_at: :desc)
+    no_session_task_ids_for_month = @project.tasks
+      .where.not(id: session_task_ids_for_month)
+      .where(status: %w[completed on_hold])
+      .where("(completed_at BETWEEN ? AND ?) OR (actual_time > 0 AND updated_at BETWEEN ? AND ?)",
+             month_start, month_end, month_start, month_end)
+      .pluck(:id)
+    @monthly_completed_tasks = @project.tasks
+      .where(id: session_task_ids_for_month + no_session_task_ids_for_month)
+      .order(updated_at: :desc)
   end
 
   def new
