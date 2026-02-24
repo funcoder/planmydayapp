@@ -1,9 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Version must be updated when service worker changes
-const SW_VERSION = 'v7'
+const SW_VERSION = 'v0.2.0'
 
 export default class extends Controller {
+  static targets = ["updateBanner"]
+
   connect() {
     this.registerServiceWorker()
   }
@@ -18,7 +20,6 @@ export default class extends Controller {
         // Check if it's an old registration (different URL or needs refresh)
         const oldSwUrl = registration.active?.scriptURL || ''
         if (!oldSwUrl.includes(`sw-${SW_VERSION}`)) {
-          console.log('Unregistering old service worker:', oldSwUrl)
           await registration.unregister()
         }
       }
@@ -28,10 +29,8 @@ export default class extends Controller {
       const registration = await navigator.serviceWorker.register(swUrl, {
         updateViaCache: 'none' // Never use HTTP cache for service worker
       })
-      console.log('ServiceWorker registered:', registration)
 
-      // Check for updates on page load (browser handles this automatically,
-      // but we call it once for visibility changes)
+      // Check for updates on visibility change
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
           registration.update()
@@ -41,24 +40,38 @@ export default class extends Controller {
       // Handle updates
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing
-        console.log('New service worker installing...')
 
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('New version available, activating...')
             // Tell the new service worker to take over immediately
             newWorker.postMessage({ type: 'SKIP_WAITING' })
           }
         })
       })
 
-      // Log when new service worker takes over (no auto-reload to avoid disruption)
+      // Show update banner when new service worker takes control
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        console.log('Service worker updated - changes will apply on next navigation')
+        this.showUpdateBanner()
       })
 
     } catch (error) {
-      console.log('ServiceWorker registration failed:', error)
+      // Service worker registration failed silently
+    }
+  }
+
+  showUpdateBanner() {
+    if (this.hasUpdateBannerTarget) {
+      this.updateBannerTarget.classList.remove('hidden')
+    }
+  }
+
+  refreshPage() {
+    window.location.reload()
+  }
+
+  dismissUpdate() {
+    if (this.hasUpdateBannerTarget) {
+      this.updateBannerTarget.classList.add('hidden')
     }
   }
 }

@@ -102,6 +102,15 @@ Before adding any gem, check if Rails 8 provides a native solution:
 - ❌ React/Vue → ✅ Hotwire
 - ❌ Webpacker → ✅ Importmap/esbuild
 
+## Deploy Checklist
+
+1. **Bump version** in `config/initializers/version.rb` (increment by `0.0.1`)
+2. **Update service worker version** in `lib/service-worker.js` — set `CACHE_VERSION` to match the new version (e.g. `'v0.2.1'`)
+3. **Update Stimulus SW version** in `app/javascript/controllers/service_worker_controller.js` — set `SW_VERSION` to match (e.g. `'v0.2.1'`)
+4. **Run tests** — `rails test:all`
+5. **Commit** with message like `chore: bump version to 0.2.1`
+6. **Deploy** — the new service worker version triggers the "update available" banner for returning PWA users
+
 ## Commands to Remember
 ```bash
 # Generate authentication
