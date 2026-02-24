@@ -201,7 +201,7 @@
           <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
-          <p class="text-sm">No completed tasks in <%= @year %></p>
+          <p class="text-sm">No tracked tasks in <%= @year %></p>
         </div>
       <% end %>
     </div>
@@ -209,7 +209,7 @@
     <!-- Monthly Completed Tasks -->
     <div class="bg-white rounded-xl shadow-lg p-6 mb-6" id="monthly-tasks">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Completed Tasks</h2>
+        <h2 class="text-lg font-semibold text-gray-900">Tracked Tasks</h2>
         <div class="flex items-center gap-3">
           <%
             prev_month = @month == 1 ? 12 : @month - 1
@@ -246,9 +246,16 @@
                 <div class="flex-1 min-w-0">
                   <h3 class="font-medium text-sm text-gray-900"><%= task.title %></h3>
                   <div class="flex gap-2 mt-1.5 flex-wrap items-center">
-                    <span class="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">
-                      <%= task.completed_at&.strftime('%b %d') %>
-                    </span>
+                    <% case task.status %>
+                    <% when 'on_hold' %>
+                      <span class="px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-800">On Hold</span>
+                    <% when 'completed' %>
+                      <span class="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">Completed <%= task.completed_at&.strftime('%b %d') %></span>
+                    <% when 'in_progress' %>
+                      <span class="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">In Progress</span>
+                    <% else %>
+                      <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">Pending</span>
+                    <% end %>
                     <% if task.estimated_time.present? && task.estimated_time > 0 %>
                       <span class="text-xs text-gray-500">Est: <%= task.estimated_time %>m</span>
                     <% end %>
@@ -278,7 +285,7 @@
         </div>
       <% else %>
         <div class="text-center py-8 text-gray-400">
-          <p class="text-sm">No completed tasks in <%= Date::MONTHNAMES[@month] %> <%= @year %></p>
+          <p class="text-sm">No tracked tasks in <%= Date::MONTHNAMES[@month] %> <%= @year %></p>
         </div>
       <% end %>
     </div>

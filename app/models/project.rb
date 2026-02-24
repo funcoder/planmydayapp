@@ -2,6 +2,7 @@ class Project < ApplicationRecord
   belongs_to :user
   has_many :notes, dependent: :nullify
   has_many :tasks, dependent: :nullify
+  has_many :focus_sessions, through: :tasks
 
   # ActsAsList for ordering
   acts_as_list scope: :user_id

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_24_130958) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_24_141339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -162,6 +162,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_24_130958) do
     t.datetime "paused_at"
     t.string "timer_state", default: "stopped"
     t.integer "total_paused_duration", default: 0
+    t.index ["started_at"], name: "index_focus_sessions_on_started_at"
     t.index ["task_id"], name: "index_focus_sessions_on_task_id"
     t.index ["user_id"], name: "index_focus_sessions_on_user_id"
   end
