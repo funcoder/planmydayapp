@@ -149,6 +149,53 @@
             <% end %>
           </svg>
         </div>
+
+        <!-- Monthly Summary Table -->
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-2 pr-2 text-gray-500 font-medium"></th>
+                <% month_names.each_with_index do |m, i| %>
+                  <th class="text-center py-2 px-1 font-medium <%= i + 1 == @month ? 'text-gray-900' : 'text-gray-400' %>"><%= m %></th>
+                <% end %>
+                <th class="text-center py-2 pl-2 text-gray-700 font-semibold">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-1.5 pr-2 text-gray-500 font-medium">Est</td>
+                <% @monthly_data.each_with_index do |data, i| %>
+                  <td class="text-center py-1.5 px-1 <%= data[:estimated_minutes] > 0 ? 'text-gray-700' : 'text-gray-300' %>">
+                    <%= data[:estimated_minutes] > 0 ? "#{(data[:estimated_minutes] / 60.0).round(1)}h" : '-' %>
+                  </td>
+                <% end %>
+                <% total_est_year = @monthly_data.sum { |d| d[:estimated_minutes] } %>
+                <td class="text-center py-1.5 pl-2 text-gray-700 font-semibold"><%= total_est_year > 0 ? "#{(total_est_year / 60.0).round(1)}h" : '-' %></td>
+              </tr>
+              <tr>
+                <td class="py-1.5 pr-2 text-gray-500 font-medium">Actual</td>
+                <% @monthly_data.each_with_index do |data, i| %>
+                  <td class="text-center py-1.5 px-1 <%= data[:actual_minutes] > 0 ? 'text-gray-700' : 'text-gray-300' %>">
+                    <%= data[:actual_minutes] > 0 ? "#{(data[:actual_minutes] / 60.0).round(1)}h" : '-' %>
+                  </td>
+                <% end %>
+                <% total_act_year = @monthly_data.sum { |d| d[:actual_minutes] } %>
+                <td class="text-center py-1.5 pl-2 text-gray-700 font-semibold"><%= total_act_year > 0 ? "#{(total_act_year / 60.0).round(1)}h" : '-' %></td>
+              </tr>
+              <tr class="border-t border-gray-100">
+                <td class="py-1.5 pr-2 text-gray-500 font-medium">Tasks</td>
+                <% @monthly_data.each_with_index do |data, i| %>
+                  <td class="text-center py-1.5 px-1 <%= data[:task_count] > 0 ? 'text-gray-700' : 'text-gray-300' %>">
+                    <%= data[:task_count] > 0 ? data[:task_count] : '-' %>
+                  </td>
+                <% end %>
+                <% total_tasks_year = @monthly_data.sum { |d| d[:task_count] } %>
+                <td class="text-center py-1.5 pl-2 text-gray-700 font-semibold"><%= total_tasks_year > 0 ? total_tasks_year : '-' %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       <% else %>
         <div class="text-center py-12 text-gray-400">
           <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
