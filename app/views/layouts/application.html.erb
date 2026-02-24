@@ -76,31 +76,6 @@
       <%= yield %>
     </div>
     
-    <!-- PWA Update Banner -->
-    <div class="hidden fixed top-0 left-0 right-0 z-50 bg-primary-600 text-white py-3 px-4 shadow-lg"
-         data-service-worker-target="updateBanner">
-      <div class="max-w-7xl mx-auto flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          <span class="text-sm font-medium">A new version is available</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <button data-action="service-worker#refreshPage"
-                  class="bg-white text-primary-700 px-3 py-1 rounded text-sm font-medium hover:bg-primary-50 transition-colors">
-            Refresh
-          </button>
-          <button data-action="service-worker#dismissUpdate"
-                  class="text-primary-200 hover:text-white transition-colors p-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Footer -->
     <% unless content_for?(:hide_beta_badge) %>
       <%= render "shared/beta_badge" %>
