@@ -30,7 +30,11 @@ class TasksController < ApplicationController
     # If coming from backlog page, don't set scheduled_for
     scheduled_date = params[:scheduled] == 'backlog' ? nil : Date.current
     @task = current_user.tasks.build(scheduled_for: scheduled_date, status: 'pending')
-    @task.project_id = params[:project_id] if params[:project_id].present?
+    if params[:project_id].present?
+      @task.project_id = params[:project_id]
+      project = current_user.projects.find_by(id: params[:project_id])
+      @task.color = project.color if project
+    end
     @unscheduled_tasks = current_user.tasks.unscheduled.pending
     @brain_dumps = current_user.brain_dumps.unprocessed.recent.limit(5)
     @projects = current_user.projects.active.ordered if current_user.can_access_notes?

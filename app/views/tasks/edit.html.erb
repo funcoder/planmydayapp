@@ -13,7 +13,8 @@
     </div>
 
     <div class="bg-white rounded-xl shadow-lg p-6">
-      <%= form_with model: @task, local: true do |form| %>
+      <% project_colors = @projects&.each_with_object({}) { |p, h| h[p.id.to_s] = p.color } || {} %>
+      <%= form_with model: @task, local: true, data: { controller: "project-color", "project-color-colors-value": project_colors.to_json } do |form| %>
         <% if @task.errors.any? %>
           <div class="rounded-lg bg-red-50 border-2 border-red-200 p-4 mb-6">
             <h3 class="text-sm font-medium text-red-800 mb-2">
@@ -102,7 +103,8 @@
               <%= form.select :project_id,
                   options_from_collection_for_select(@projects, :id, :name, @task.project_id),
                   { include_blank: "No project" },
-                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all" %>
+                  class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all",
+                  data: { project_color_target: "projectSelect", action: "change->project-color#selectProject" } %>
             </div>
           <% end %>
 

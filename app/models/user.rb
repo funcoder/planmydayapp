@@ -62,6 +62,10 @@ class User < ApplicationRecord
     preferences.dig('daily_task_limit') || 5
   end
 
+  def daily_task_limit=(value)
+    self.preferences = preferences.merge('daily_task_limit' => value.to_i.clamp(1, 10))
+  end
+
   def preferred_colors
     preferences.dig('colors') || default_colors
   end

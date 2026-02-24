@@ -27,6 +27,7 @@ class Task < ApplicationRecord
   scope :unscheduled, -> { where(scheduled_for: nil) }
 
   # Callbacks
+  before_save :inherit_project_color
   before_save :set_completed_at
   after_update :award_completion_points, if: :completed?
   
@@ -99,6 +100,13 @@ class Task < ApplicationRecord
              end
     
     user.add_points(points)
+  end
+
+  def inherit_project_color
+    return unless project_id_changed? && project.present?
+    return if color_changed? && !new_record?
+
+    self.color = project.color
   end
 
   def calculate_actual_time
