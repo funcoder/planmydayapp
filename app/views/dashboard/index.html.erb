@@ -315,7 +315,7 @@
         <% else %>
           <div class="bg-white rounded-xl shadow-sm p-4">
             <h3 class="text-lg font-bold mb-2">Start Focus Session</h3>
-            <p class="text-gray-600 text-sm mb-3">Pick a task and start a Pomodoro session.</p>
+            <p class="text-gray-600 text-sm mb-3">Pick a task and start focusing.</p>
 
             <% if @today_incomplete_tasks && (@today_incomplete_tasks.pending.any? || @today_incomplete_tasks.in_progress.any?) %>
               <%= form_with url: focus_sessions_path, method: :post, data: { turbo_frame: "_top" } do |form| %>

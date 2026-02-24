@@ -6,35 +6,22 @@
   <p class="text-primary-100 mb-4" data-pomodoro-target="taskName"><%= focus_session.task.title %></p>
 
   <div class="text-3xl font-mono mb-4" data-pomodoro-target="timer">
-    <%= "%02d:%02d" % [focus_session.calculate_remaining_seconds / 60, focus_session.calculate_remaining_seconds % 60] %>
+    <%= "%02d:%02d" % [focus_session.calculate_elapsed_seconds / 60, focus_session.calculate_elapsed_seconds % 60] %>
   </div>
 
   <div class="space-y-2">
     <button class="block w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-center"
-            data-pomodoro-target="startButton"
-            data-action="click->pomodoro#start"
-            style="<%= focus_session.timer_state == 'stopped' ? '' : 'display: none' %>">
-      Start Timer
-    </button>
-
-    <button class="block w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-center"
             data-pomodoro-target="pauseButton"
             data-action="click->pomodoro#pause"
             style="<%= focus_session.timer_state == 'running' ? '' : 'display: none' %>">
-      Pause Timer
+      Pause
     </button>
 
     <button class="block w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-center"
             data-pomodoro-target="resumeButton"
             data-action="click->pomodoro#resume"
             style="<%= focus_session.timer_state == 'paused' ? '' : 'display: none' %>">
-      Resume Timer
-    </button>
-
-    <button class="block w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-center"
-            data-pomodoro-target="resetButton"
-            data-action="click->pomodoro#reset">
-      Reset Timer
+      Resume
     </button>
 
     <button class="w-full px-4 py-2 bg-yellow-400/20 hover:bg-yellow-400/30 rounded-lg transition-colors text-center"

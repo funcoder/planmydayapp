@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Version must be updated when service worker changes
-const SW_VERSION = 'v0.2.2'
+const SW_VERSION = 'v0.2.3'
 
 export default class extends Controller {
   static targets = ["updateBanner"]

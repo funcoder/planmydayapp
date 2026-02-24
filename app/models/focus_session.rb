@@ -60,18 +60,10 @@ class FocusSession < ApplicationRecord
   end
 
   # Timer state management
-  def start_timer!
-    self.timer_state = 'running'
-    self.started_at ||= Time.current
-    self.paused_at = nil
-    save
-  end
-
   def pause_timer!
     return unless timer_state == 'running'
     self.timer_state = 'paused'
     self.paused_at = Time.current
-    self.timer_remaining = calculate_remaining_seconds
     save
   end
 
@@ -87,31 +79,23 @@ class FocusSession < ApplicationRecord
     save
   end
 
-  def stop_timer!
-    self.timer_state = 'stopped'
-    self.paused_at = nil
-    save
-  end
+  def calculate_elapsed_seconds
+    return 0 unless started_at
 
-  def calculate_remaining_seconds
-    return timer_remaining if timer_state == 'paused'
-    return timer_duration unless timer_state == 'running'
+    reference_time = case timer_state
+                     when 'paused' then paused_at || Time.current
+                     when 'stopped' then ended_at || started_at
+                     else Time.current
+                     end
 
-    elapsed = Time.current - started_at - total_paused_duration
-    remaining = timer_duration - elapsed.to_i
-    [remaining, 0].max
-  end
-
-  def timer_expired?
-    timer_state == 'running' && calculate_remaining_seconds <= 0
+    [(reference_time - started_at).to_i - (total_paused_duration || 0), 0].max
   end
 
   def timer_data
     {
       id: id,
       state: timer_state,
-      duration: timer_duration,
-      remaining: calculate_remaining_seconds,
+      elapsed: calculate_elapsed_seconds,
       started_at: started_at&.iso8601,
       paused_at: paused_at&.iso8601,
       total_paused_duration: total_paused_duration,

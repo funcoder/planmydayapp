@@ -95,10 +95,8 @@ Rails.application.routes.draw do
     member do
       post :end_session
       post :add_interruption
-      post :start_timer
       post :pause_timer
       post :resume_timer
-      post :stop_timer
     end
   end
   

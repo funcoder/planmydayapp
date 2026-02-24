@@ -11,18 +11,15 @@ class FocusTimerPersistenceTest < ApplicationSystemTestCase
     # Start on dashboard
     visit dashboard_path
 
-    # Create a focus session
+    # Create a focus session (starts immediately in running state)
     select @task.title, from: "task_id"
     click_button "Start Focus Mode"
 
-    # Start the timer
     within "#focus_timer" do
-      click_button "Start Timer"
       sleep 2 # Let timer run for 2 seconds
 
       # Check timer is running
       assert_selector "[data-pomodoro-target='pauseButton']", visible: true
-      assert_selector "[data-pomodoro-target='startButton']", visible: false
     end
 
     # Refresh the page
@@ -31,18 +28,17 @@ class FocusTimerPersistenceTest < ApplicationSystemTestCase
     # Timer should still be running
     within "#focus_timer" do
       assert_selector "[data-pomodoro-target='pauseButton']", visible: true
-      assert_selector "[data-pomodoro-target='startButton']", visible: false
 
-      # Timer should show less than 25:00
+      # Timer should show more than 00:00 (counting up)
       timer_text = find("[data-pomodoro-target='timer']").text
       minutes, seconds = timer_text.split(":").map(&:to_i)
       total_seconds = minutes * 60 + seconds
-      assert total_seconds < 1500, "Timer should have counted down"
+      assert total_seconds > 0, "Timer should have counted up"
     end
 
     # Test pause functionality
     within "#focus_timer" do
-      click_button "Pause Timer"
+      click_button "Pause"
       sleep 1
 
       assert_selector "[data-pomodoro-target='resumeButton']", visible: true
@@ -66,7 +62,7 @@ class FocusTimerPersistenceTest < ApplicationSystemTestCase
 
     # Resume timer
     within "#focus_timer" do
-      click_button "Resume Timer"
+      click_button "Resume"
       sleep 2
 
       assert_selector "[data-pomodoro-target='pauseButton']", visible: true
@@ -81,11 +77,11 @@ class FocusTimerPersistenceTest < ApplicationSystemTestCase
     within "#focus_timer" do
       assert_selector "[data-pomodoro-target='pauseButton']", visible: true
 
-      # Verify timer is still counting down
+      # Verify timer continues counting up after navigation
       timer_text = find("[data-pomodoro-target='timer']").text
       minutes, seconds = timer_text.split(":").map(&:to_i)
       total_seconds = minutes * 60 + seconds
-      assert total_seconds < 1495, "Timer should continue counting after navigation"
+      assert total_seconds > 5, "Timer should continue counting after navigation"
     end
   end
 

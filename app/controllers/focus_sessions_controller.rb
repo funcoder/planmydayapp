@@ -1,5 +1,5 @@
 class FocusSessionsController < ApplicationController
-  before_action :set_focus_session, only: [:show, :update, :end_session, :add_interruption, :start_timer, :pause_timer, :resume_timer, :stop_timer]
+  before_action :set_focus_session, only: [:show, :update, :end_session, :add_interruption, :pause_timer, :resume_timer]
   
   def create
     # End any existing focus session
@@ -9,9 +9,7 @@ class FocusSessionsController < ApplicationController
     @focus_session = current_user.focus_sessions.build(
       task: @task,
       started_at: Time.current,
-      timer_duration: params[:duration] || 1500,
-      timer_state: 'stopped',
-      timer_remaining: params[:duration] || 1500
+      timer_state: 'running'
     )
 
     if @focus_session.save
@@ -54,15 +52,6 @@ class FocusSessionsController < ApplicationController
     end
   end
 
-  # Timer control actions
-  def start_timer
-    @focus_session.start_timer!
-    respond_to do |format|
-      format.html { redirect_to dashboard_path }
-      format.json { render json: @focus_session.timer_data }
-    end
-  end
-
   def pause_timer
     @focus_session.pause_timer!
     respond_to do |format|
@@ -79,14 +68,6 @@ class FocusSessionsController < ApplicationController
     end
   end
 
-  def stop_timer
-    @focus_session.stop_timer!
-    respond_to do |format|
-      format.html { redirect_to dashboard_path }
-      format.json { render json: @focus_session.timer_data }
-    end
-  end
-  
   private
   
   def set_focus_session
