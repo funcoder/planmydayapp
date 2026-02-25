@@ -76,7 +76,7 @@ class Task < ApplicationRecord
   end
 
   def resume!
-    update(status: 'pending', on_hold_reason: nil)
+    update(status: 'pending', on_hold_reason: nil, scheduled_for: Date.current)
   end
 
   def tag_list
@@ -123,6 +123,6 @@ class Task < ApplicationRecord
   end
 
   def calculate_actual_time
-    total_focus_time / 60 # Convert seconds to minutes
+    (total_focus_time / 60.0).ceil # Convert seconds to minutes, round up
   end
 end
