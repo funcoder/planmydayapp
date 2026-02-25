@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       post :schedule_for_today
       post :remove_from_today
       post :move_to_date
+      post :move_to_column
     end
     collection do
       post :update_order

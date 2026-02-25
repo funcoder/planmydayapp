@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date]
+  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date, :move_to_column]
 
   def index
     @filter = params[:filter] || 'pending'
@@ -7,9 +7,9 @@ class TasksController < ApplicationController
 
     if @view == 'kanban'
       # For kanban, get all tasks organized by status/schedule
-      @pending_tasks = current_user.tasks.where(status: 'pending').order(created_at: :desc)
-      @today_tasks = current_user.tasks.where(scheduled_for: Date.current).where.not(status: 'completed').order(created_at: :desc)
-      @completed_tasks = current_user.tasks.where(status: 'completed').order(updated_at: :desc).limit(20)
+      @pending_tasks = current_user.tasks.where(status: 'pending').where("scheduled_for IS NULL OR scheduled_for != ?", Date.current).order(position: :asc, created_at: :desc)
+      @today_tasks = current_user.tasks.where(scheduled_for: Date.current).where.not(status: 'completed').order(position: :asc, created_at: :desc)
+      @completed_tasks = current_user.tasks.where(status: 'completed').order(position: :asc, updated_at: :desc).limit(20)
       @tasks = current_user.tasks # For total count
     else
       # List view with filtering
@@ -154,6 +154,37 @@ class TasksController < ApplicationController
 
     @task.update(scheduled_for: new_date)
     redirect_to dashboard_path, notice: "Task moved to #{new_date.strftime('%B %d, %Y')}"
+  end
+
+  def move_to_column
+    column = params[:column]
+
+    case column
+    when "pending"
+      @task.update(status: "pending", scheduled_for: nil, completed_at: nil)
+    when "today"
+      if current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
+        head :unprocessable_entity
+        return
+      end
+      new_status = @task.completed? ? "pending" : @task.status
+      @task.update(status: new_status, scheduled_for: Date.current, completed_at: nil)
+    when "completed"
+      @task.complete!
+      current_user.update_streak
+    else
+      head :unprocessable_entity
+      return
+    end
+
+    # Update positions for all tasks in the target column
+    if params[:task_ids].present?
+      params[:task_ids].each_with_index do |id, index|
+        current_user.tasks.where(id: id).update_all(position: index)
+      end
+    end
+
+    head :ok
   end
 
   def update_order

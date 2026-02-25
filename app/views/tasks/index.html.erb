@@ -164,9 +164,9 @@
     </div>
     <% else %>
     <!-- Kanban View -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-controller="kanban">
       <!-- Pending Column -->
-      <div class="bg-gray-50 rounded-xl p-4">
+      <div class="bg-gray-50 rounded-xl p-4" data-kanban-target="column" data-column="pending">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold text-gray-900 flex items-center gap-2">
             <span class="w-3 h-3 bg-gray-400 rounded-full"></span>
@@ -174,10 +174,12 @@
           </h3>
           <span class="text-sm text-gray-500"><%= @pending_tasks.count %></span>
         </div>
-        <div class="space-y-3">
+        <div class="flex flex-col gap-3 min-h-[60px]" data-drop-list>
           <% if @pending_tasks.any? %>
             <% @pending_tasks.each do |task| %>
-              <div class="bg-white p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-colors shadow-sm"
+              <div class="bg-white p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-colors shadow-sm cursor-grab active:cursor-grabbing"
+                   draggable="true" data-task-id="<%= task.id %>"
+                   data-action="dragstart->kanban#dragStart dragend->kanban#dragEnd"
                    style="border-left: 4px solid <%= task.color || '#9ca3af' %>">
                 <div class="flex items-start justify-between gap-2">
                   <div class="flex-1 min-w-0">
@@ -220,7 +222,7 @@
       </div>
 
       <!-- Today Column -->
-      <div class="bg-blue-50 rounded-xl p-4">
+      <div class="bg-blue-50 rounded-xl p-4" data-kanban-target="column" data-column="today">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold text-gray-900 flex items-center gap-2">
             <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
@@ -228,10 +230,12 @@
           </h3>
           <span class="text-sm text-gray-500"><%= @today_tasks.count %></span>
         </div>
-        <div class="space-y-3">
+        <div class="flex flex-col gap-3 min-h-[60px]" data-drop-list>
           <% if @today_tasks.any? %>
             <% @today_tasks.each do |task| %>
-              <div class="bg-white p-4 rounded-lg border-2 border-blue-200 hover:border-blue-300 transition-colors shadow-sm"
+              <div class="bg-white p-4 rounded-lg border-2 border-blue-200 hover:border-blue-300 transition-colors shadow-sm cursor-grab active:cursor-grabbing"
+                   draggable="true" data-task-id="<%= task.id %>"
+                   data-action="dragstart->kanban#dragStart dragend->kanban#dragEnd"
                    style="border-left: 4px solid <%= task.color || '#3b82f6' %>">
                 <div class="flex items-start justify-between gap-2">
                   <div class="flex-1 min-w-0">
@@ -277,7 +281,7 @@
       </div>
 
       <!-- Completed Column -->
-      <div class="bg-green-50 rounded-xl p-4">
+      <div class="bg-green-50 rounded-xl p-4" data-kanban-target="column" data-column="completed">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold text-gray-900 flex items-center gap-2">
             <span class="w-3 h-3 bg-green-500 rounded-full"></span>
@@ -285,10 +289,12 @@
           </h3>
           <span class="text-sm text-gray-500"><%= @completed_tasks.count %></span>
         </div>
-        <div class="space-y-3">
+        <div class="flex flex-col gap-3 min-h-[60px]" data-drop-list>
           <% if @completed_tasks.any? %>
             <% @completed_tasks.each do |task| %>
-              <div class="bg-white p-4 rounded-lg border-2 border-green-200 hover:border-green-300 transition-colors shadow-sm opacity-75"
+              <div class="bg-white p-4 rounded-lg border-2 border-green-200 hover:border-green-300 transition-colors shadow-sm opacity-75 cursor-grab active:cursor-grabbing"
+                   draggable="true" data-task-id="<%= task.id %>"
+                   data-action="dragstart->kanban#dragStart dragend->kanban#dragEnd"
                    style="border-left: 4px solid <%= task.color || '#22c55e' %>">
                 <div class="flex items-start justify-between gap-2">
                   <div class="flex-1 min-w-0">
