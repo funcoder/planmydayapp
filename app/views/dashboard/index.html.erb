@@ -257,7 +257,7 @@
         <% end %>
 
         <!-- Brain Dump Section -->
-        <%= turbo_frame_tag "brain_dump_form" do %>
+        <%= turbo_frame_tag "brain_dump_form", class: "block" do %>
           <%= render "brain_dumps/form", brain_dump: BrainDump.new %>
         <% end %>
 
