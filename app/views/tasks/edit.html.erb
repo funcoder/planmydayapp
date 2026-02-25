@@ -2,11 +2,11 @@
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Header -->
     <div class="mb-8">
-      <%= link_to dashboard_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
+      <%= link_to (@return_to.presence || dashboard_path), class: "inline-flex items-center text-sm text-gray-600 hover:text-primary-600 transition-colors mb-4" do %>
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
         </svg>
-        Back to Dashboard
+        Back
       <% end %>
       
       <h1 class="text-3xl font-bold text-gray-900">Edit Task</h1>
@@ -15,6 +15,7 @@
     <div class="bg-white rounded-xl shadow-lg p-6">
       <% project_colors = @projects&.each_with_object({}) { |p, h| h[p.id.to_s] = p.color } || {} %>
       <%= form_with model: @task, local: true, data: { controller: "project-color", "project-color-colors-value": project_colors.to_json } do |form| %>
+        <%= hidden_field_tag :return_to, @return_to %>
         <% if @task.errors.any? %>
           <div class="rounded-lg bg-red-50 border-2 border-red-200 p-4 mb-6">
             <h3 class="text-sm font-medium text-red-800 mb-2">
@@ -145,7 +146,7 @@
             <%= form.submit "Update Task", 
                 class: "flex-1 py-3 px-6 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-purple-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all cursor-pointer" %>
             
-            <%= link_to "Cancel", dashboard_path, 
+            <%= link_to "Cancel", (@return_to.presence || dashboard_path),
                 class: "px-6 py-3 border-2 border-gray-300 text-lg font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all" %>
           </div>
         </div>

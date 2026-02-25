@@ -70,13 +70,15 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @return_to = params[:return_to] || request.referer
     @projects = current_user.projects.active.ordered if current_user.can_access_notes?
   end
 
   def update
     if @task.update(task_params)
-      redirect_to dashboard_path, notice: "Task updated successfully!"
+      redirect_to params[:return_to].presence || dashboard_path, notice: "Task updated successfully!"
     else
+      @return_to = params[:return_to]
       @projects = current_user.projects.active.ordered if current_user.can_access_notes?
       render :edit
     end
