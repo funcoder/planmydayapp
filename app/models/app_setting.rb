@@ -27,7 +27,7 @@ class AppSetting < ApplicationRecord
 
   # Specific settings
   def self.lifetime_offer_enabled?
-    get('lifetime_offer_enabled', true) # Default to true (enabled)
+    get('lifetime_offer_enabled', false) # Default to false (disabled)
   end
 
   def self.enable_lifetime_offer!
