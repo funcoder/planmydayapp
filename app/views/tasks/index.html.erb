@@ -119,7 +119,7 @@
               </thead>
               <tbody class="divide-y divide-gray-100">
                 <% @tasks.each do |task| %>
-                  <%= turbo_frame_tag dom_id(task), tag: "tr", class: "hover:bg-gray-50 transition-colors group" do %>
+                  <tr class="hover:bg-gray-50 transition-colors group" id="<%= dom_id(task) %>">
                     <%# Color indicator %>
                     <td class="px-4 py-3">
                       <div class="w-2.5 h-2.5 rounded-full" style="background-color: <%= task.color || '#14b8a6' %>"></div>
@@ -228,7 +228,7 @@
                         <% end %>
                       </div>
                     </td>
-                  <% end %>
+                  </tr>
                 <% end %>
               </tbody>
             </table>
