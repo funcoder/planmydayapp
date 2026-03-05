@@ -9,11 +9,14 @@ class Task < ApplicationRecord
   # ActsAsList configuration
   acts_as_list scope: [:user_id, :scheduled_for]
 
+  TIME_OF_DAY_OPTIONS = %w[morning afternoon evening].freeze
+
   # Validations
   validates :title, presence: true
   validates :status, inclusion: { in: %w[pending in_progress completed archived on_hold] }
   validates :priority, inclusion: { in: %w[low medium high urgent] }
   validates :color, format: { with: /\A#[0-9A-F]{6}\z/i }, allow_blank: true
+  validates :time_of_day, inclusion: { in: TIME_OF_DAY_OPTIONS }
 
   # Scopes
   scope :pending, -> { where(status: 'pending') }
@@ -26,6 +29,9 @@ class Task < ApplicationRecord
   scope :by_priority, -> { order(Arel.sql("CASE priority WHEN 'urgent' THEN 0 WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END")) }
   scope :today, -> { scheduled_for_date(Date.current) }
   scope :unscheduled, -> { where(scheduled_for: nil) }
+  scope :morning, -> { where(time_of_day: 'morning') }
+  scope :afternoon, -> { where(time_of_day: 'afternoon') }
+  scope :evening, -> { where(time_of_day: 'evening') }
 
   # Callbacks
   before_save :inherit_project_color

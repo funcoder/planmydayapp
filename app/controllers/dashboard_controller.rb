@@ -8,7 +8,10 @@ class DashboardController < ApplicationController
       Arel.sql("CASE status WHEN 'in_progress' THEN 0 WHEN 'pending' THEN 1 END"),
       Arel.sql("CASE priority WHEN 'urgent' THEN 0 WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END")
     )
-    @grouped_incomplete_tasks = @today_incomplete_tasks.group_by(&:project)
+    @morning_tasks = @today_incomplete_tasks.morning
+    @afternoon_tasks = @today_incomplete_tasks.afternoon
+    @evening_tasks = @today_incomplete_tasks.evening
+    @current_period = current_time_period
     @today_completed_tasks = @today_tasks.completed
     @on_hold_tasks = @user.tasks.on_hold.includes(:project)
     @brain_dumps = @user.brain_dumps.pending.recent.limit(5)
@@ -25,5 +28,18 @@ class DashboardController < ApplicationController
     
     # Get today's unlocked sprites
     @todays_sprites = @user.user_sprites.today.includes(:sprite_character)
+  end
+
+  private
+
+  def current_time_period
+    hour = Time.current.hour
+    if hour < 12
+      "morning"
+    elsif hour < 17
+      "afternoon"
+    else
+      "evening"
+    end
   end
 end

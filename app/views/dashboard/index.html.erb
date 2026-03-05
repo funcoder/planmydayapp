@@ -31,7 +31,7 @@
     </div>
   <% end %>
 
-  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'py-3' : 'py-8' %>">
+  <div class="px-3 sm:px-6 lg:px-8 <%= native_app? ? 'py-3' : 'py-8' %>">
     <!-- Newly Unlocked Sprites Notification -->
     <% if @newly_unlocked_sprites.any? %>
       <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl shadow-lg p-6 mb-6 animate-pulse">
@@ -77,7 +77,7 @@
       <div class="lg:col-span-2 space-y-4 lg:space-y-8">
         
         <!-- Today's Tasks -->
-        <div class="bg-white rounded-xl shadow-sm p-4" data-controller="task">
+        <div class="bg-white rounded-xl shadow-sm p-4" data-controller="task time-period">
           <div class="flex justify-between items-center mb-4">
             <div>
               <h2 class="text-xl font-bold text-gray-800">Today's Focus</h2>
@@ -96,109 +96,118 @@
               <% end %>
             <% end %>
           </div>
-          
-          <% if @today_incomplete_tasks.any? %>
-            <div class="space-y-4" data-task-target="list" id="tasks-list">
-              <% @grouped_incomplete_tasks.each do |project, tasks| %>
-                <% if project %>
-                  <div class="flex items-center gap-2 mt-2 first:mt-0">
-                    <div class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: <%= project.color || '#6366f1' %>"></div>
-                    <h3 class="text-sm font-semibold text-gray-600"><%= project.name %></h3>
-                    <div class="flex-1 border-t border-gray-200"></div>
-                  </div>
-                <% else %>
-                  <div class="flex items-center gap-2 mt-2 first:mt-0">
-                    <div class="w-3 h-3 rounded-full flex-shrink-0 bg-gray-300"></div>
-                    <h3 class="text-sm font-semibold text-gray-400">No Project</h3>
-                    <div class="flex-1 border-t border-gray-200"></div>
-                  </div>
-                <% end %>
-                <div class="space-y-2">
-                  <% tasks.each do |task| %>
-                    <div class="task-item p-3 rounded-lg border border-gray-200 hover:border-primary-300 transition-colors"
-                         style="border-left: 3px solid <%= task.color || '#14b8a6' %>"
-                         data-task-target="item"
-                         data-task-id="<%= task.id %>">
-                        <div class="flex items-start justify-between gap-2">
-                          <div class="flex-1 min-w-0">
-                            <h3 class="font-semibold text-base leading-tight"><%= task.title %></h3>
-                            <% if task.description.present? %>
-                              <p class="text-gray-600 text-xs mt-1 line-clamp-2"><%= truncate(task.description, length: 60) %></p>
-                            <% end %>
-                            <div class="flex gap-2 mt-2 flex-wrap">
-                              <span class="priority-badge px-2 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
-                                <%= task.priority.capitalize %>
-                              </span>
-                              <% if task.estimated_time.present? %>
-                                <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">
-                                  ⏱ <%= task.estimated_time %>m
-                                </span>
-                              <% end %>
-                            </div>
-                          </div>
-                          <div class="flex items-start gap-1 flex-shrink-0">
-                            <% if task.status == 'pending' || task.status == 'in_progress' %>
-                              <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
-                                      data-action="click->task#complete"
-                                      data-url="<%= complete_task_path(task) %>"
-                                      title="Complete">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                              </button>
-                            <% else %>
-                              <span class="p-2 bg-gray-100 text-gray-600 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                              </span>
-                            <% end %>
 
-                            <!-- More actions dropdown -->
-                            <div class="relative" data-controller="dropdown">
-                              <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors touch-manipulation"
-                                      data-action="click->dropdown#toggle">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                                </svg>
-                              </button>
-                              <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10"
-                                   data-dropdown-target="menu">
-                                <%= link_to "Edit", edit_task_path(task),
-                                    class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 first:rounded-t-lg touch-manipulation" %>
-                                <%= link_to "Move to Tomorrow", rollover_task_path(task),
-                                    data: { turbo_method: :post },
-                                    class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
-                                <button type="button"
-                                        class="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation"
-                                        data-action="click->date-picker-modal#open"
-                                        data-task-id="<%= task.id %>"
-                                        data-task-url="<%= move_to_date_task_path(task) %>">
-                                  Move to Another Date
+          <% if @today_incomplete_tasks.any? %>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-task-target="list" id="tasks-list">
+              <% [
+                ["morning", "Morning", @morning_tasks, "amber", "border-amber-300 bg-amber-50/50"],
+                ["afternoon", "Afternoon", @afternoon_tasks, "sky", "border-sky-300 bg-sky-50/50"],
+                ["evening", "Evening", @evening_tasks, "indigo", "border-indigo-300 bg-indigo-50/50"]
+              ].each do |period, label, tasks, color, highlight_classes| %>
+                <div class="rounded-lg border-2 <%= @current_period == period ? highlight_classes : 'border-gray-200' %> overflow-hidden"
+                     data-time-period-target="column"
+                     data-period="<%= period %>"
+                     data-current="<%= @current_period == period %>">
+                  <!-- Column Header -->
+                  <button class="w-full flex items-center justify-between px-3 py-2.5 <%= @current_period == period ? "bg-#{color}-50" : 'bg-gray-50' %> cursor-pointer md:cursor-default"
+                          data-action="click->time-period#toggle"
+                          data-time-period-target="header">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-sm"><%= period == 'morning' ? '🌅' : period == 'afternoon' ? '🌤' : '🌙' %></span>
+                      <h3 class="text-sm font-bold <%= @current_period == period ? "text-#{color}-800" : 'text-gray-700' %>"><%= label %></h3>
+                      <span class="text-xs font-medium <%= @current_period == period ? "text-#{color}-600" : 'text-gray-400' %>">(<%= tasks.count %>)</span>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400 md:hidden transition-transform" data-time-period-target="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+
+                  <!-- Column Body -->
+                  <div class="p-2 space-y-2.5 bg-gray-50/50 min-h-[80px]" data-time-period-target="body">
+                    <% if tasks.any? %>
+                      <% tasks.each do |task| %>
+                        <div class="task-item p-3 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-150"
+                             style="border-left: 3px solid <%= task.color || '#14b8a6' %>"
+                             data-task-target="item"
+                             data-task-id="<%= task.id %>">
+                          <div class="flex items-start justify-between gap-2">
+                            <div class="flex-1 min-w-0">
+                              <h3 class="font-semibold text-sm leading-tight"><%= task.title %></h3>
+                              <% if task.description.present? %>
+                                <p class="text-gray-600 text-xs mt-1 line-clamp-2"><%= truncate(task.description, length: 60) %></p>
+                              <% end %>
+                              <div class="flex gap-1.5 mt-1.5 flex-wrap">
+                                <span class="priority-badge px-1.5 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
+                                  <%= task.priority.capitalize %>
+                                </span>
+                                <% if task.estimated_time.present? %>
+                                  <span class="px-1.5 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">
+                                    ⏱ <%= task.estimated_time %>m
+                                  </span>
+                                <% end %>
+                              </div>
+                            </div>
+                            <div class="flex items-start gap-1 flex-shrink-0">
+                              <% if task.status == 'pending' || task.status == 'in_progress' %>
+                                <button class="p-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
+                                        data-action="click->task#complete"
+                                        data-url="<%= complete_task_path(task) %>"
+                                        title="Complete">
+                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                  </svg>
                                 </button>
-                                <button type="button"
-                                        class="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 touch-manipulation"
-                                        data-action="click->hold-modal#open"
-                                        data-task-id="<%= task.id %>"
-                                        data-task-url="<%= hold_task_path(task) %>">
-                                  Put On Hold
+                              <% end %>
+
+                              <!-- More actions dropdown -->
+                              <div class="relative" data-controller="dropdown">
+                                <button class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors touch-manipulation"
+                                        data-action="click->dropdown#toggle">
+                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                  </svg>
                                 </button>
-                                <hr class="my-1">
-                                <%= link_to "Remove from Today", remove_from_today_task_path(task),
-                                    data: { turbo_method: :post },
-                                    class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
-                                <%= link_to "Delete", task_path(task),
-                                    data: {
-                                      turbo_method: :delete,
-                                      turbo_confirm: "Are you sure?"
-                                    },
-                                    class: "block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 last:rounded-b-lg touch-manipulation" %>
+                                <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10"
+                                     data-dropdown-target="menu">
+                                  <%= link_to "Edit", edit_task_path(task),
+                                      class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 first:rounded-t-lg touch-manipulation" %>
+                                  <%= link_to "Move to Tomorrow", rollover_task_path(task),
+                                      data: { turbo_method: :post },
+                                      class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
+                                  <button type="button"
+                                          class="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation"
+                                          data-action="click->date-picker-modal#open"
+                                          data-task-id="<%= task.id %>"
+                                          data-task-url="<%= move_to_date_task_path(task) %>">
+                                    Move to Another Date
+                                  </button>
+                                  <button type="button"
+                                          class="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 touch-manipulation"
+                                          data-action="click->hold-modal#open"
+                                          data-task-id="<%= task.id %>"
+                                          data-task-url="<%= hold_task_path(task) %>">
+                                    Put On Hold
+                                  </button>
+                                  <hr class="my-1">
+                                  <%= link_to "Remove from Today", remove_from_today_task_path(task),
+                                      data: { turbo_method: :post },
+                                      class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
+                                  <%= link_to "Delete", task_path(task),
+                                      data: {
+                                        turbo_method: :delete,
+                                        turbo_confirm: "Are you sure?"
+                                      },
+                                      class: "block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 last:rounded-b-lg touch-manipulation" %>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                    </div>
-                  <% end %>
+                      <% end %>
+                    <% else %>
+                      <p class="text-center text-xs text-gray-400 py-4">No tasks yet</p>
+                    <% end %>
+                  </div>
                 </div>
               <% end %>
             </div>

@@ -5,7 +5,7 @@
     <%= render 'shared/header' %>
   <% end %>
 
-  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
+  <div class="px-3 sm:px-6 lg:px-8 <%= native_app? ? 'pt-4 pb-8' : 'py-8' %>">
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
       <div>
@@ -61,105 +61,190 @@
     <% end %>
 
     <% if @view == 'list' %>
-    <!-- Tasks List -->
-    <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6">
+    <!-- Tasks Table -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
       <%= turbo_frame_tag "tasks_content" do %>
         <% if @tasks.any? %>
-        <div class="space-y-4" id="tasks-list">
-          <% @tasks.each do |task| %>
-            <div>
+          <!-- Mobile: Card layout -->
+          <div class="md:hidden divide-y divide-gray-100" id="tasks-list-mobile">
+            <% @tasks.each do |task| %>
               <%= turbo_frame_tag dom_id(task) do %>
-                <div class="task-item p-4 rounded-lg border-2 border-gray-200 hover:border-primary-300 transition-colors"
-                     style="border-left: 4px solid <%= task.color || '#14b8a6' %>">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="flex items-center gap-3">
-                      <h3 class="font-semibold text-lg"><%= task.title %></h3>
-                      <% if task.status == 'completed' %>
-                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">✓ Completed</span>
-                      <% elsif task.status == 'in_progress' %>
-                        <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">In Progress</span>
-                      <% else %>
-                        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">Pending</span>
+                <div class="p-4 hover:bg-gray-50 transition-colors" style="border-left: 3px solid <%= task.color || '#14b8a6' %>">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-sm <%= 'line-through text-gray-500' if task.completed? %>"><%= task.title %></h3>
+                      <div class="flex flex-wrap gap-1.5 mt-2">
+                        <span class="px-2 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800"><%= task.priority.capitalize %></span>
+                        <span class="px-2 py-0.5 text-xs rounded-full <%= task.completed? ? 'bg-green-100 text-green-800' : task.in_progress? ? 'bg-blue-100 text-blue-800' : task.on_hold? ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-700' %>"><%= task.status.humanize %></span>
+                        <% if task.scheduled_for.present? %>
+                          <span class="px-2 py-0.5 text-xs rounded-full bg-primary-100 text-primary-700"><%= task.scheduled_for.strftime("%b %d") %></span>
+                        <% end %>
+                        <% if task.project.present? %>
+                          <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700"><%= task.project.name %></span>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-1 flex-shrink-0">
+                      <% unless task.scheduled_for == Date.current %>
+                        <%= button_to schedule_for_today_task_path(task), method: :post, class: "p-2 text-gray-400 hover:text-green-600 transition-colors touch-manipulation", title: "Add to today" do %>
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <% end %>
+                      <% end %>
+                      <%= link_to edit_task_path(task), data: { turbo_frame: "_top" }, class: "p-2 text-gray-400 hover:text-primary-600 transition-colors touch-manipulation", title: "Edit" do %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                       <% end %>
                     </div>
-                    
-                    <% if task.description.present? %>
-                      <p class="text-gray-600 text-sm mt-2"><%= truncate(task.description, length: 150) %></p>
-                    <% end %>
-                    
-                    <div class="flex flex-wrap gap-2 mt-3">
-                      <span class="priority-badge px-2 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800 whitespace-nowrap">
-                        <%= task.priority.capitalize %>
-                      </span>
-                      <% if task.estimated_time.present? %>
-                        <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700 whitespace-nowrap flex items-center gap-1">
-                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          <%= task.estimated_time %> min
-                        </span>
-                      <% end %>
-                      <% if task.scheduled_for.present? %>
-                        <span class="px-2 py-0.5 text-xs rounded-full bg-primary-100 text-primary-700 whitespace-nowrap flex items-center gap-1">
-                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          <%= task.scheduled_for.strftime("%b %d") %>
-                        </span>
-                      <% end %>
-                    </div>
-                  </div>
-                  
-                  <div class="flex items-center gap-2 ml-4">
-                    <% unless task.scheduled_for == Date.current %>
-                      <%= button_to schedule_for_today_task_path(task),
-                          method: :post,
-                          class: "p-3 text-gray-400 hover:text-green-600 transition-colors touch-manipulation",
-                          title: "Add to today" do %>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                      <% end %>
-                    <% end %>
-
-                    <%= link_to edit_task_path(task),
-                        data: { turbo_frame: "_top" },
-                        class: "p-3 text-gray-400 hover:text-primary-600 transition-colors touch-manipulation",
-                        title: "Edit task" do %>
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                      </svg>
-                    <% end %>
-
-                    <%= button_to task_path(task),
-                        method: :delete,
-                        form: { data: { turbo_confirm: "Are you sure you want to delete this task?" } },
-                        class: "p-3 text-gray-400 hover:text-red-600 transition-colors touch-manipulation",
-                        title: "Delete task" do %>
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                      </svg>
-                    <% end %>
                   </div>
                 </div>
-              </div>
               <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="text-center py-12">
-          <div class="mb-4 flex justify-center">
-            <svg class="w-20 h-20 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-            </svg>
+            <% end %>
           </div>
-          <p class="text-gray-600 mb-4">No tasks in your backlog</p>
-          <%= link_to "Create Your First Task", new_task_path(scheduled: 'backlog'),
-              class: "inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
-        </div>
-      <% end %>
+
+          <!-- Desktop: Table layout -->
+          <div class="hidden md:block overflow-x-auto" id="tasks-list">
+            <table class="w-full">
+              <thead>
+                <tr class="bg-gray-50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th class="px-4 py-3 w-8"></th>
+                  <th class="px-4 py-3">Task</th>
+                  <th class="px-4 py-3">Status</th>
+                  <th class="px-4 py-3">Priority</th>
+                  <th class="px-4 py-3">Project</th>
+                  <th class="px-4 py-3">Scheduled</th>
+                  <th class="px-4 py-3">Due Date</th>
+                  <th class="px-4 py-3">Time</th>
+                  <th class="px-4 py-3">Created</th>
+                  <th class="px-4 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <% @tasks.each do |task| %>
+                  <%= turbo_frame_tag dom_id(task), tag: "tr", class: "hover:bg-gray-50 transition-colors group" do %>
+                    <%# Color indicator %>
+                    <td class="px-4 py-3">
+                      <div class="w-2.5 h-2.5 rounded-full" style="background-color: <%= task.color || '#14b8a6' %>"></div>
+                    </td>
+
+                    <%# Title & description %>
+                    <td class="px-4 py-3 max-w-xs">
+                      <div class="font-medium text-sm text-gray-900 <%= 'line-through text-gray-500' if task.completed? %>"><%= task.title %></div>
+                      <% if task.description.present? %>
+                        <div class="text-xs text-gray-500 mt-0.5 truncate"><%= truncate(task.description, length: 60) %></div>
+                      <% end %>
+                    </td>
+
+                    <%# Status %>
+                    <td class="px-4 py-3">
+                      <span class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full
+                        <%= case task.status
+                            when 'completed' then 'bg-green-100 text-green-800'
+                            when 'in_progress' then 'bg-blue-100 text-blue-800'
+                            when 'on_hold' then 'bg-red-100 text-red-800'
+                            else 'bg-gray-100 text-gray-700'
+                            end %>">
+                        <%= task.status.humanize %>
+                      </span>
+                    </td>
+
+                    <%# Priority %>
+                    <td class="px-4 py-3">
+                      <span class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
+                        <%= task.priority.capitalize %>
+                      </span>
+                    </td>
+
+                    <%# Project %>
+                    <td class="px-4 py-3 text-sm text-gray-600">
+                      <% if task.project.present? %>
+                        <span class="inline-flex items-center gap-1.5">
+                          <span class="w-2 h-2 rounded-full" style="background-color: <%= task.project.color %>"></span>
+                          <%= task.project.name %>
+                        </span>
+                      <% else %>
+                        <span class="text-gray-400">&mdash;</span>
+                      <% end %>
+                    </td>
+
+                    <%# Scheduled %>
+                    <td class="px-4 py-3 text-sm text-gray-600">
+                      <% if task.scheduled_for.present? %>
+                        <% if task.scheduled_for == Date.current %>
+                          <span class="text-primary-600 font-medium">Today</span>
+                        <% elsif task.scheduled_for == Date.tomorrow %>
+                          <span class="text-blue-600">Tomorrow</span>
+                        <% else %>
+                          <%= task.scheduled_for.strftime("%b %d") %>
+                        <% end %>
+                      <% else %>
+                        <span class="text-gray-400">&mdash;</span>
+                      <% end %>
+                    </td>
+
+                    <%# Due date %>
+                    <td class="px-4 py-3 text-sm">
+                      <% if task.due_date.present? %>
+                        <span class="<%= 'text-red-600 font-medium' if task.overdue? %>">
+                          <%= task.due_date.strftime("%b %d") %>
+                        </span>
+                      <% else %>
+                        <span class="text-gray-400">&mdash;</span>
+                      <% end %>
+                    </td>
+
+                    <%# Estimated / Actual time %>
+                    <td class="px-4 py-3 text-sm text-gray-600">
+                      <% if task.estimated_time.present? || task.actual_time.present? %>
+                        <% if task.actual_time.present? && task.actual_time > 0 %>
+                          <span class="text-green-600"><%= task.actual_time %>m</span>
+                          <% if task.estimated_time.present? %>
+                            <span class="text-gray-400">/ <%= task.estimated_time %>m</span>
+                          <% end %>
+                        <% elsif task.estimated_time.present? %>
+                          <%= task.estimated_time %>m
+                        <% end %>
+                      <% else %>
+                        <span class="text-gray-400">&mdash;</span>
+                      <% end %>
+                    </td>
+
+                    <%# Created %>
+                    <td class="px-4 py-3 text-sm text-gray-500">
+                      <%= task.created_at.strftime("%b %d") %>
+                    </td>
+
+                    <%# Actions %>
+                    <td class="px-4 py-3 text-right">
+                      <div class="flex items-center justify-end gap-1">
+                        <% unless task.scheduled_for == Date.current %>
+                          <%= button_to schedule_for_today_task_path(task), method: :post, class: "p-1.5 text-gray-400 hover:text-green-600 transition-colors touch-manipulation", title: "Add to today" do %>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                          <% end %>
+                        <% end %>
+                        <%= link_to edit_task_path(task), data: { turbo_frame: "_top" }, class: "p-1.5 text-gray-400 hover:text-primary-600 transition-colors touch-manipulation", title: "Edit task" do %>
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        <% end %>
+                        <%= button_to task_path(task), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to delete this task?" } }, class: "p-1.5 text-gray-400 hover:text-red-600 transition-colors touch-manipulation", title: "Delete task" do %>
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        <% end %>
+                      </div>
+                    </td>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <div class="mb-4 flex justify-center">
+              <svg class="w-20 h-20 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+              </svg>
+            </div>
+            <p class="text-gray-600 mb-4">No tasks in your backlog</p>
+            <%= link_to "Create Your First Task", new_task_path(scheduled: 'backlog'),
+                class: "inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors" %>
+          </div>
+        <% end %>
       <% end %>
     </div>
     <% else %>
