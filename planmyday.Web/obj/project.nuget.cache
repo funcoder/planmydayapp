@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8XDch3Wwu3c=",
+  "dgSpecHash": "J0I8QZciOfk=",
   "success": true,
   "projectFilePath": "/Users/jonathanbuckland/projects/planmyday/planmyday.Web/planmyday.Web.csproj",
   "expectedPackageFiles": [
@@ -51,7 +51,10 @@
     "/Users/jonathanbuckland/.nuget/packages/polly.ratelimiting/8.4.2/polly.ratelimiting.8.4.2.nupkg.sha512",
     "/Users/jonathanbuckland/.nuget/packages/system.diagnostics.diagnosticsource/8.0.0/system.diagnostics.diagnosticsource.8.0.0.nupkg.sha512",
     "/Users/jonathanbuckland/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
-    "/Users/jonathanbuckland/.nuget/packages/system.threading.ratelimiting/8.0.0/system.threading.ratelimiting.8.0.0.nupkg.sha512"
+    "/Users/jonathanbuckland/.nuget/packages/system.threading.ratelimiting/8.0.0/system.threading.ratelimiting.8.0.0.nupkg.sha512",
+    "/Users/jonathanbuckland/.nuget/packages/microsoft.netcore.app.ref/9.0.11/microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
+    "/Users/jonathanbuckland/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.11/microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512",
+    "/Users/jonathanbuckland/.nuget/packages/microsoft.netcore.app.host.osx-arm64/9.0.11/microsoft.netcore.app.host.osx-arm64.9.0.11.nupkg.sha512"
   ],
   "logs": []
 }

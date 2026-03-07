@@ -1,0 +1,183 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "P PlanMyDay" [ref=e8] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: P
+          - generic [ref=e11]: PlanMyDay
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Backlog" [ref=e14] [cursor=pointer]:
+            - /url: /tasks
+          - link "Calendar" [ref=e15] [cursor=pointer]:
+            - /url: /calendar
+          - link "Sprites" [ref=e16] [cursor=pointer]:
+            - /url: /sprites
+          - link "Notes" [ref=e17] [cursor=pointer]:
+            - /url: /notes
+          - link "Projects" [ref=e18] [cursor=pointer]:
+            - /url: /projects
+          - link "Feedback" [ref=e19] [cursor=pointer]:
+            - /url: /feedbacks/new
+        - generic [ref=e20]:
+          - link "What's New" [ref=e21] [cursor=pointer]:
+            - /url: /announcements
+            - img [ref=e22]
+          - button "J Jonathan LIFETIME" [ref=e25]:
+            - generic [ref=e27]: J
+            - generic [ref=e29]:
+              - generic [ref=e30]: Jonathan
+              - generic [ref=e31]: LIFETIME
+            - img [ref=e32]
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - heading "Hey Jonathan!" [level=1] [ref=e38]
+          - paragraph [ref=e39]: Let's be productive
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: "10"
+            - generic [ref=e43]: Points
+          - generic [ref=e44]:
+            - generic [ref=e45]: "1"
+            - generic [ref=e46]: Streak
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - generic [ref=e51]:
+              - heading "Today's Focus" [level=2] [ref=e52]
+              - generic [ref=e53]:
+                - generic [ref=e54]: ✓ 1 done
+                - generic [ref=e55]: 5 / 5 active
+            - generic [ref=e56]:
+              - heading "Client Work" [level=3] [ref=e59]
+              - generic [ref=e61]:
+                - generic [ref=e63]:
+                  - generic [ref=e64]:
+                    - heading "Draft proposal changes" [level=3] [ref=e65]
+                    - generic [ref=e66]:
+                      - generic [ref=e67]: High
+                      - generic [ref=e68]: ⏱ 45m
+                  - generic [ref=e69]:
+                    - button "Complete" [ref=e70]:
+                      - img [ref=e71]
+                    - button [ref=e74]:
+                      - img [ref=e75]
+                - generic [ref=e78]:
+                  - generic [ref=e79]:
+                    - heading "Review client notes" [level=3] [ref=e80]
+                    - generic [ref=e81]:
+                      - generic [ref=e82]: Urgent
+                      - generic [ref=e83]: ⏱ 25m
+                  - generic [ref=e84]:
+                    - button "Complete" [ref=e85]:
+                      - img [ref=e86]
+                    - button [ref=e89]:
+                      - img [ref=e90]
+                - generic [ref=e93]:
+                  - generic [ref=e94]:
+                    - heading "Send follow-up emails" [level=3] [ref=e95]
+                    - generic [ref=e96]:
+                      - generic [ref=e97]: Medium
+                      - generic [ref=e98]: ⏱ 20m
+                  - generic [ref=e99]:
+                    - button "Complete" [ref=e100]:
+                      - img [ref=e101]
+                    - button [ref=e104]:
+                      - img [ref=e105]
+              - heading "Personal Admin" [level=3] [ref=e109]
+              - generic [ref=e111]:
+                - generic [ref=e113]:
+                  - generic [ref=e114]:
+                    - heading "Pay software invoices" [level=3] [ref=e115]
+                    - generic [ref=e116]:
+                      - generic [ref=e117]: High
+                      - generic [ref=e118]: ⏱ 15m
+                  - generic [ref=e119]:
+                    - button "Complete" [ref=e120]:
+                      - img [ref=e121]
+                    - button [ref=e124]:
+                      - img [ref=e125]
+                - generic [ref=e128]:
+                  - generic [ref=e129]:
+                    - heading "Book dentist appointment" [level=3] [ref=e130]
+                    - generic [ref=e131]:
+                      - generic [ref=e132]: Low
+                      - generic [ref=e133]: ⏱ 10m
+                  - generic [ref=e134]:
+                    - button "Complete" [ref=e135]:
+                      - img [ref=e136]
+                    - button [ref=e139]:
+                      - img [ref=e140]
+          - generic [ref=e142]:
+            - generic [ref=e143]:
+              - heading "On Hold" [level=2] [ref=e144]
+              - generic [ref=e145]: 1 paused
+            - generic [ref=e148]:
+              - generic [ref=e149]:
+                - heading "Plan next week admin block" [level=3] [ref=e150]
+                - paragraph [ref=e151]: "\"Waiting on missing details\""
+                - generic [ref=e152]:
+                  - generic [ref=e153]: On Hold
+                  - generic [ref=e154]: Personal Admin
+              - generic [ref=e155]:
+                - link "Resume" [ref=e156] [cursor=pointer]:
+                  - /url: /tasks/32/resume
+                - link [ref=e157] [cursor=pointer]:
+                  - /url: /tasks/32/edit
+                  - img [ref=e158]
+          - generic [ref=e161]:
+            - generic [ref=e162]:
+              - heading "Quick Brain Dump" [level=2] [ref=e163]
+              - link "View All Dumps →" [ref=e164] [cursor=pointer]:
+                - /url: /brain_dumps
+            - generic [ref=e166]:
+              - textbox "What's on your mind? Just dump it all here..." [ref=e167]
+              - generic [ref=e168]: 500 characters remaining
+              - generic [ref=e169]:
+                - button "🎤 Voice Input" [ref=e170]
+                - button "Save Thought" [ref=e171]
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - heading "Completed Today" [level=2] [ref=e174]
+              - generic [ref=e175]: 🎉 1 done!
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - heading "Archive old receipts" [level=3] [ref=e180]
+                - generic [ref=e181]:
+                  - generic [ref=e182]: ✓ 10:10AM
+                  - generic [ref=e183]: ⏱ 8m
+              - link "Delete" [ref=e185] [cursor=pointer]:
+                - /url: /tasks/33
+                - img [ref=e186]
+        - generic [ref=e188]:
+          - generic [ref=e189]:
+            - heading "Start Focus Session" [level=3] [ref=e190]
+            - paragraph [ref=e191]: Pick a task and start focusing.
+            - generic [ref=e192]:
+              - combobox [ref=e194]:
+                - option "Select a task..." [selected]
+                - option "Draft proposal changes"
+                - option "Review client notes"
+                - option "Pay software invoices"
+                - option "Send follow-up emails"
+                - option "Book dentist appointment"
+              - button "Start Focus Mode" [ref=e195] [cursor=pointer]
+          - generic [ref=e196]:
+            - heading "Recent Achievements" [level=3] [ref=e197]
+            - paragraph [ref=e198]: Complete tasks to earn achievements!
+          - generic [ref=e200]:
+            - generic [ref=e201]:
+              - heading "Recent Brain Dumps" [level=3] [ref=e202]
+              - link "Process All →" [ref=e203] [cursor=pointer]:
+                - /url: /brain_dumps
+            - paragraph [ref=e205]: No brain dumps yet. Start capturing your thoughts!
+  - generic [ref=e209]:
+    - generic [ref=e210]:
+      - img [ref=e211]
+      - generic [ref=e213]: v0.2.5
+    - generic [ref=e214]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e216] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com

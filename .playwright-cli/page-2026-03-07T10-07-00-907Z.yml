@@ -1,0 +1,208 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "ActiveRecord::ConnectionNotEstablished" [level=1] [ref=e3]
+  - main [ref=e4]:
+    - generic [ref=e6]:
+      - text: "connection to server on socket \"/tmp/.s.PGSQL.5432\" failed: No such file or directory"
+      - text: Is the server running locally and accepting connections on that socket?
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - text: Extracted source (around line
+        - strong [ref=e9]: "#69"
+        - text: "):"
+      - table [ref=e11]:
+        - rowgroup [ref=e12]:
+          - row "67 68 69 70 71 72 raise ActiveRecord::DatabaseConnectionError.hostname_error(conn_params[:host]) else raise ActiveRecord::ConnectionNotEstablished, error.message end end" [ref=e13]:
+            - cell "67 68 69 70 71 72" [ref=e14]:
+              - generic [ref=e15]: 67 68 69 70 71 72
+            - cell "raise ActiveRecord::DatabaseConnectionError.hostname_error(conn_params[:host]) else raise ActiveRecord::ConnectionNotEstablished, error.message end end" [ref=e16]:
+              - generic [ref=e17]:
+                - generic [ref=e18]: raise ActiveRecord::DatabaseConnectionError.hostname_error(conn_params[:host])
+                - generic [ref=e19]: else
+                - generic [ref=e20]:
+                  - generic [ref=e21]: raise
+                  - text: ActiveRecord::ConnectionNotEstablished, error.message
+                - generic [ref=e22]: end
+                - generic [ref=e23]: end
+    - paragraph [ref=e25]:
+      - code [ref=e26]: "Rails.root: /Users/jonathanbuckland/projects/planmyday"
+    - generic [ref=e27]:
+      - link "Application Trace" [ref=e28] [cursor=pointer]:
+        - /url: "#"
+      - text: "|"
+      - link "Framework Trace" [ref=e29] [cursor=pointer]:
+        - /url: "#"
+      - text: "|"
+      - link "Full Trace" [ref=e30] [cursor=pointer]:
+        - /url: "#"
+      - code [ref=e32]:
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql_adapter.rb:69:in 'ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.new_client'" [ref=e33] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql_adapter.rb:939:in 'ActiveRecord::ConnectionAdapters::PostgreSQLAdapter#connect'" [ref=e34] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql_adapter.rb:951:in 'ActiveRecord::ConnectionAdapters::PostgreSQLAdapter#reconnect'" [ref=e35] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:667:in 'block in ActiveRecord::ConnectionAdapters::AbstractAdapter#reconnect!'" [ref=e36] [cursor=pointer]:
+          - /url: "#"
+        - link "activesupport (8.0.2) lib/active_support/concurrency/null_lock.rb:9:in 'ActiveSupport::Concurrency::NullLock#synchronize'" [ref=e37] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:666:in 'ActiveRecord::ConnectionAdapters::AbstractAdapter#reconnect!'" [ref=e38] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:771:in 'block in ActiveRecord::ConnectionAdapters::AbstractAdapter#verify!'" [ref=e39] [cursor=pointer]:
+          - /url: "#"
+        - link "activesupport (8.0.2) lib/active_support/concurrency/null_lock.rb:9:in 'ActiveSupport::Concurrency::NullLock#synchronize'" [ref=e40] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:761:in 'ActiveRecord::ConnectionAdapters::AbstractAdapter#verify!'" [ref=e41] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:779:in 'ActiveRecord::ConnectionAdapters::AbstractAdapter#connect!'" [ref=e42] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:985:in 'block in ActiveRecord::ConnectionAdapters::AbstractAdapter#with_raw_connection'" [ref=e43] [cursor=pointer]:
+          - /url: "#"
+        - link "activesupport (8.0.2) lib/active_support/concurrency/null_lock.rb:9:in 'ActiveSupport::Concurrency::NullLock#synchronize'" [ref=e44] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:984:in 'ActiveRecord::ConnectionAdapters::AbstractAdapter#with_raw_connection'" [ref=e45] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/quoting.rb:128:in 'ActiveRecord::ConnectionAdapters::PostgreSQL::Quoting#quote_string'" [ref=e46] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract/quoting.rb:76:in 'ActiveRecord::ConnectionAdapters::Quoting#quote'" [ref=e47] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/quoting.rb:122:in 'ActiveRecord::ConnectionAdapters::PostgreSQL::Quoting#quote'" [ref=e48] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/schema_statements.rb:1142:in 'ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaStatements#quoted_scope'" [ref=e49] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/schema_statements.rb:1119:in 'ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaStatements#data_source_sql'" [ref=e50] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract/schema_statements.rb:60:in 'ActiveRecord::ConnectionAdapters::SchemaStatements#table_exists?'" [ref=e51] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/schema_migration.rb:55:in 'block in ActiveRecord::SchemaMigration#create_table'" [ref=e52] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/connection_adapters/abstract/connection_pool.rb:418:in 'ActiveRecord::ConnectionAdapters::ConnectionPool#with_connection'" [ref=e53] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/schema_migration.rb:54:in 'ActiveRecord::SchemaMigration#create_table'" [ref=e54] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:1431:in 'ActiveRecord::Migrator#initialize'" [ref=e55] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:1279:in 'Class#new'" [ref=e56] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:1279:in 'ActiveRecord::MigrationContext#open'" [ref=e57] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:763:in 'block (2 levels) in ActiveRecord::Migration.pending_migrations'" [ref=e58] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration/pending_migration_connection.rb:8:in 'ActiveRecord::PendingMigrationConnection.with_temporary_pool'" [ref=e59] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:762:in 'block in ActiveRecord::Migration.pending_migrations'" [ref=e60] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:761:in 'Array#each'" [ref=e61] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:761:in 'ActiveRecord::Migration.pending_migrations'" [ref=e62] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:740:in 'ActiveRecord::Migration.check_pending_migrations'" [ref=e63] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:660:in 'block (2 levels) in ActiveRecord::Migration::CheckPending#call'" [ref=e64] [cursor=pointer]:
+          - /url: "#"
+        - link "activesupport (8.0.2) lib/active_support/file_update_checker.rb:85:in 'ActiveSupport::FileUpdateChecker#execute'" [ref=e65] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:665:in 'block in ActiveRecord::Migration::CheckPending#call'" [ref=e66] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:657:in 'Thread::Mutex#synchronize'" [ref=e67] [cursor=pointer]:
+          - /url: "#"
+        - link "activerecord (8.0.2) lib/active_record/migration.rb:657:in 'ActiveRecord::Migration::CheckPending#call'" [ref=e68] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'" [ref=e69] [cursor=pointer]:
+          - /url: "#"
+        - link "activesupport (8.0.2) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'" [ref=e70] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'" [ref=e71] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'" [ref=e72] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'" [ref=e73] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-rails (6.2.0) lib/sentry/rails/rescued_exception_interceptor.rb:14:in 'Sentry::Rails::RescuedExceptionInterceptor#call'" [ref=e74] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'" [ref=e75] [cursor=pointer]:
+          - /url: "#"
+        - link "web-console (4.2.1) lib/web_console/middleware.rb:132:in 'WebConsole::Middleware#call_app'" [ref=e76] [cursor=pointer]:
+          - /url: "#"
+        - link "web-console (4.2.1) lib/web_console/middleware.rb:28:in 'block in WebConsole::Middleware#call'" [ref=e77] [cursor=pointer]:
+          - /url: "#"
+        - link "web-console (4.2.1) lib/web_console/middleware.rb:17:in 'Kernel#catch'" [ref=e78] [cursor=pointer]:
+          - /url: "#"
+        - link "web-console (4.2.1) lib/web_console/middleware.rb:17:in 'WebConsole::Middleware#call'" [ref=e79] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry/rack/capture_exceptions.rb:30:in 'block (2 levels) in Sentry::Rack::CaptureExceptions#call'" [ref=e80] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry/hub.rb:307:in 'Sentry::Hub#with_session_tracking'" [ref=e81] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry-ruby.rb:418:in 'Sentry.with_session_tracking'" [ref=e82] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry/rack/capture_exceptions.rb:21:in 'block in Sentry::Rack::CaptureExceptions#call'" [ref=e83] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry/hub.rb:89:in 'Sentry::Hub#with_scope'" [ref=e84] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry-ruby.rb:398:in 'Sentry.with_scope'" [ref=e85] [cursor=pointer]:
+          - /url: "#"
+        - link "sentry-ruby (6.2.0) lib/sentry/rack/capture_exceptions.rb:20:in 'Sentry::Rack::CaptureExceptions#call'" [ref=e86] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'" [ref=e87] [cursor=pointer]:
+          - /url: "#"
+        - link "railties (8.0.2) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'" [ref=e88] [cursor=pointer]:
+          - /url: "#"
+        - link "railties (8.0.2) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'" [ref=e89] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'" [ref=e90] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'" [ref=e91] [cursor=pointer]:
+          - /url: "#"
+        - link "rack (3.1.16) lib/rack/method_override.rb:28:in 'Rack::MethodOverride#call'" [ref=e92] [cursor=pointer]:
+          - /url: "#"
+        - link "rack (3.1.16) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'" [ref=e93] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'" [ref=e94] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'" [ref=e95] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'" [ref=e96] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'" [ref=e97] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'" [ref=e98] [cursor=pointer]:
+          - /url: "#"
+        - link "rack (3.1.16) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'" [ref=e99] [cursor=pointer]:
+          - /url: "#"
+        - link "actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'" [ref=e100] [cursor=pointer]:
+          - /url: "#"
+        - link "railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'" [ref=e101] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'" [ref=e102] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'" [ref=e103] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'" [ref=e104] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/request.rb:98:in 'Puma::Request#handle_request'" [ref=e105] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/server.rb:472:in 'Puma::Server#process_client'" [ref=e106] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/server.rb:254:in 'block in Puma::Server#run'" [ref=e107] [cursor=pointer]:
+          - /url: "#"
+        - link "puma (6.6.0) lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'" [ref=e108] [cursor=pointer]:
+          - /url: "#"
+    - heading "Exception Causes" [level=2] [ref=e109]
+    - 'link "PG::ConnectionBad: connection to server on socket \"/tmp/.s.PGSQL.5432\" failed: No such file or directory Is the server running locally and accepting connections on that socket?" [ref=e111] [cursor=pointer]':
+      - /url: "#"
+    - heading "Request" [level=2] [ref=e112]
+    - paragraph [ref=e113]: "Parameters:"
+    - generic [ref=e114]: None
+    - link "Toggle session dump" [ref=e117] [cursor=pointer]:
+      - /url: "#"
+    - link "Toggle env dump" [ref=e120] [cursor=pointer]:
+      - /url: "#"
+    - heading "Response" [level=2] [ref=e121]
+    - paragraph [ref=e122]: "Headers:"
+    - generic [ref=e123]: None
+  - generic [ref=e124]:
+    - generic [ref=e126]:
+      - generic "close" [ref=e128] [cursor=pointer]: x
+      - generic [ref=e130]: ">>"
+    - textbox [ref=e132]

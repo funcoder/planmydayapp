@@ -1,0 +1,279 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "P PlanMyDay" [ref=e8] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: P
+          - generic [ref=e11]: PlanMyDay
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Backlog" [ref=e14] [cursor=pointer]:
+            - /url: /tasks
+          - link "Calendar" [ref=e15] [cursor=pointer]:
+            - /url: /calendar
+          - link "Sprites" [ref=e16] [cursor=pointer]:
+            - /url: /sprites
+          - link "Notes" [ref=e17] [cursor=pointer]:
+            - /url: /notes
+          - link "Projects" [ref=e18] [cursor=pointer]:
+            - /url: /projects
+          - link "Feedback" [ref=e19] [cursor=pointer]:
+            - /url: /feedbacks/new
+        - generic [ref=e20]:
+          - link "What's New" [ref=e21] [cursor=pointer]:
+            - /url: /announcements
+            - img [ref=e22]
+          - button "J Jonathan LIFETIME" [ref=e26]:
+            - generic [ref=e28]: J
+            - generic [ref=e30]:
+              - generic [ref=e31]: Jonathan
+              - generic [ref=e32]: LIFETIME
+            - img [ref=e33]
+    - generic [ref=e35]:
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - heading "Hey Jonathan!" [level=1] [ref=e39]
+          - paragraph [ref=e40]: Let's be productive
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e43]: "10"
+            - generic [ref=e44]: Points
+          - generic [ref=e45]:
+            - generic [ref=e46]: "1"
+            - generic [ref=e47]: Streak
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - generic [ref=e52]:
+              - heading "Today's Focus" [level=2] [ref=e53]
+              - generic [ref=e54]:
+                - generic [ref=e55]: ✓ 1 done
+                - generic [ref=e56]: 5 / 5 active
+            - generic [ref=e57]:
+              - heading "Client Work" [level=3] [ref=e60]
+              - generic [ref=e62]:
+                - generic [ref=e64]:
+                  - generic [ref=e65]:
+                    - heading "Draft proposal changes" [level=3] [ref=e66]
+                    - generic [ref=e67]:
+                      - generic [ref=e68]: High
+                      - generic [ref=e69]: ⏱ 45m
+                  - generic [ref=e70]:
+                    - button "Complete" [ref=e71]:
+                      - img [ref=e72]
+                    - button [ref=e75]:
+                      - img [ref=e76]
+                - generic [ref=e79]:
+                  - generic [ref=e80]:
+                    - heading "Review client notes" [level=3] [ref=e81]
+                    - generic [ref=e82]:
+                      - generic [ref=e83]: Urgent
+                      - generic [ref=e84]: ⏱ 25m
+                  - generic [ref=e85]:
+                    - button "Complete" [ref=e86]:
+                      - img [ref=e87]
+                    - button [ref=e90]:
+                      - img [ref=e91]
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - heading "Send follow-up emails" [level=3] [ref=e96]
+                    - generic [ref=e97]:
+                      - generic [ref=e98]: Medium
+                      - generic [ref=e99]: ⏱ 20m
+                  - generic [ref=e100]:
+                    - button "Complete" [ref=e101]:
+                      - img [ref=e102]
+                    - button [ref=e105]:
+                      - img [ref=e106]
+              - heading "Personal Admin" [level=3] [ref=e110]
+              - generic [ref=e112]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]:
+                    - heading "Pay software invoices" [level=3] [ref=e116]
+                    - generic [ref=e117]:
+                      - generic [ref=e118]: High
+                      - generic [ref=e119]: ⏱ 15m
+                  - generic [ref=e120]:
+                    - button "Complete" [ref=e121]:
+                      - img [ref=e122]
+                    - button [ref=e125]:
+                      - img [ref=e126]
+                - generic [ref=e129]:
+                  - generic [ref=e130]:
+                    - heading "Book dentist appointment" [level=3] [ref=e131]
+                    - generic [ref=e132]:
+                      - generic [ref=e133]: Low
+                      - generic [ref=e134]: ⏱ 10m
+                  - generic [ref=e135]:
+                    - button "Complete" [ref=e136]:
+                      - img [ref=e137]
+                    - button [ref=e140]:
+                      - img [ref=e141]
+          - generic [ref=e143]:
+            - generic [ref=e144]:
+              - heading "On Hold" [level=2] [ref=e145]
+              - generic [ref=e146]: 1 paused
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - heading "Plan next week admin block" [level=3] [ref=e151]
+                - paragraph [ref=e152]: "\"Waiting on missing details\""
+                - generic [ref=e153]:
+                  - generic [ref=e154]: On Hold
+                  - generic [ref=e155]: Personal Admin
+              - generic [ref=e156]:
+                - link "Resume" [ref=e157] [cursor=pointer]:
+                  - /url: /tasks/32/resume
+                - link [ref=e158] [cursor=pointer]:
+                  - /url: /tasks/32/edit
+                  - img [ref=e159]
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - heading "Quick Brain Dump" [level=2] [ref=e164]
+              - link "View All Dumps →" [ref=e165] [cursor=pointer]:
+                - /url: /brain_dumps
+            - generic [ref=e167]:
+              - textbox "What's on your mind? Just dump it all here..." [ref=e168]
+              - generic [ref=e169]: 500 characters remaining
+              - generic [ref=e170]:
+                - button "🎤 Voice Input" [ref=e171]
+                - button "Save Thought" [ref=e172]
+          - generic [ref=e173]:
+            - generic [ref=e174]:
+              - heading "Completed Today" [level=2] [ref=e175]
+              - generic [ref=e176]: 🎉 1 done!
+            - generic [ref=e179]:
+              - generic [ref=e180]:
+                - heading "Archive old receipts" [level=3] [ref=e181]
+                - generic [ref=e182]:
+                  - generic [ref=e183]: ✓ 10:10AM
+                  - generic [ref=e184]: ⏱ 8m
+              - link "Delete" [ref=e186] [cursor=pointer]:
+                - /url: /tasks/33
+                - img [ref=e187]
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - heading "Start Focus Session" [level=3] [ref=e191]
+            - paragraph [ref=e192]: Pick a task and start focusing.
+            - generic [ref=e193]:
+              - combobox [ref=e195]:
+                - option "Select a task..." [selected]
+                - option "Draft proposal changes"
+                - option "Review client notes"
+                - option "Pay software invoices"
+                - option "Send follow-up emails"
+                - option "Book dentist appointment"
+              - button "Start Focus Mode" [ref=e196] [cursor=pointer]
+          - generic [ref=e197]:
+            - heading "Recent Achievements" [level=3] [ref=e198]
+            - paragraph [ref=e199]: Complete tasks to earn achievements!
+          - generic [ref=e201]:
+            - generic [ref=e202]:
+              - heading "Recent Brain Dumps" [level=3] [ref=e203]
+              - link "Process All →" [ref=e204] [cursor=pointer]:
+                - /url: /brain_dumps
+            - paragraph [ref=e206]: No brain dumps yet. Start capturing your thoughts!
+  - generic [ref=e210]:
+    - generic [ref=e211]:
+      - img [ref=e212]
+      - generic [ref=e214]: v0.2.5
+    - generic [ref=e215]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e217] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
+  - generic [ref=e220]:
+    - generic [ref=e221]:
+      - heading "Cookie Notice" [level=3] [ref=e222]
+      - paragraph [ref=e223]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e224] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e225]:
+      - button "Decline" [ref=e226]
+      - button "Accept All" [ref=e227]
+  - generic [ref=e230]:
+    - generic [ref=e232]:
+      - generic [ref=e233]:
+        - img [ref=e235]
+        - generic [ref=e237]:
+          - heading "What's New!" [level=2] [ref=e238]
+          - paragraph [ref=e239]: Check out the latest updates
+      - button [ref=e240]:
+        - img [ref=e241]
+    - generic [ref=e244]:
+      - generic [ref=e245]:
+        - generic [ref=e246]:
+          - img [ref=e247]
+          - heading "Kanban Drag & Drop" [level=3] [ref=e249]
+          - generic [ref=e250]: v0.2.5
+        - generic [ref=e251]:
+          - paragraph [ref=e252]: "You can now drag tasks between columns on the Kanban board:"
+          - list [ref=e253]:
+            - listitem [ref=e254]:
+              - strong [ref=e255]: Drag between Pending, Today & Completed
+              - text: — move tasks between columns with a simple drag and drop
+            - listitem [ref=e256]:
+              - strong [ref=e257]: Drop position preserved
+              - text: — cards stay exactly where you drop them in the column
+            - listitem [ref=e258]:
+              - strong [ref=e259]: Visual drop indicator
+              - text: — a clear placeholder shows where your task will land
+      - generic [ref=e260]:
+        - generic [ref=e261]:
+          - img [ref=e262]
+          - heading "On Hold, Project Time Tracking & More" [level=3] [ref=e264]
+          - generic [ref=e265]: v0.2.4
+        - generic [ref=e266]:
+          - paragraph [ref=e267]: "A big batch of improvements to help you stay on top of your work:"
+          - list [ref=e268]:
+            - listitem [ref=e269]:
+              - strong [ref=e270]: On Hold status
+              - text: — put tasks on hold with an optional reason so they stay out of your way until you're ready
+            - listitem [ref=e271]:
+              - strong [ref=e272]: Project time tracking
+              - text: — see how much time you've spent on each project with a visual chart and monthly summary table
+            - listitem [ref=e273]:
+              - strong [ref=e274]: Count-up focus timer
+              - text: — the focus timer now counts up instead of down, so you can work without a fixed deadline
+            - listitem [ref=e275]:
+              - strong [ref=e276]: On hold reason modal
+              - text: — add context when you put a task on hold so you remember why later
+            - listitem [ref=e277]:
+              - strong [ref=e278]: Project colours on tasks
+              - text: — tasks inherit their project's colour and the dashboard groups tasks by project
+            - listitem [ref=e279]:
+              - strong [ref=e280]: Configurable daily task limit
+              - text: — adjust how many tasks you take on each day
+      - generic [ref=e281]:
+        - generic [ref=e282]:
+          - img [ref=e283]
+          - heading "Notes & Projects" [level=3] [ref=e285]
+          - generic [ref=e286]: v1.2.0
+        - generic [ref=e287]:
+          - paragraph [ref=e288]:
+            - text: We're excited to introduce
+            - strong [ref=e289]: Notes
+            - text: and
+            - strong [ref=e290]: Projects
+            - text: "- a powerful new way to organize your thoughts and tasks!"
+          - paragraph [ref=e291]:
+            - strong [ref=e292]: Notes
+            - text: "- Capture your ideas with rich text formatting. Add headers, lists, bold, italic, and more."
+          - paragraph [ref=e293]:
+            - strong [ref=e294]: Projects
+            - text: "- Group related tasks and notes together. Perfect for managing larger initiatives."
+          - paragraph [ref=e295]:
+            - strong [ref=e296]: "Key Features:"
+          - list [ref=e297]:
+            - listitem [ref=e298]: Rich text editor with formatting toolbar
+            - listitem [ref=e299]: Color-code your notes and projects
+            - listitem [ref=e300]: Pin important notes to the top
+            - listitem [ref=e301]: Search across all your notes
+            - listitem [ref=e302]: Link notes to specific tasks
+          - paragraph [ref=e303]:
+            - emphasis [ref=e304]: This is a Pro feature - upgrade to unlock!
+    - generic [ref=e305]:
+      - link "View all updates" [ref=e306] [cursor=pointer]:
+        - /url: /announcements
+      - button "Got it!" [ref=e308]

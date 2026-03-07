@@ -3,14 +3,15 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="task"
 export default class extends Controller {
   static targets = ["item", "list"]
+  static values = { sortable: { type: Boolean, default: true } }
   
   connect() {
     console.log("Task controller connected with", this.itemTargets.length, "items")
     // Only enable drag and drop on non-touch devices
-    if (!this.isTouchDevice()) {
+    if (!this.isTouchDevice() && this.sortableValue && this.hasListTarget) {
       this.addDragListeners()
     } else {
-      // Remove draggable attribute on mobile
+      // Disable drag interactions when the surface is touch-first or intentionally not sortable.
       this.itemTargets.forEach(item => {
         item.removeAttribute('draggable')
         item.style.cursor = 'default'
