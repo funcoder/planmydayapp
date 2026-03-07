@@ -47,6 +47,20 @@
     <link rel="apple-touch-icon" href="/icon-192.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <script>
+      (() => {
+        const storageKey = "planmyday-theme";
+        const savedTheme = localStorage.getItem(storageKey);
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        const theme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : systemTheme;
+        const root = document.documentElement;
+        const themeColor = theme === "dark" ? "#020617" : "#14b8a6";
+
+        root.dataset.theme = theme;
+        root.style.colorScheme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", themeColor);
+      })();
+    </script>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
@@ -54,9 +68,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col" data-controller="service-worker">
+  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col" data-controller="service-worker theme">
     <!-- PWA Install Banner -->
     <%= render "shared/pwa_install_banner" %>
+
+    <% unless authenticated? || native_app? || content_for?(:disable_floating_theme_toggle) %>
+      <div class="fixed right-4 top-4 z-[70]">
+        <%= render "shared/theme_toggle" %>
+      </div>
+    <% end %>
 
     <!-- Notifications at the top -->
     <% if notice.present? %>
