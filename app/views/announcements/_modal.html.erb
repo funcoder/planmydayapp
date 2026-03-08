@@ -1,5 +1,8 @@
 <% if current_user&.has_unseen_announcements? %>
-  <div data-controller="announcement-modal" data-announcement-modal-shown-value="false" class="relative z-50">
+  <div data-controller="announcement-modal"
+       data-announcement-modal-shown-value="false"
+       data-announcement-modal-announcement-key-value="<%= current_user.unseen_announcements.limit(5).pluck(:id).join('-') %>"
+       class="relative z-50">
     <!-- Backdrop -->
     <div data-announcement-modal-target="backdrop"
          data-action="click->announcement-modal#close"
