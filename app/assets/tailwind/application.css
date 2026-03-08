@@ -225,6 +225,23 @@ html[data-theme="dark"] .border-gray-300 {
   border-color: var(--app-border) !important;
 }
 
+html[data-theme="dark"] .divide-gray-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(71 85 105 / 0.22) !important;
+}
+
+html[data-theme="dark"] .divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+html[data-theme="dark"] .divide-gray-300 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(71 85 105 / 0.3) !important;
+}
+
+html[data-theme="dark"] .backlog-table-head {
+  border-bottom-color: rgb(71 85 105 / 0.36) !important;
+}
+
+html[data-theme="dark"] .backlog-table-body > .backlog-table-row {
+  border-color: rgb(71 85 105 / 0.22) !important;
+}
+
 html[data-theme="dark"] .border-primary-100,
 html[data-theme="dark"] .border-primary-300 {
   border-color: rgb(45 212 191 / 0.32) !important;
