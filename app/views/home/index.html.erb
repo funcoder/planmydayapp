@@ -1,7 +1,8 @@
-<% content_for :title, "PlanMyDay - ADHD-Friendly Productivity App" %>
+<% content_for :title, "ADHD Productivity App for Freelancers" %>
 <% content_for :meta_description, "Stop fighting your brain. PlanMyDay helps freelancers with ADHD stay focused with task limiting (3-5 tasks max), brain dump with voice input, pomodoro timer, and gamification. Plans starting at $5/month." %>
 <% content_for :canonical_url, root_url %>
 <% content_for :disable_floating_theme_toggle, true %>
+<% content_for :hide_announcements_modal, true %>
 
 <% content_for :head do %>
   <%= structured_data(organization_schema) %>
@@ -26,14 +27,14 @@
             </h1>
           </div>
           <div class="flex items-center gap-4">
-            <%= render "shared/theme_toggle", button_class: "inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-gray-100 backdrop-blur transition-colors hover:bg-white/15", label_class: "hidden md:inline" %>
+            <%= render "shared/theme_toggle", button_class: "inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white/90 px-3 py-2 text-sm font-medium text-gray-700 shadow-sm backdrop-blur transition-colors hover:bg-white", label_class: "hidden md:inline" %>
             <% if authenticated? %>
               <%= link_to "Dashboard", dashboard_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
               <%= link_to "Sign Out", session_path, data: { "turbo-method": :delete }, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
             <% else %>
               <%= link_to "Pricing", pricing_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
               <%= link_to "Sign In", new_session_path, class: "text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium" %>
-              <%= link_to "Get Started", pricing_path, class: "bg-gradient-to-r from-primary-600 to-secondary-700 text-white px-4 py-2 rounded-lg hover:from-primary-700 hover:to-secondary-800 transition-all shadow" %>
+              <%= link_to "Start Free", new_registration_path, class: "bg-gradient-to-r from-primary-600 to-secondary-700 text-white px-4 py-2 rounded-lg hover:from-primary-700 hover:to-secondary-800 transition-all shadow" %>
             <% end %>
           </div>
         </div>
@@ -56,23 +57,61 @@
           focus on what matters today—without the overwhelm.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <%= link_to "Start Your Journey →", pricing_path,
+          <%= link_to "Create Free Account →", new_registration_path,
               class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105 shadow-lg" %>
-          <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
-            See How It Works
-          </a>
+          <%= link_to "See Pricing", pricing_path, class: "inline-flex items-center justify-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all" %>
         </div>
         <p class="mt-4 text-sm text-gray-600">
-          <span class="font-semibold text-primary-600">Join hundreds of ADHD freelancers</span> who've found their productivity breakthrough
-          <% if AppSetting.lifetime_offer_enabled? %>
-            • Limited time: Lifetime access at $49.99!
-          <% end %>
+          <span class="font-semibold text-primary-600">Start free with no credit card required.</span>
+          Upgrade later if you want calendar, notes, projects, and the full workspace.
         </p>
       </div>
     </div>
     <!-- Animated decoration -->
     <div class="absolute top-0 right-0 -mr-40 -mt-40 w-80 h-80 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
     <div class="absolute bottom-0 left-0 -ml-40 -mb-40 w-80 h-80 bg-secondary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+  </section>
+
+  <!-- Product Screenshots -->
+  <section class="py-12 md:py-16 bg-white/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 mb-3">Real Product Views</p>
+        <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">See the app before you sign up</h3>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          These are actual screenshots from PlanMyDay, so visitors can understand the workflow before creating an account.
+        </p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden">
+          <%= image_tag "marketing/dashboard.png", alt: "PlanMyDay dashboard showing today's focus tasks, quick brain dump, and active focus session", class: "w-full h-auto block", loading: "lazy" %>
+          <div class="p-6">
+            <p class="text-sm font-semibold text-primary-600 mb-2">Today's Focus</p>
+            <h4 class="text-xl font-bold text-gray-900 mb-2">A calmer dashboard for the day in front of you</h4>
+            <p class="text-gray-600">See your active tasks, capture a thought fast, and keep a focus session running without bouncing between tools.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden">
+          <%= image_tag "marketing/brain-dump.png", alt: "PlanMyDay brain dump screen for turning racing thoughts into actionable tasks", class: "w-full h-auto block", loading: "lazy" %>
+          <div class="p-6">
+            <p class="text-sm font-semibold text-blue-600 mb-2">Brain Dump</p>
+            <h4 class="text-xl font-bold text-gray-900 mb-2">Get racing thoughts out before they disappear</h4>
+            <p class="text-gray-600">Drop raw ideas into the app, then turn them into tasks when you have the energy to organize them.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden">
+          <%= image_tag "marketing/calendar.png", alt: "PlanMyDay weekly task calendar with scheduled and completed work", class: "w-full h-auto block", loading: "lazy" %>
+          <div class="p-6">
+            <p class="text-sm font-semibold text-secondary-700 mb-2">Weekly Planning</p>
+            <h4 class="text-xl font-bold text-gray-900 mb-2">See your week without opening a giant backlog</h4>
+            <p class="text-gray-600">Use the calendar view to plan around energy, carry work across the week, and spot overload before it hits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Problem Section -->
@@ -360,7 +399,7 @@
         </div>
       </div>
 
-      <%= link_to "View All Plans & Features →", pricing_path,
+      <%= link_to "Compare Plans →", pricing_path,
           class: "inline-flex items-center px-8 py-4 bg-white text-primary-600 text-lg font-bold rounded-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all transform hover:scale-105 shadow-xl" %>
 
       <p class="mt-6 text-sm text-primary-100">
@@ -437,10 +476,10 @@
   <section class="py-20 bg-gradient-to-r from-primary-50 via-white to-secondary-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h3 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-        Ready to Work <span class="text-primary-600">With</span> Your ADHD?
+        Ready to start with the <span class="text-primary-600">free plan</span>?
       </h3>
       <p class="text-xl text-gray-600 mb-4">
-        Join hundreds of ADHD freelancers who've finally found a productivity system that works for their brain.
+        Create an account in under a minute, try the core planner for free, and upgrade later if you want the full workspace.
       </p>
       <% if AppSetting.lifetime_offer_enabled? %>
         <div class="inline-block bg-yellow-100 border-2 border-yellow-400 rounded-lg px-6 py-3 mb-8">
@@ -451,14 +490,12 @@
         </div>
       <% end %>
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <%= link_to "Choose Your Plan →", pricing_path,
+        <%= link_to "Create Free Account →", new_registration_path,
             class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all transform hover:scale-105 shadow-lg" %>
-        <a href="#how-it-works" class="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all">
-          Learn More
-        </a>
+        <%= link_to "See Pricing", pricing_path, class: "inline-flex items-center justify-center px-8 py-4 border-2 border-primary-600 text-lg font-medium rounded-xl text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all" %>
       </div>
       <p class="text-sm text-gray-500">
-        Plans from $5/month • Cancel anytime • Secure payment by Stripe
+        Free plan available • No credit card required • Upgrade later if you need more workspace
       </p>
     </div>
   </section>
