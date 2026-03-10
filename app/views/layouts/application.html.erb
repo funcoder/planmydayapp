@@ -81,18 +81,9 @@
       </div>
     <% end %>
 
-    <!-- Notifications at the top -->
-    <% if notice.present? %>
-      <div class="bg-green-500 text-white px-4 py-3 text-center">
-        <%= notice %>
-      </div>
-    <% end %>
-    
-    <% if alert.present? %>
-      <div class="bg-red-500 text-white px-4 py-3 text-center">
-        <%= alert %>
-      </div>
-    <% end %>
+    <div id="flash">
+      <%= render "shared/flash" %>
+    </div>
     
     <!-- Main content -->
     <div class="flex-grow pb-16">

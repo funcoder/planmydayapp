@@ -153,10 +153,16 @@ export default class extends Controller {
     event.preventDefault()
     console.log("Start clicked")
     const button = event.currentTarget
-    const taskItem = button.closest('[data-task-target="item"]')
-    
+    const originalHtml = button.innerHTML
+
     button.disabled = true
-    button.textContent = "Starting..."
+    button.classList.add("opacity-80")
+    button.innerHTML = `
+      <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle class="opacity-30" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"></circle>
+        <path class="opacity-100" d="M21 12a9 9 0 00-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    `
     
     try {
       const response = await fetch(button.dataset.url, {
@@ -173,7 +179,8 @@ export default class extends Controller {
     } catch (error) {
       console.error('Error:', error)
       button.disabled = false
-      button.textContent = "Start"
+      button.classList.remove("opacity-80")
+      button.innerHTML = originalHtml
     }
   }
 }
