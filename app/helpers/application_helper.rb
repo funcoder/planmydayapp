@@ -22,7 +22,7 @@ module ApplicationHelper
 
   # Canonical URL for the current page
   def canonical_url(url = nil)
-    url || request.original_url
+    url || "#{request.base_url}#{request.path}"
   end
 
   # Open Graph meta tags
@@ -49,8 +49,7 @@ module ApplicationHelper
 
   # Default Open Graph image
   def default_og_image
-    # Use absolute URL for OG image
-    image_url("founder.jpg")
+    image_url("marketing/dashboard.png")
   end
 
   # Structured data (JSON-LD) helper
@@ -67,7 +66,7 @@ module ApplicationHelper
       "@type": "Organization",
       "name": "PlanMyDay",
       "url": "https://planmyday.me",
-      "logo": image_url("founder.jpg"),
+      "logo": "#{request.base_url}/icon.png",
       "description": "ADHD-friendly productivity app for freelancers",
       "founder": {
         "@type": "Person",
@@ -98,7 +97,7 @@ module ApplicationHelper
         "Gamification & XP System",
         "Interruption Tracking"
       ],
-      "screenshot": image_url("founder.jpg")
+      "screenshot": image_url("marketing/dashboard.png")
     }
   end
 
