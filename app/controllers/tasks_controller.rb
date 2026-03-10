@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date, :move_to_column]
+  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :cancel_start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date, :move_to_column]
 
   def index
     @filter = params[:filter] || 'pending'
@@ -106,6 +106,15 @@ class TasksController < ApplicationController
   def start
     @task.start!
     redirect_to dashboard_path, notice: "Task started!"
+  end
+
+  def cancel_start
+    if @task.in_progress?
+      @task.update(status: "pending")
+      redirect_to dashboard_path, notice: "Task moved back to pending"
+    else
+      redirect_to dashboard_path, alert: "Only in-progress tasks can be canceled"
+    end
   end
 
   def hold

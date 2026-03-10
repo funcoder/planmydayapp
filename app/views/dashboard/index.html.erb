@@ -218,6 +218,17 @@
                             </div>
 
                             <div class="flex items-start gap-1 flex-shrink-0">
+                              <% if task.pending? %>
+                                <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors touch-manipulation"
+                                        data-action="click->task#start"
+                                        data-url="<%= start_task_path(task) %>"
+                                        title="Start task">
+                                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M6 4.5a1 1 0 011.53-.848l7 4.5a1 1 0 010 1.696l-7 4.5A1 1 0 016 13.5v-9z"></path>
+                                  </svg>
+                                </button>
+                              <% end %>
+
                               <% if task.pending? || task.in_progress? %>
                                 <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
                                         data-action="click->task#complete"
@@ -258,6 +269,11 @@
                                           data-task-url="<%= hold_task_path(task) %>">
                                     Put On Hold
                                   </button>
+                                  <% if task.in_progress? %>
+                                    <%= link_to "Cancel In Progress", cancel_start_task_path(task),
+                                        data: { turbo_method: :post },
+                                        class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
+                                  <% end %>
                                   <hr class="my-1">
                                   <%= link_to "Remove from Today", remove_from_today_task_path(task),
                                       data: { turbo_method: :post },
