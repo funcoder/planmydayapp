@@ -1,0 +1,236 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "P PlanMyDay" [ref=e8] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: P
+          - generic [ref=e11]: PlanMyDay
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Backlog" [ref=e14] [cursor=pointer]:
+            - /url: /tasks
+          - link "Calendar" [ref=e15] [cursor=pointer]:
+            - /url: /calendar
+          - link "Sprites" [ref=e16] [cursor=pointer]:
+            - /url: /sprites
+          - link "Notes" [ref=e17] [cursor=pointer]:
+            - /url: /notes
+          - link "Projects" [ref=e18] [cursor=pointer]:
+            - /url: /projects
+          - link "Feedback" [ref=e19] [cursor=pointer]:
+            - /url: /feedbacks/new
+        - generic [ref=e20]:
+          - button "Toggle color theme" [pressed] [ref=e21]:
+            - generic [ref=e22]: ☀️
+            - generic [ref=e23]: Light mode
+          - link "What's New" [ref=e24] [cursor=pointer]:
+            - /url: /announcements
+            - img [ref=e25]
+          - button "J Jonathan LIFETIME" [ref=e28]:
+            - generic [ref=e30]: J
+            - generic [ref=e32]:
+              - generic [ref=e33]: Jonathan
+              - generic [ref=e34]: LIFETIME
+            - img [ref=e35]
+    - generic [ref=e37]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - heading "Hey Jonathan!" [level=1] [ref=e41]
+          - paragraph [ref=e42]: Let's be productive
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e45]: "10"
+            - generic [ref=e46]: Points
+          - generic [ref=e47]:
+            - generic [ref=e48]: "1"
+            - generic [ref=e49]: Streak
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e54]:
+              - heading "Today's Focus" [level=2] [ref=e55]
+              - generic [ref=e56]:
+                - generic [ref=e57]: ✓ 1 done
+                - generic [ref=e58]: 5 / 5 active
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - button "🌅 Morning 115 min planned 5" [pressed] [ref=e61]:
+                  - generic [ref=e62]:
+                    - generic [ref=e63]:
+                      - generic [ref=e64]: 🌅
+                      - generic [ref=e65]:
+                        - paragraph [ref=e66]: Morning
+                        - paragraph [ref=e67]: 115 min planned
+                    - generic [ref=e68]: "5"
+                - button "🌤 Afternoon No tasks yet 0" [ref=e69]:
+                  - generic [ref=e70]:
+                    - generic [ref=e71]:
+                      - generic [ref=e72]: 🌤
+                      - generic [ref=e73]:
+                        - paragraph [ref=e74]: Afternoon
+                        - paragraph [ref=e75]: No tasks yet
+                    - generic [ref=e76]: "0"
+                - button "🌙 Evening No tasks yet 0" [ref=e77]:
+                  - generic [ref=e78]:
+                    - generic [ref=e79]:
+                      - generic [ref=e80]: 🌙
+                      - generic [ref=e81]:
+                        - paragraph [ref=e82]: Evening
+                        - paragraph [ref=e83]: No tasks yet
+                    - generic [ref=e84]: "0"
+              - generic [ref=e85]:
+                - generic [ref=e86]:
+                  - generic [ref=e87]:
+                    - generic [ref=e88]:
+                      - generic [ref=e89]: 🌅
+                      - heading "Morning Focus" [level=3] [ref=e90]
+                      - generic [ref=e91]: 5 tasks
+                    - paragraph [ref=e92]: 115 minutes planned for this part of the day.
+                  - generic [ref=e93]: Now
+                - generic [ref=e94]:
+                  - generic [ref=e96]:
+                    - generic [ref=e97]:
+                      - generic [ref=e98]:
+                        - generic [ref=e99]: Client Work
+                        - generic [ref=e101]: In progress
+                        - generic [ref=e102]: Lead task
+                      - heading "Draft proposal changes" [level=3] [ref=e103]
+                      - generic [ref=e104]:
+                        - generic [ref=e105]: High
+                        - generic [ref=e106]: ⏱ 45m
+                    - generic [ref=e107]:
+                      - button "Complete" [ref=e108]:
+                        - img [ref=e109]
+                      - button "More options" [ref=e112]:
+                        - img [ref=e113]
+                  - generic [ref=e116]:
+                    - generic [ref=e117]:
+                      - generic [ref=e119]: Client Work
+                      - heading "Review client notes" [level=3] [ref=e121]
+                      - generic [ref=e122]:
+                        - generic [ref=e123]: Urgent
+                        - generic [ref=e124]: ⏱ 25m
+                    - generic [ref=e125]:
+                      - button "Complete" [ref=e126]:
+                        - img [ref=e127]
+                      - button "More options" [ref=e130]:
+                        - img [ref=e131]
+                  - generic [ref=e134]:
+                    - generic [ref=e135]:
+                      - generic [ref=e137]: Personal Admin
+                      - heading "Pay software invoices" [level=3] [ref=e139]
+                      - generic [ref=e140]:
+                        - generic [ref=e141]: High
+                        - generic [ref=e142]: ⏱ 15m
+                    - generic [ref=e143]:
+                      - button "Complete" [ref=e144]:
+                        - img [ref=e145]
+                      - button "More options" [ref=e148]:
+                        - img [ref=e149]
+                  - generic [ref=e152]:
+                    - generic [ref=e153]:
+                      - generic [ref=e155]: Client Work
+                      - heading "Send follow-up emails" [level=3] [ref=e157]
+                      - generic [ref=e158]:
+                        - generic [ref=e159]: Medium
+                        - generic [ref=e160]: ⏱ 20m
+                    - generic [ref=e161]:
+                      - button "Complete" [ref=e162]:
+                        - img [ref=e163]
+                      - button "More options" [ref=e166]:
+                        - img [ref=e167]
+                  - generic [ref=e170]:
+                    - generic [ref=e171]:
+                      - generic [ref=e173]: Personal Admin
+                      - heading "Book dentist appointment" [level=3] [ref=e175]
+                      - generic [ref=e176]:
+                        - generic [ref=e177]: Low
+                        - generic [ref=e178]: ⏱ 10m
+                    - generic [ref=e179]:
+                      - button "Complete" [ref=e180]:
+                        - img [ref=e181]
+                      - button "More options" [ref=e184]:
+                        - img [ref=e185]
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - heading "On Hold" [level=2] [ref=e189]
+              - generic [ref=e190]: 1 paused
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - heading "Plan next week admin block" [level=3] [ref=e195]
+                - paragraph [ref=e196]: "\"Waiting on missing details\""
+                - generic [ref=e197]:
+                  - generic [ref=e198]: On Hold
+                  - generic [ref=e199]: Personal Admin
+              - generic [ref=e200]:
+                - link "Resume" [ref=e201] [cursor=pointer]:
+                  - /url: /tasks/32/resume
+                - link [ref=e202] [cursor=pointer]:
+                  - /url: /tasks/32/edit
+                  - img [ref=e203]
+          - generic [ref=e206]:
+            - generic [ref=e207]:
+              - heading "Quick Brain Dump" [level=2] [ref=e208]
+              - link "View All Dumps →" [ref=e209] [cursor=pointer]:
+                - /url: /brain_dumps
+            - generic [ref=e211]:
+              - textbox "What's on your mind? Just dump it all here..." [ref=e212]
+              - generic [ref=e213]: 500 characters remaining
+              - generic [ref=e214]:
+                - button "🎤 Voice Input" [ref=e215]
+                - button "Save Thought" [ref=e216]
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - heading "Completed Today" [level=2] [ref=e219]
+              - generic [ref=e220]: 🎉 1 done!
+            - generic [ref=e223]:
+              - generic [ref=e224]:
+                - heading "Archive old receipts" [level=3] [ref=e225]
+                - generic [ref=e226]:
+                  - generic [ref=e227]: ✓ 10:10AM
+                  - generic [ref=e228]: ⏱ 8m
+              - link "Delete" [ref=e230] [cursor=pointer]:
+                - /url: /tasks/33
+                - img [ref=e231]
+        - generic [ref=e233]:
+          - generic [ref=e234]:
+            - heading "Start Focus Session" [level=3] [ref=e235]
+            - paragraph [ref=e236]: Pick a task and start focusing.
+            - generic [ref=e237]:
+              - combobox [ref=e239]:
+                - option "Select a task..." [selected]
+                - option "Draft proposal changes"
+                - option "Review client notes"
+                - option "Pay software invoices"
+                - option "Send follow-up emails"
+                - option "Book dentist appointment"
+              - button "Start Focus Mode" [ref=e240] [cursor=pointer]
+          - generic [ref=e241]:
+            - heading "Recent Achievements" [level=3] [ref=e242]
+            - paragraph [ref=e243]: Complete tasks to earn achievements!
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - heading "Recent Brain Dumps" [level=3] [ref=e247]
+              - link "Process All →" [ref=e248] [cursor=pointer]:
+                - /url: /brain_dumps
+            - paragraph [ref=e250]: No brain dumps yet. Start capturing your thoughts!
+  - generic [ref=e254]:
+    - generic [ref=e255]:
+      - img [ref=e256]
+      - generic [ref=e258]: v0.2.5
+    - generic [ref=e259]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e261] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
+  - generic [ref=e264]:
+    - generic [ref=e265]:
+      - heading "Cookie Notice" [level=3] [ref=e266]
+      - paragraph [ref=e267]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e268] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e269]:
+      - button "Decline" [ref=e270]
+      - button "Accept All" [ref=e271]

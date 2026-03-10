@@ -1,0 +1,204 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "P PlanMyDay" [ref=e8] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: P
+          - generic [ref=e11]: PlanMyDay
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Backlog" [ref=e14] [cursor=pointer]:
+            - /url: /tasks
+          - link "Calendar" [ref=e15] [cursor=pointer]:
+            - /url: /calendar
+          - link "Sprites" [ref=e16] [cursor=pointer]:
+            - /url: /sprites
+          - link "Notes" [ref=e17] [cursor=pointer]:
+            - /url: /notes
+          - link "Projects" [ref=e18] [cursor=pointer]:
+            - /url: /projects
+          - link "Feedback" [ref=e19] [cursor=pointer]:
+            - /url: /feedbacks/new
+        - generic [ref=e20]:
+          - button "Toggle color theme" [ref=e21]:
+            - generic [ref=e22]: 🌙
+            - generic [ref=e23]: Dark mode
+          - link "What's New" [ref=e24] [cursor=pointer]:
+            - /url: /announcements
+            - img [ref=e25]
+          - button "J Jonathan LIFETIME" [ref=e28]:
+            - generic [ref=e30]: J
+            - generic [ref=e32]:
+              - generic [ref=e33]: Jonathan
+              - generic [ref=e34]: LIFETIME
+            - img [ref=e35]
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "Task Backlog" [level=1] [ref=e40]
+          - paragraph [ref=e41]: Manage all your tasks in one place
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - link "List" [ref=e44] [cursor=pointer]:
+              - /url: /tasks?filter=pending&view=list
+              - img [ref=e45]
+              - generic [ref=e47]: List
+            - link "Kanban" [ref=e48] [cursor=pointer]:
+              - /url: /tasks?view=kanban
+              - img [ref=e49]
+              - generic [ref=e51]: Kanban
+          - link "New Task" [ref=e52] [cursor=pointer]:
+            - /url: /tasks/new?scheduled=backlog
+            - img [ref=e53]
+            - generic [ref=e55]: New Task
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - link "All Tasks" [ref=e59] [cursor=pointer]:
+            - /url: /tasks?filter=all&view=list
+          - link "Today" [ref=e60] [cursor=pointer]:
+            - /url: /tasks?filter=today&view=list
+          - link "Pending" [ref=e61] [cursor=pointer]:
+            - /url: /tasks?filter=pending&view=list
+          - link "Completed" [ref=e62] [cursor=pointer]:
+            - /url: /tasks?filter=completed&view=list
+        - generic [ref=e63]: "Total: 5 tasks"
+      - table [ref=e67]:
+        - rowgroup [ref=e68]:
+          - row "Task Status Priority Project Scheduled Due Date Time Created Actions" [ref=e69]:
+            - columnheader [ref=e70]
+            - columnheader "Task" [ref=e71]
+            - columnheader "Status" [ref=e72]
+            - columnheader "Priority" [ref=e73]
+            - columnheader "Project" [ref=e74]
+            - columnheader "Scheduled" [ref=e75]
+            - columnheader "Due Date" [ref=e76]
+            - columnheader "Time" [ref=e77]
+            - columnheader "Created" [ref=e78]
+            - columnheader "Actions" [ref=e79]
+        - rowgroup [ref=e80]:
+          - row "Pay software invoices Pending High Personal Admin Today — 15m Mar 07" [ref=e81]:
+            - cell [ref=e82]
+            - cell "Pay software invoices" [ref=e84]:
+              - generic [ref=e85]: Pay software invoices
+            - cell "Pending" [ref=e86]:
+              - generic [ref=e87]: Pending
+            - cell "High" [ref=e88]:
+              - generic [ref=e89]: High
+            - cell "Personal Admin" [ref=e90]:
+              - generic [ref=e91]: Personal Admin
+            - cell "Today" [ref=e93]
+            - cell "—" [ref=e94]
+            - cell "15m" [ref=e95]
+            - cell "Mar 07" [ref=e96]
+            - cell [ref=e97]:
+              - generic [ref=e98]:
+                - link "Edit task" [ref=e99] [cursor=pointer]:
+                  - /url: /tasks/31/edit
+                  - img [ref=e100]
+                - button "Delete task" [ref=e103]:
+                  - img [ref=e104]
+          - row "Book dentist appointment Pending Low Personal Admin Today — 10m Mar 07" [ref=e106]:
+            - cell [ref=e107]
+            - cell "Book dentist appointment" [ref=e109]:
+              - generic [ref=e110]: Book dentist appointment
+            - cell "Pending" [ref=e111]:
+              - generic [ref=e112]: Pending
+            - cell "Low" [ref=e113]:
+              - generic [ref=e114]: Low
+            - cell "Personal Admin" [ref=e115]:
+              - generic [ref=e116]: Personal Admin
+            - cell "Today" [ref=e118]
+            - cell "—" [ref=e119]
+            - cell "10m" [ref=e120]
+            - cell "Mar 07" [ref=e121]
+            - cell [ref=e122]:
+              - generic [ref=e123]:
+                - link "Edit task" [ref=e124] [cursor=pointer]:
+                  - /url: /tasks/30/edit
+                  - img [ref=e125]
+                - button "Delete task" [ref=e128]:
+                  - img [ref=e129]
+          - row "Send follow-up emails Pending Medium Client Work Today — 20m Mar 07" [ref=e131]:
+            - cell [ref=e132]
+            - cell "Send follow-up emails" [ref=e134]:
+              - generic [ref=e135]: Send follow-up emails
+            - cell "Pending" [ref=e136]:
+              - generic [ref=e137]: Pending
+            - cell "Medium" [ref=e138]:
+              - generic [ref=e139]: Medium
+            - cell "Client Work" [ref=e140]:
+              - generic [ref=e141]: Client Work
+            - cell "Today" [ref=e143]
+            - cell "—" [ref=e144]
+            - cell "20m" [ref=e145]
+            - cell "Mar 07" [ref=e146]
+            - cell [ref=e147]:
+              - generic [ref=e148]:
+                - link "Edit task" [ref=e149] [cursor=pointer]:
+                  - /url: /tasks/29/edit
+                  - img [ref=e150]
+                - button "Delete task" [ref=e153]:
+                  - img [ref=e154]
+          - row "Review client notes Pending Urgent Client Work Today — 25m Mar 07" [ref=e156]:
+            - cell [ref=e157]
+            - cell "Review client notes" [ref=e159]:
+              - generic [ref=e160]: Review client notes
+            - cell "Pending" [ref=e161]:
+              - generic [ref=e162]: Pending
+            - cell "Urgent" [ref=e163]:
+              - generic [ref=e164]: Urgent
+            - cell "Client Work" [ref=e165]:
+              - generic [ref=e166]: Client Work
+            - cell "Today" [ref=e168]
+            - cell "—" [ref=e169]
+            - cell "25m" [ref=e170]
+            - cell "Mar 07" [ref=e171]
+            - cell [ref=e172]:
+              - generic [ref=e173]:
+                - link "Edit task" [ref=e174] [cursor=pointer]:
+                  - /url: /tasks/27/edit
+                  - img [ref=e175]
+                - button "Delete task" [ref=e178]:
+                  - img [ref=e179]
+          - row "Test task 1 Pending Medium — Nov 06 — — Nov 06" [ref=e181]:
+            - cell [ref=e182]
+            - cell "Test task 1" [ref=e184]:
+              - generic [ref=e185]: Test task 1
+            - cell "Pending" [ref=e186]:
+              - generic [ref=e187]: Pending
+            - cell "Medium" [ref=e188]:
+              - generic [ref=e189]: Medium
+            - cell "—" [ref=e190]
+            - cell "Nov 06" [ref=e191]
+            - cell "—" [ref=e192]
+            - cell "—" [ref=e193]
+            - cell "Nov 06" [ref=e194]
+            - cell [ref=e195]:
+              - generic [ref=e196]:
+                - button "Add to today" [ref=e198]:
+                  - img [ref=e199]
+                - link "Edit task" [ref=e201] [cursor=pointer]:
+                  - /url: /tasks/18/edit
+                  - img [ref=e202]
+                - button "Delete task" [ref=e205]:
+                  - img [ref=e206]
+  - generic [ref=e211]:
+    - generic [ref=e212]:
+      - img [ref=e213]
+      - generic [ref=e215]: v0.2.5
+    - generic [ref=e216]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e218] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
+  - generic [ref=e221]:
+    - generic [ref=e222]:
+      - heading "Cookie Notice" [level=3] [ref=e223]
+      - paragraph [ref=e224]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e225] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e226]:
+      - button "Decline" [ref=e227]
+      - button "Accept All" [ref=e228]

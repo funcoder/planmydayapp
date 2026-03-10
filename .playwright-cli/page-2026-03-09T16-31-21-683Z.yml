@@ -1,0 +1,90 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - heading "Brain Dump Processing" [level=1] [ref=e8]
+        - paragraph [ref=e9]: Turn your thoughts into actionable tasks
+      - link "Dashboard" [ref=e11] [cursor=pointer]:
+        - /url: /dashboard
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - paragraph [ref=e16]: Idea for improving onboarding checklist so new starters know where passwords live.
+        - generic [ref=e17]:
+          - generic [ref=e18]: 3 minutes ago
+          - generic [ref=e19]: Processed
+        - paragraph [ref=e21]: ✓ Processed into tasks
+      - generic [ref=e22]:
+        - paragraph [ref=e24]: "Payroll reminder: confirm overtime numbers with finance before Friday."
+        - generic [ref=e25]:
+          - generic [ref=e26]: 3 minutes ago
+          - generic [ref=e27]: Pending
+        - generic [ref=e28]:
+          - heading "Convert to tasks:" [level=4] [ref=e29]
+          - generic [ref=e30]:
+            - generic [ref=e31]:
+              - generic [ref=e32]:
+                - textbox "Task 1..." [ref=e33]
+                - combobox [ref=e34]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e35]:
+                - textbox "Task 2 (optional)..." [ref=e36]
+                - combobox [ref=e37]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e38]:
+                - textbox "Task 3 (optional)..." [ref=e39]
+                - combobox [ref=e40]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+            - generic [ref=e41]:
+              - button "Create Tasks" [ref=e42] [cursor=pointer]
+              - link "Archive" [ref=e43] [cursor=pointer]:
+                - /url: /brain_dumps/9/archive
+      - generic [ref=e44]:
+        - paragraph [ref=e46]: Need to ask Sandra if she wants the Dell or MacBook before Joe places the order.
+        - generic [ref=e47]:
+          - generic [ref=e48]: 3 minutes ago
+          - generic [ref=e49]: Pending
+        - generic [ref=e50]:
+          - heading "Convert to tasks:" [level=4] [ref=e51]
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]:
+                - textbox "Task 1..." [ref=e55]
+                - combobox [ref=e56]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e57]:
+                - textbox "Task 2 (optional)..." [ref=e58]
+                - combobox [ref=e59]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e60]:
+                - textbox "Task 3 (optional)..." [ref=e61]
+                - combobox [ref=e62]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+            - generic [ref=e63]:
+              - button "Create Tasks" [ref=e64] [cursor=pointer]
+              - link "Archive" [ref=e65] [cursor=pointer]:
+                - /url: /brain_dumps/8/archive
+  - generic [ref=e69]:
+    - generic [ref=e70]:
+      - img [ref=e71]
+      - generic [ref=e73]: v0.2.6
+    - generic [ref=e74]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e76] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com

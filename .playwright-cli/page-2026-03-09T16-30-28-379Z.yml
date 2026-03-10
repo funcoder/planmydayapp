@@ -1,0 +1,200 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "P PlanMyDay" [ref=e8] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: P
+          - generic [ref=e11]: PlanMyDay
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Backlog" [ref=e14] [cursor=pointer]:
+            - /url: /tasks
+          - link "Calendar" [ref=e15] [cursor=pointer]:
+            - /url: /calendar
+          - link "Sprites" [ref=e16] [cursor=pointer]:
+            - /url: /sprites
+          - link "Notes" [ref=e17] [cursor=pointer]:
+            - /url: /notes
+          - link "Projects" [ref=e18] [cursor=pointer]:
+            - /url: /projects
+          - link "Feedback" [ref=e19] [cursor=pointer]:
+            - /url: /feedbacks/new
+        - generic [ref=e20]:
+          - button "Toggle color theme" [ref=e21]:
+            - generic [ref=e22]: 🌙
+            - generic [ref=e23]: Dark mode
+          - link "What's New" [ref=e24] [cursor=pointer]:
+            - /url: /announcements
+            - img [ref=e25]
+          - button "M Marketing PRO" [ref=e28]:
+            - generic [ref=e30]: M
+            - generic [ref=e32]:
+              - generic [ref=e33]: Marketing
+              - generic [ref=e34]: PRO
+            - img [ref=e35]
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - heading "🎉 New Sprites Unlocked!" [level=3] [ref=e39]
+        - generic [ref=e41]:
+          - paragraph [ref=e44]: Starter Bunny
+          - paragraph [ref=e45]: Common
+        - link "View Collection →" [ref=e46] [cursor=pointer]:
+          - /url: /sprites
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Hey Marketing!" [level=1] [ref=e50]
+          - paragraph [ref=e51]: Let's be productive
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - generic [ref=e54]: "15"
+            - generic [ref=e55]: Points
+          - generic [ref=e56]:
+            - generic [ref=e57]: "0"
+            - generic [ref=e58]: Streak
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]:
+              - generic [ref=e63]:
+                - heading "Today's Focus" [level=2] [ref=e64]
+                - generic [ref=e65]:
+                  - generic [ref=e66]: ✓ 1 done
+                  - generic [ref=e67]: 2 / 5 active
+              - link [ref=e68] [cursor=pointer]:
+                - /url: /tasks/new
+                - img [ref=e69]
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - button "🌅 Morning 75 min planned 2" [pressed] [ref=e73]:
+                  - generic [ref=e74]:
+                    - generic [ref=e75]:
+                      - generic [ref=e76]: 🌅
+                      - generic [ref=e77]:
+                        - paragraph [ref=e78]: Morning
+                        - paragraph [ref=e79]: 75 min planned
+                    - generic [ref=e80]: "2"
+                - button "🌤 Afternoon No tasks yet 0" [ref=e81]:
+                  - generic [ref=e82]:
+                    - generic [ref=e83]:
+                      - generic [ref=e84]: 🌤
+                      - generic [ref=e85]:
+                        - paragraph [ref=e86]: Afternoon
+                        - paragraph [ref=e87]: No tasks yet
+                    - generic [ref=e88]: "0"
+                - button "🌙 Evening No tasks yet 0" [ref=e89]:
+                  - generic [ref=e90]:
+                    - generic [ref=e91]:
+                      - generic [ref=e92]: 🌙
+                      - generic [ref=e93]:
+                        - paragraph [ref=e94]: Evening
+                        - paragraph [ref=e95]: No tasks yet
+                    - generic [ref=e96]: "0"
+              - generic [ref=e97]:
+                - generic [ref=e98]:
+                  - generic [ref=e99]:
+                    - generic [ref=e100]:
+                      - generic [ref=e101]: 🌅
+                      - heading "Morning Focus" [level=3] [ref=e102]
+                      - generic [ref=e103]: 2 tasks
+                    - paragraph [ref=e104]: 75 minutes planned for this part of the day.
+                  - generic [ref=e105]: Later
+                - generic [ref=e106]:
+                  - generic [ref=e108]:
+                    - generic [ref=e109]:
+                      - generic [ref=e110]:
+                        - generic [ref=e111]: Technology Operations
+                        - generic [ref=e113]: In progress
+                        - generic [ref=e114]: Lead task
+                      - heading "Prepare payroll summary" [level=3] [ref=e115]
+                      - generic [ref=e116]:
+                        - generic [ref=e117]: Medium
+                        - generic [ref=e118]: ⏱ 30m
+                    - generic [ref=e119]:
+                      - button "Complete" [ref=e120]:
+                        - img [ref=e121]
+                      - button "More options" [ref=e124]:
+                        - img [ref=e125]
+                  - generic [ref=e128]:
+                    - generic [ref=e129]:
+                      - generic [ref=e131]: Technology Operations
+                      - heading "Ask Joe about laptop for Sandra" [level=3] [ref=e133]
+                      - generic [ref=e134]:
+                        - generic [ref=e135]: High
+                        - generic [ref=e136]: ⏱ 45m
+                    - generic [ref=e137]:
+                      - button "Complete" [ref=e138]:
+                        - img [ref=e139]
+                      - button "More options" [ref=e142]:
+                        - img [ref=e143]
+          - generic [ref=e146]:
+            - generic [ref=e147]:
+              - heading "Quick Brain Dump" [level=2] [ref=e148]
+              - link "View All Dumps →" [ref=e149] [cursor=pointer]:
+                - /url: /brain_dumps
+            - generic [ref=e151]:
+              - textbox "What's on your mind? Just dump it all here..." [ref=e152]
+              - generic [ref=e153]: 500 characters remaining
+              - generic [ref=e154]:
+                - button "🎤 Voice Input" [ref=e155]
+                - button "Save Thought" [ref=e156]
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - heading "Completed Today" [level=2] [ref=e159]
+              - generic [ref=e160]: 🎉 1 done!
+            - generic [ref=e163]:
+              - generic [ref=e164]:
+                - heading "Backup PeopleHR" [level=3] [ref=e165]
+                - generic [ref=e167]: ✓ 4:28PM
+              - link "Delete" [ref=e169] [cursor=pointer]:
+                - /url: /tasks/40
+                - img [ref=e170]
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - heading "Start Focus Session" [level=3] [ref=e174]
+            - paragraph [ref=e175]: Pick a task and start focusing.
+            - generic [ref=e176]:
+              - combobox [ref=e178]:
+                - option "Select a task..." [selected]
+                - option "Prepare payroll summary"
+                - option "Ask Joe about laptop for Sandra"
+              - button "Start Focus Mode" [ref=e179] [cursor=pointer]
+          - generic [ref=e180]:
+            - heading "Today's Sprites" [level=3] [ref=e181]
+            - generic [ref=e186]:
+              - paragraph [ref=e187]: Starter Bunny
+              - paragraph [ref=e188]: 4:30 PM
+            - link "View Collection →" [ref=e189] [cursor=pointer]:
+              - /url: /sprites
+          - generic [ref=e190]:
+            - heading "Recent Achievements" [level=3] [ref=e191]
+            - paragraph [ref=e192]: Complete tasks to earn achievements!
+          - generic [ref=e194]:
+            - generic [ref=e195]:
+              - heading "Recent Brain Dumps" [level=3] [ref=e196]
+              - link "Process All →" [ref=e197] [cursor=pointer]:
+                - /url: /brain_dumps
+            - generic [ref=e198]:
+              - generic [ref=e200]:
+                - paragraph [ref=e201]: Idea for improving onboarding checklist so new starters know where passwords ...
+                - generic [ref=e202]:
+                  - paragraph [ref=e203]: 2 minutes ago
+                  - generic [ref=e204]: Processed
+              - generic [ref=e206]:
+                - paragraph [ref=e207]: "Payroll reminder: confirm overtime numbers with finance before Friday."
+                - generic [ref=e208]:
+                  - paragraph [ref=e209]: 2 minutes ago
+                  - generic [ref=e210]: Pending
+              - generic [ref=e212]:
+                - paragraph [ref=e213]: Need to ask Sandra if she wants the Dell or MacBook before Joe places the order.
+                - generic [ref=e214]:
+                  - paragraph [ref=e215]: 2 minutes ago
+                  - generic [ref=e216]: Pending
+  - generic [ref=e220]:
+    - generic [ref=e221]:
+      - img [ref=e222]
+      - generic [ref=e224]: v0.2.6
+    - generic [ref=e225]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e227] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
