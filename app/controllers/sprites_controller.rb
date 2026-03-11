@@ -3,14 +3,14 @@ class SpritesController < ApplicationController
 
   def index
     @user = Current.session.user
-    
+
     # Get all sprites
     @all_sprites = SpriteCharacter.all.by_rarity
-    
+
     # Get user's unlocked sprites
     @unlocked_sprites = @user.sprite_characters
     @unlocked_sprite_ids = @unlocked_sprites.pluck(:id)
-    
+
     # Group sprites by rarity for display
     @sprites_by_rarity = {
       legendary: @all_sprites.legendary,
@@ -19,7 +19,7 @@ class SpritesController < ApplicationController
       uncommon: @all_sprites.uncommon,
       common: @all_sprites.common
     }
-    
+
     # Calculate collection stats
     total_sprites = @all_sprites.count
     @collection_stats = {
@@ -32,7 +32,7 @@ class SpritesController < ApplicationController
       uncommon_count: @unlocked_sprites.uncommon.count,
       common_count: @unlocked_sprites.common.count
     }
-    
+
     # Get recently unlocked sprites
     @recent_unlocks = @user.user_sprites.recent.limit(5).includes(:sprite_character)
   end

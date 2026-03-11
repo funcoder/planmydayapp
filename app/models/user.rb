@@ -23,7 +23,7 @@ class User < ApplicationRecord
   # Rails 8 features
   # Encrypt sensitive preferences
   encrypts :adhd_profile
-  
+
   # Use Active Storage for profile pictures
   # has_one_attached :avatar # Commented out temporarily
 
@@ -59,15 +59,15 @@ class User < ApplicationRecord
   end
 
   def daily_task_limit
-    preferences.dig('daily_task_limit') || 5
+    preferences.dig("daily_task_limit") || 5
   end
 
   def daily_task_limit=(value)
-    self.preferences = preferences.merge('daily_task_limit' => value.to_i.clamp(1, 10))
+    self.preferences = preferences.merge("daily_task_limit" => value.to_i.clamp(1, 10))
   end
 
   def preferred_colors
-    preferences.dig('colors') || default_colors
+    preferences.dig("colors") || default_colors
   end
 
   # Feature announcements

@@ -20,6 +20,6 @@ class CreateTasks < ActiveRecord::Migration[8.0]
     end
     add_index :tasks, :status
     add_index :tasks, :scheduled_for
-    add_index :tasks, [:user_id, :position]
+    add_index :tasks, [ :user_id, :position ]
   end
 end

@@ -12,7 +12,7 @@ class FocusSession < ApplicationRecord
   scope :in_progress, -> { where(ended_at: nil) }
   scope :recent, -> { order(started_at: :desc) }
   scope :today, -> { where(started_at: Date.current.beginning_of_day..Date.current.end_of_day) }
-  scope :running, -> { where(timer_state: 'running') }
+  scope :running, -> { where(timer_state: "running") }
 
   # Callbacks
   before_save :calculate_duration
@@ -24,12 +24,12 @@ class FocusSession < ApplicationRecord
   # Instance methods
   def end_session!(quality: nil, notes: nil)
     # If paused, account for the current pause before ending
-    if timer_state == 'paused' && paused_at.present?
+    if timer_state == "paused" && paused_at.present?
       self.total_paused_duration += (Time.current - paused_at).to_i
     end
 
     self.ended_at = Time.current
-    self.timer_state = 'stopped'
+    self.timer_state = "stopped"
     self.paused_at = nil
     self.focus_quality = quality if quality.present?
     self.notes = notes if notes.present?
@@ -57,31 +57,31 @@ class FocusSession < ApplicationRecord
 
   def quality_emoji
     case focus_quality
-    when 5 then '🌟'
-    when 4 then '😊'
-    when 3 then '😐'
-    when 2 then '😕'
-    when 1 then '😞'
-    else '❓'
+    when 5 then "🌟"
+    when 4 then "😊"
+    when 3 then "😐"
+    when 2 then "😕"
+    when 1 then "😞"
+    else "❓"
     end
   end
 
   # Timer state management
   def pause_timer!
-    return unless timer_state == 'running'
-    self.timer_state = 'paused'
+    return unless timer_state == "running"
+    self.timer_state = "paused"
     self.paused_at = Time.current
     save
   end
 
   def resume_timer!
-    return unless timer_state == 'paused'
+    return unless timer_state == "paused"
 
     # Calculate how long we were paused
     pause_duration = Time.current - paused_at
     self.total_paused_duration += pause_duration.to_i
 
-    self.timer_state = 'running'
+    self.timer_state = "running"
     self.paused_at = nil
     save
   end
@@ -90,12 +90,12 @@ class FocusSession < ApplicationRecord
     return 0 unless started_at
 
     reference_time = case timer_state
-                     when 'paused' then paused_at || Time.current
-                     when 'stopped' then ended_at || started_at
-                     else Time.current
-                     end
+    when "paused" then paused_at || Time.current
+    when "stopped" then ended_at || started_at
+    else Time.current
+    end
 
-    [(reference_time - started_at).to_i - (total_paused_duration || 0), 0].max
+    [ (reference_time - started_at).to_i - (total_paused_duration || 0), 0 ].max
   end
 
   def timer_data
@@ -114,7 +114,7 @@ class FocusSession < ApplicationRecord
 
   def calculate_duration
     if ended_at.present? && started_at.present?
-      self.duration = [(ended_at - started_at).to_i - (total_paused_duration || 0), 0].max
+      self.duration = [ (ended_at - started_at).to_i - (total_paused_duration || 0), 0 ].max
     end
   end
 
@@ -125,18 +125,18 @@ class FocusSession < ApplicationRecord
   end
 
   def start_task
-    task.start! if task.status == 'pending'
+    task.start! if task.status == "pending"
   end
 
   def award_focus_points
     return unless ended_at_previously_was.nil?
 
     base_points = case duration_in_minutes
-                  when 0..14 then 5
-                  when 15..29 then 10
-                  when 30..59 then 20
-                  else 30
-                  end
+    when 0..14 then 5
+    when 15..29 then 10
+    when 30..59 then 20
+    else 30
+    end
 
     # Bonus for high quality focus
     base_points += 5 if focus_quality && focus_quality >= 4
@@ -144,7 +144,7 @@ class FocusSession < ApplicationRecord
     # Penalty for many interruptions
     base_points -= (interruptions || 0) * 2
 
-    user.add_points([base_points, 0].max) # Ensure points are never negative
+    user.add_points([ base_points, 0 ].max) # Ensure points are never negative
   end
 
   def broadcast_timer_update

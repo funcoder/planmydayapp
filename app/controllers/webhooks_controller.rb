@@ -4,7 +4,7 @@ class WebhooksController < ApplicationController
 
   def stripe
     payload = request.body.read
-    sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+    sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
     endpoint_secret = Rails.configuration.stripe[:signing_secret]
 
     begin
@@ -12,30 +12,30 @@ class WebhooksController < ApplicationController
         payload, sig_header, endpoint_secret
       )
     rescue JSON::ParserError => e
-      render json: { error: 'Invalid payload' }, status: 400
+      render json: { error: "Invalid payload" }, status: 400
       return
     rescue Stripe::SignatureVerificationError => e
-      render json: { error: 'Invalid signature' }, status: 400
+      render json: { error: "Invalid signature" }, status: 400
       return
     end
 
     # Handle the event
     case event.type
-    when 'checkout.session.completed'
+    when "checkout.session.completed"
       handle_checkout_session_completed(event.data.object)
-    when 'customer.subscription.updated'
+    when "customer.subscription.updated"
       handle_subscription_updated(event.data.object)
-    when 'customer.subscription.deleted'
+    when "customer.subscription.deleted"
       handle_subscription_deleted(event.data.object)
-    when 'invoice.payment_succeeded'
+    when "invoice.payment_succeeded"
       handle_invoice_payment_succeeded(event.data.object)
-    when 'invoice.payment_failed'
+    when "invoice.payment_failed"
       handle_invoice_payment_failed(event.data.object)
     else
       Rails.logger.info "Unhandled event type: #{event.type}"
     end
 
-    render json: { message: 'success' }
+    render json: { message: "success" }
   end
 
   private
@@ -52,26 +52,26 @@ class WebhooksController < ApplicationController
     end
 
     # Check if this is a one-time payment (lifetime) or subscription
-    if session.mode == 'payment'
+    if session.mode == "payment"
       # Lifetime purchase - one-time payment
       Rails.logger.info "Processing lifetime purchase for user #{user.id}"
 
       user.update(
-        subscription_tier: 'lifetime',
-        subscription_status: 'active',
+        subscription_tier: "lifetime",
+        subscription_status: "active",
         subscription_period_end: nil # Lifetime has no end date
       )
 
       Rails.logger.info "Lifetime access activated for user #{user.id} (#{user.email_address})"
-    elsif session.mode == 'subscription'
+    elsif session.mode == "subscription"
       # Monthly subscription
       subscription = Stripe::Subscription.retrieve(session.subscription)
       Rails.logger.info "Retrieved subscription: #{subscription.id}"
 
       user.update(
         stripe_subscription_id: subscription.id,
-        subscription_tier: 'pro',
-        subscription_status: 'active',
+        subscription_tier: "pro",
+        subscription_status: "active",
         subscription_period_end: Time.at(subscription.current_period_end)
       )
 
@@ -96,15 +96,15 @@ class WebhooksController < ApplicationController
 
     # Determine status
     status = case subscription.status
-             when 'active' then subscription.cancel_at_period_end ? 'cancelling' : 'active'
-             when 'past_due' then 'past_due'
-             when 'canceled' then 'cancelled'
-             when 'unpaid' then 'unpaid'
-             else 'inactive'
-             end
+    when "active" then subscription.cancel_at_period_end ? "cancelling" : "active"
+    when "past_due" then "past_due"
+    when "canceled" then "cancelled"
+    when "unpaid" then "unpaid"
+    else "inactive"
+    end
 
     # Keep user on Pro if subscription is still active (even if cancelling)
-    tier = (subscription.status == 'active') ? 'pro' : 'free'
+    tier = (subscription.status == "active") ? "pro" : "free"
 
     updates = {
       subscription_status: status,
@@ -113,7 +113,7 @@ class WebhooksController < ApplicationController
     }
 
     # Clear subscription IDs only if subscription is fully cancelled
-    if subscription.status == 'canceled'
+    if subscription.status == "canceled"
       updates[:stripe_subscription_id] = nil
     end
 
@@ -128,8 +128,8 @@ class WebhooksController < ApplicationController
 
     # This event fires when subscription actually ends (after period end)
     user.update(
-      subscription_tier: 'free',
-      subscription_status: 'cancelled',
+      subscription_tier: "free",
+      subscription_status: "cancelled",
       stripe_subscription_id: nil,
       subscription_period_end: nil
     )
@@ -145,8 +145,8 @@ class WebhooksController < ApplicationController
     if invoice.subscription.present?
       subscription = Stripe::Subscription.retrieve(invoice.subscription)
       user.update(
-        subscription_status: 'active',
-        subscription_tier: 'pro',
+        subscription_status: "active",
+        subscription_tier: "pro",
         subscription_period_end: Time.at(subscription.current_period_end)
       )
     end
@@ -159,7 +159,7 @@ class WebhooksController < ApplicationController
     user = User.find_by(stripe_customer_id: invoice.customer)
     return unless user
 
-    user.update(subscription_status: 'past_due')
+    user.update(subscription_status: "past_due")
     Rails.logger.warn "Payment failed for user #{user.id}"
     # Could send a payment failure email here
   end

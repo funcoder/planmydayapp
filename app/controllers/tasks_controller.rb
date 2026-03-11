@@ -1,35 +1,35 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :destroy, :complete, :start, :cancel_start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date, :move_to_column]
+  before_action :set_task, only: [ :edit, :update, :destroy, :complete, :start, :cancel_start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date, :move_to_column ]
 
   def index
-    @filter = params[:filter] || 'pending'
-    @view = params[:view] || 'list'
+    @filter = params[:filter] || "pending"
+    @view = params[:view] || "list"
 
-    if @view == 'kanban'
+    if @view == "kanban"
       # For kanban, get all tasks organized by status/schedule
-      @pending_tasks = current_user.tasks.where(status: 'pending').where("scheduled_for IS NULL OR scheduled_for != ?", Date.current).order(position: :asc, created_at: :desc)
-      @today_tasks = current_user.tasks.where(scheduled_for: Date.current).where.not(status: 'completed').order(position: :asc, created_at: :desc)
-      @completed_tasks = current_user.tasks.where(status: 'completed').order(position: :asc, updated_at: :desc).limit(20)
+      @pending_tasks = current_user.tasks.where(status: "pending").where("scheduled_for IS NULL OR scheduled_for != ?", Date.current).order(position: :asc, created_at: :desc)
+      @today_tasks = current_user.tasks.where(scheduled_for: Date.current).where.not(status: "completed").order(position: :asc, created_at: :desc)
+      @completed_tasks = current_user.tasks.where(status: "completed").order(position: :asc, updated_at: :desc).limit(20)
       @tasks = current_user.tasks # For total count
     else
       # List view with filtering
       @tasks = case @filter
-               when 'today'
+      when "today"
                  current_user.tasks.where(scheduled_for: Date.current).order(created_at: :desc)
-               when 'pending'
-                 current_user.tasks.where(status: 'pending').order(scheduled_for: :desc, created_at: :desc)
-               when 'completed'
-                 current_user.tasks.where(status: 'completed').order(updated_at: :desc)
-               else # 'all'
+      when "pending"
+                 current_user.tasks.where(status: "pending").order(scheduled_for: :desc, created_at: :desc)
+      when "completed"
+                 current_user.tasks.where(status: "completed").order(updated_at: :desc)
+      else # 'all'
                  current_user.tasks.order(scheduled_for: :desc, created_at: :desc)
-               end
+      end
     end
   end
 
   def new
     # If coming from backlog page, don't set scheduled_for
-    scheduled_date = params[:scheduled] == 'backlog' ? nil : Date.current
-    @task = current_user.tasks.build(scheduled_for: scheduled_date, status: 'pending')
+    scheduled_date = params[:scheduled] == "backlog" ? nil : Date.current
+    @task = current_user.tasks.build(scheduled_for: scheduled_date, status: "pending")
     if params[:project_id].present?
       @task.project_id = params[:project_id]
       project = current_user.projects.find_by(id: params[:project_id])
@@ -42,7 +42,7 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.build(task_params)
-    @task.status ||= 'pending'
+    @task.status ||= "pending"
     @task.position ||= current_user.tasks.maximum(:position).to_i + 1
 
     # Check backlog task limit only if the task is unscheduled (backlog)
@@ -56,7 +56,7 @@ class TasksController < ApplicationController
       redirect_to dashboard_path, alert: "You've reached your daily task limit of #{current_user.daily_task_limit} active tasks. Complete some tasks or move them to another day."
       return
     end
-    
+
     if @task.save
       # Redirect to backlog if task is unscheduled, otherwise to dashboard
       redirect_path = @task.scheduled_for.nil? ? tasks_path : dashboard_path
@@ -200,14 +200,14 @@ class TasksController < ApplicationController
 
   def update_order
     task_ids = params[:task_ids]
-    
+
     if task_ids.present?
       task_ids.each_with_index do |id, index|
         task = current_user.tasks.find_by(id: id)
         task.update(position: index) if task
       end
     end
-    
+
     head :ok
   end
 

@@ -1,10 +1,10 @@
 class NotesController < ApplicationController
   before_action :require_notes_access
-  before_action :set_note, only: [:show, :edit, :update, :destroy, :pin, :unpin]
+  before_action :set_note, only: [ :show, :edit, :update, :destroy, :pin, :unpin ]
 
   def index
-    @filter = params[:filter] || 'all'
-    @view = params[:view] || 'list'
+    @filter = params[:filter] || "all"
+    @view = params[:view] || "list"
     @project_id = params[:project_id]
     @search = params[:search]
 
@@ -16,9 +16,9 @@ class NotesController < ApplicationController
     @notes = @notes.with_tag(params[:tag]) if params[:tag].present?
 
     case @filter
-    when 'pinned'
+    when "pinned"
       @notes = @notes.pinned
-    when 'recent'
+    when "recent"
       @notes = @notes.recent.limit(20)
     else
       # Show pinned first, then recent

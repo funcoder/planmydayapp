@@ -39,11 +39,11 @@ class Note < ApplicationRecord
   end
 
   def tag_list
-    tags.join(', ') if tags.present?
+    tags.join(", ") if tags.present?
   end
 
   def tag_list=(tag_string)
-    self.tags = tag_string.to_s.split(',').map(&:strip).reject(&:blank?)
+    self.tags = tag_string.to_s.split(",").map(&:strip).reject(&:blank?)
   end
 
   def content_preview(length = 150)

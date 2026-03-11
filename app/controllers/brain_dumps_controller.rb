@@ -1,5 +1,5 @@
 class BrainDumpsController < ApplicationController
-  before_action :set_brain_dump, only: [:process_dump, :archive]
+  before_action :set_brain_dump, only: [ :process_dump, :archive ]
 
   def index
     @brain_dumps = current_user.brain_dumps.recent
@@ -41,15 +41,15 @@ class BrainDumpsController < ApplicationController
   def process_dump
     task_titles = params[:task_titles].reject(&:blank?)
     task_priorities = params[:task_priorities]
-    
+
     if task_titles.any?
       task_titles.each_with_index do |title, index|
         current_user.tasks.create!(
           title: title,
-          priority: task_priorities[index] || 'medium',
+          priority: task_priorities[index] || "medium",
           brain_dump_id: @brain_dump.id,
           scheduled_for: Date.current,
-          status: 'pending'
+          status: "pending"
         )
       end
       @brain_dump.process!

@@ -37,6 +37,6 @@ class AddFeatureAnnouncementsForV025 < ActiveRecord::Migration[8.0]
   end
 
   def down
-    FeatureAnnouncement.where(version: ["0.2.4", "0.2.5"]).destroy_all
+    FeatureAnnouncement.where(version: [ "0.2.4", "0.2.5" ]).destroy_all
   end
 end

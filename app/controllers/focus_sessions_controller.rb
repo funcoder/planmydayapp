@@ -1,6 +1,6 @@
 class FocusSessionsController < ApplicationController
-  before_action :set_focus_session, only: [:show, :update, :end_session, :add_interruption, :pause_timer, :resume_timer]
-  
+  before_action :set_focus_session, only: [ :show, :update, :end_session, :add_interruption, :pause_timer, :resume_timer ]
+
   def create
     # End any existing focus sessions (use end_session! to trigger callbacks)
     current_user.focus_sessions.in_progress.each(&:end_session!)
@@ -9,7 +9,7 @@ class FocusSessionsController < ApplicationController
     @focus_session = current_user.focus_sessions.build(
       task: @task,
       started_at: Time.current,
-      timer_state: 'running'
+      timer_state: "running"
     )
 
     if @focus_session.save
@@ -30,7 +30,7 @@ class FocusSessionsController < ApplicationController
       format.json { render json: @focus_session.timer_data }
     end
   end
-  
+
   def update
     if @focus_session.update(focus_session_params)
       redirect_to dashboard_path
@@ -38,12 +38,12 @@ class FocusSessionsController < ApplicationController
       redirect_to dashboard_path, alert: "Could not update focus session"
     end
   end
-  
+
   def end_session
     @focus_session.end_session!
     redirect_to dashboard_path, notice: "Focus session ended"
   end
-  
+
   def add_interruption
     @focus_session.add_interruption!
     respond_to do |format|
@@ -69,11 +69,11 @@ class FocusSessionsController < ApplicationController
   end
 
   private
-  
+
   def set_focus_session
     @focus_session = current_user.focus_sessions.find(params[:id])
   end
-  
+
   def focus_session_params
     params.require(:focus_session).permit(:duration, :interruptions, :notes, :focus_quality)
   end
