@@ -1,1 +1,3 @@
 <%= turbo_stream.remove dom_id(@task) %>
+<%= turbo_stream.remove dom_id(@task, :mobile) %>
+<%= turbo_stream.remove dom_id(@task, :desktop) %>
