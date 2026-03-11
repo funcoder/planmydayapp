@@ -30,7 +30,7 @@ gem "ruby-openai", "~> 8.3"
 gem "acts_as_list", "~> 1.1"
 
 # Stripe for payment processing
-gem "stripe", "~> 12.0"
+gem "stripe", "~> 18.4"
 
 # Sentry for error tracking
 gem "sentry-ruby"
