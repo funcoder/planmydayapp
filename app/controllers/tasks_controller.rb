@@ -70,15 +70,15 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @return_to = params[:return_to] || request.referer
+    @return_to = safe_return_to
     @projects = current_user.projects.active.ordered if current_user.can_access_notes?
   end
 
   def update
     if @task.update(task_params)
-      redirect_to params[:return_to].presence || dashboard_path, notice: "Task updated successfully!"
+      redirect_to safe_return_to, notice: "Task updated successfully!"
     else
-      @return_to = params[:return_to]
+      @return_to = safe_return_to
       @projects = current_user.projects.active.ordered if current_user.can_access_notes?
       render :edit
     end
@@ -219,5 +219,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :description, :priority, :estimated_time, :due_date, :scheduled_for, :tag_list, :color, :brain_dump_id, :status, :project_id, :on_hold_reason, :time_of_day)
+  end
+
+  def safe_return_to
+    url_from(params[:return_to].presence) || url_from(request.referer) || dashboard_path
   end
 end
