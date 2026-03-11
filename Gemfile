@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.1.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record
@@ -24,7 +24,7 @@ gem "bcrypt", "~> 3.1.7"
 gem "tailwindcss-rails"
 
 # For handling voice-to-text and AI features (keeping this as it's specific functionality)
-gem "ruby-openai", "~> 6.0"
+gem "ruby-openai", "~> 8.3"
 
 # For drag-and-drop functionality
 gem "acts_as_list", "~> 1.1"
@@ -62,11 +62,11 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
+  gem "brakeman", "~> 8.0", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  
+
   # Load environment variables from .env file
   gem "dotenv-rails"
 end
@@ -80,7 +80,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  
+
   # Open emails in browser during development
   gem "letter_opener"
 end
@@ -88,4 +88,4 @@ gem "dockerfile-rails", ">= 1.7", group: :development
 
 gem "litestream", "~> 0.14.0"
 
-gem "aws-sdk-s3", "~> 1.196", require: false
+gem "aws-sdk-s3", "~> 1.202", require: false
