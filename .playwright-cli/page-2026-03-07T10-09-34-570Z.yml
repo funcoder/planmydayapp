@@ -1,0 +1,137 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: Please choose a plan to continue using PlanMyDay.
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - heading "Choose Your Plan" [level=1] [ref=e7]
+      - paragraph [ref=e8]: Get full access to all ADHD-friendly productivity features
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - heading "Pro Monthly" [level=2] [ref=e12]
+        - generic [ref=e13]: $5/month
+        - paragraph [ref=e14]: Full access with flexible monthly billing
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - img [ref=e17]
+          - generic [ref=e19]: Unlimited daily tasks
+        - generic [ref=e20]:
+          - img [ref=e21]
+          - generic [ref=e23]: Unlimited backlog tasks
+        - generic [ref=e24]:
+          - img [ref=e25]
+          - generic [ref=e27]: Brain dump feature
+        - generic [ref=e28]:
+          - img [ref=e29]
+          - generic [ref=e31]: Pomodoro timer
+        - generic [ref=e32]:
+          - img [ref=e33]
+          - generic [ref=e35]: Calendar view
+        - generic [ref=e36]:
+          - img [ref=e37]
+          - generic [ref=e39]: Sprite rewards & gamification
+        - generic [ref=e40]:
+          - img [ref=e41]
+          - generic [ref=e43]: All future features
+        - generic [ref=e44]:
+          - img [ref=e45]
+          - generic [ref=e47]: Priority support
+      - link "Get Pro Monthly" [ref=e48] [cursor=pointer]:
+        - /url: /subscriptions/new?plan=monthly
+      - paragraph [ref=e49]: Cancel anytime
+    - generic [ref=e50]:
+      - paragraph [ref=e51]: All plans include our core ADHD-friendly features designed to help you stay focused without overwhelm.
+      - paragraph [ref=e52]:
+        - text: Secure payment processing by Stripe. New to PlanMyDay?
+        - link "Sign up now" [ref=e53] [cursor=pointer]:
+          - /url: /signup
+  - generic [ref=e57]:
+    - generic [ref=e58]:
+      - img [ref=e59]
+      - generic [ref=e61]: v0.2.5
+    - generic [ref=e62]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e64] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
+  - generic [ref=e67]:
+    - generic [ref=e69]:
+      - generic [ref=e70]:
+        - img [ref=e72]
+        - generic [ref=e74]:
+          - heading "What's New!" [level=2] [ref=e75]
+          - paragraph [ref=e76]: Check out the latest updates
+      - button [ref=e77]:
+        - img [ref=e78]
+    - generic [ref=e81]:
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - img [ref=e84]
+          - heading "Kanban Drag & Drop" [level=3] [ref=e86]
+          - generic [ref=e87]: v0.2.5
+        - generic [ref=e88]:
+          - paragraph [ref=e89]: "You can now drag tasks between columns on the Kanban board:"
+          - list [ref=e90]:
+            - listitem [ref=e91]:
+              - strong [ref=e92]: Drag between Pending, Today & Completed
+              - text: — move tasks between columns with a simple drag and drop
+            - listitem [ref=e93]:
+              - strong [ref=e94]: Drop position preserved
+              - text: — cards stay exactly where you drop them in the column
+            - listitem [ref=e95]:
+              - strong [ref=e96]: Visual drop indicator
+              - text: — a clear placeholder shows where your task will land
+      - generic [ref=e97]:
+        - generic [ref=e98]:
+          - img [ref=e99]
+          - heading "On Hold, Project Time Tracking & More" [level=3] [ref=e101]
+          - generic [ref=e102]: v0.2.4
+        - generic [ref=e103]:
+          - paragraph [ref=e104]: "A big batch of improvements to help you stay on top of your work:"
+          - list [ref=e105]:
+            - listitem [ref=e106]:
+              - strong [ref=e107]: On Hold status
+              - text: — put tasks on hold with an optional reason so they stay out of your way until you're ready
+            - listitem [ref=e108]:
+              - strong [ref=e109]: Project time tracking
+              - text: — see how much time you've spent on each project with a visual chart and monthly summary table
+            - listitem [ref=e110]:
+              - strong [ref=e111]: Count-up focus timer
+              - text: — the focus timer now counts up instead of down, so you can work without a fixed deadline
+            - listitem [ref=e112]:
+              - strong [ref=e113]: On hold reason modal
+              - text: — add context when you put a task on hold so you remember why later
+            - listitem [ref=e114]:
+              - strong [ref=e115]: Project colours on tasks
+              - text: — tasks inherit their project's colour and the dashboard groups tasks by project
+            - listitem [ref=e116]:
+              - strong [ref=e117]: Configurable daily task limit
+              - text: — adjust how many tasks you take on each day
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - img [ref=e120]
+          - heading "Notes & Projects" [level=3] [ref=e122]
+          - generic [ref=e123]: v1.2.0
+        - generic [ref=e124]:
+          - paragraph [ref=e125]:
+            - text: We're excited to introduce
+            - strong [ref=e126]: Notes
+            - text: and
+            - strong [ref=e127]: Projects
+            - text: "- a powerful new way to organize your thoughts and tasks!"
+          - paragraph [ref=e128]:
+            - strong [ref=e129]: Notes
+            - text: "- Capture your ideas with rich text formatting. Add headers, lists, bold, italic, and more."
+          - paragraph [ref=e130]:
+            - strong [ref=e131]: Projects
+            - text: "- Group related tasks and notes together. Perfect for managing larger initiatives."
+          - paragraph [ref=e132]:
+            - strong [ref=e133]: "Key Features:"
+          - list [ref=e134]:
+            - listitem [ref=e135]: Rich text editor with formatting toolbar
+            - listitem [ref=e136]: Color-code your notes and projects
+            - listitem [ref=e137]: Pin important notes to the top
+            - listitem [ref=e138]: Search across all your notes
+            - listitem [ref=e139]: Link notes to specific tasks
+          - paragraph [ref=e140]:
+            - emphasis [ref=e141]: This is a Pro feature - upgrade to unlock!
+    - generic [ref=e142]:
+      - link "View all updates" [ref=e143] [cursor=pointer]:
+        - /url: /announcements
+      - button "Got it!" [ref=e145]

@@ -2,6 +2,6 @@ class PricingController < ApplicationController
   allow_unauthenticated_access
 
   def index
-    @user = current_user
+    @user = authenticated? ? current_user : nil
   end
 end

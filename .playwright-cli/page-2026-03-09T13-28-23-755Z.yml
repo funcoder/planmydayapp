@@ -1,0 +1,139 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "PlanMyDay" [ref=e7]
+      - generic [ref=e8]:
+        - heading "Install PlanMyDay" [level=3] [ref=e9]
+        - paragraph [ref=e10]: Add to your home screen for quick access and offline support
+    - generic [ref=e11]:
+      - button "Install" [ref=e12]
+      - button [ref=e13]:
+        - img [ref=e14]
+  - generic [ref=e17]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Brain Dump Processing" [level=1] [ref=e22]
+        - paragraph [ref=e23]: Turn your thoughts into actionable tasks
+      - link "Dashboard" [ref=e25] [cursor=pointer]:
+        - /url: /dashboard
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - paragraph [ref=e30]: Remember to batch invoices before Friday afternoon
+        - generic [ref=e31]:
+          - generic [ref=e32]: 10 minutes ago
+          - generic [ref=e33]: Pending
+        - generic [ref=e34]:
+          - heading "Convert to tasks:" [level=4] [ref=e35]
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - textbox "Task 1..." [ref=e39]
+                - combobox [ref=e40]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e41]:
+                - textbox "Task 2 (optional)..." [ref=e42]
+                - combobox [ref=e43]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e44]:
+                - textbox "Task 3 (optional)..." [ref=e45]
+                - combobox [ref=e46]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+            - generic [ref=e47]:
+              - button "Create Tasks" [ref=e48] [cursor=pointer]
+              - link "Archive" [ref=e49] [cursor=pointer]:
+                - /url: /brain_dumps/7/archive
+      - generic [ref=e50]:
+        - paragraph [ref=e52]: Need to follow up with Maya about onboarding emails and waitlist copy
+        - generic [ref=e53]:
+          - generic [ref=e54]: 10 minutes ago
+          - generic [ref=e55]: Pending
+        - generic [ref=e56]:
+          - heading "Convert to tasks:" [level=4] [ref=e57]
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - textbox "Task 1..." [ref=e61]
+                - combobox [ref=e62]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e63]:
+                - textbox "Task 2 (optional)..." [ref=e64]
+                - combobox [ref=e65]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e66]:
+                - textbox "Task 3 (optional)..." [ref=e67]
+                - combobox [ref=e68]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+            - generic [ref=e69]:
+              - button "Create Tasks" [ref=e70] [cursor=pointer]
+              - link "Archive" [ref=e71] [cursor=pointer]:
+                - /url: /brain_dumps/6/archive
+      - generic [ref=e72]:
+        - paragraph [ref=e74]: "Idea: turn client FAQs into a landing-page comparison post"
+        - generic [ref=e75]:
+          - generic [ref=e76]: 10 minutes ago
+          - generic [ref=e77]: Pending
+        - generic [ref=e78]:
+          - heading "Convert to tasks:" [level=4] [ref=e79]
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - generic [ref=e82]:
+                - textbox "Task 1..." [ref=e83]
+                - combobox [ref=e84]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e85]:
+                - textbox "Task 2 (optional)..." [ref=e86]
+                - combobox [ref=e87]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+              - generic [ref=e88]:
+                - textbox "Task 3 (optional)..." [ref=e89]
+                - combobox [ref=e90]:
+                  - option "Low"
+                  - option "Medium" [selected]
+                  - option "High"
+                  - option "Urgent"
+            - generic [ref=e91]:
+              - button "Create Tasks" [ref=e92] [cursor=pointer]
+              - link "Archive" [ref=e93] [cursor=pointer]:
+                - /url: /brain_dumps/5/archive
+  - generic [ref=e97]:
+    - generic [ref=e98]:
+      - img [ref=e99]
+      - generic [ref=e101]: v0.2.6
+    - generic [ref=e102]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e104] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
+  - generic [ref=e107]:
+    - generic [ref=e108]:
+      - heading "Cookie Notice" [level=3] [ref=e109]
+      - paragraph [ref=e110]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e111] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e112]:
+      - button "Decline" [ref=e113]
+      - button "Accept All" [ref=e114]

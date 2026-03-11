@@ -12,6 +12,16 @@ class DashboardController < ApplicationController
     @afternoon_tasks = @today_incomplete_tasks.afternoon
     @evening_tasks = @today_incomplete_tasks.evening
     @current_period = current_time_period
+    period_tasks = {
+      "morning" => @morning_tasks,
+      "afternoon" => @afternoon_tasks,
+      "evening" => @evening_tasks
+    }
+    @selected_period = if period_tasks[@current_period].any?
+      @current_period
+    else
+      period_tasks.find { |_, tasks| tasks.any? }&.first || @current_period
+    end
     @today_completed_tasks = @today_tasks.completed
     @on_hold_tasks = @user.tasks.on_hold.includes(:project)
     @brain_dumps = @user.brain_dumps.pending.recent.limit(5)

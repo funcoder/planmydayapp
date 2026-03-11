@@ -1,0 +1,83 @@
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "PlanMyDay" [ref=e7]
+      - generic [ref=e8]:
+        - heading "Install PlanMyDay" [level=3] [ref=e9]
+        - paragraph [ref=e10]: Add to your home screen for quick access and offline support
+    - generic [ref=e11]:
+      - button "Install" [ref=e12]
+      - button [ref=e13]:
+        - img [ref=e14]
+  - button "Toggle color theme" [ref=e17]:
+    - generic [ref=e18]: 🌙
+    - generic [ref=e19]: Dark mode
+  - generic [ref=e21]:
+    - generic [ref=e23]:
+      - heading "Welcome back to your ADHD-friendly productivity space" [level=3] [ref=e24]
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e29]: 📊
+          - generic [ref=e30]:
+            - heading "Check your progress" [level=4] [ref=e31]
+            - paragraph [ref=e32]: See your points, streaks, and achievements
+        - generic [ref=e33]:
+          - generic [ref=e36]: ✅
+          - generic [ref=e37]:
+            - heading "Complete today's tasks" [level=4] [ref=e38]
+            - paragraph [ref=e39]: Your focused list is waiting for you
+        - generic [ref=e40]:
+          - generic [ref=e43]: ⏱️
+          - generic [ref=e44]:
+            - heading "Start a focus session" [level=4] [ref=e45]
+            - paragraph [ref=e46]: Beat time blindness with Pomodoro timer
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]: 92%
+          - generic [ref=e51]: of users report better focus
+        - generic [ref=e52]:
+          - generic [ref=e53]: 3x
+          - generic [ref=e54]: more tasks completed daily
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - link "Back to home" [ref=e58] [cursor=pointer]:
+          - /url: /
+          - img [ref=e59]
+          - text: Back to home
+        - heading "PlanMyDay" [level=1] [ref=e61]
+      - generic [ref=e62]:
+        - heading "Welcome back!" [level=2] [ref=e63]
+        - paragraph [ref=e64]: Let's make today productive and ADHD-friendly
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: Email address
+            - textbox "Email address" [active] [ref=e68]:
+              - /placeholder: jane@example.com
+          - generic [ref=e69]:
+            - generic [ref=e70]: Password
+            - textbox "Password" [ref=e71]:
+              - /placeholder: ••••••••
+            - link "Forgot your password?" [ref=e73] [cursor=pointer]:
+              - /url: /passwords/new
+          - generic [ref=e74]:
+            - checkbox "Keep me signed in" [ref=e75]
+            - generic [ref=e76]: Keep me signed in
+          - button "Sign In" [ref=e78] [cursor=pointer]
+          - generic [ref=e80]:
+            - text: New to PlanMyDay?
+            - link "Create an account" [ref=e81] [cursor=pointer]:
+              - /url: /signup
+        - generic [ref=e82]:
+          - paragraph [ref=e83]: Want to see how it works first?
+          - button "Watch 2-minute demo" [ref=e84]
+  - generic [ref=e87]:
+    - generic [ref=e88]:
+      - heading "Cookie Notice" [level=3] [ref=e89]
+      - paragraph [ref=e90]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e91] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e92]:
+      - button "Decline" [ref=e93]
+      - button "Accept All" [ref=e94]

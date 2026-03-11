@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     member do
       post :complete
       post :start
+      post :cancel_start
       post :rollover
       post :hold
       post :resume

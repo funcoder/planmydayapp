@@ -1,0 +1,64 @@
+- generic [ref=e1]:
+  - button "Toggle color theme" [ref=e3]:
+    - generic [ref=e4]: 🌙
+    - generic [ref=e5]: Dark mode
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - heading "Welcome back to your ADHD-friendly productivity space" [level=3] [ref=e10]
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - generic [ref=e15]: 📊
+          - generic [ref=e16]:
+            - heading "Check your progress" [level=4] [ref=e17]
+            - paragraph [ref=e18]: See your points, streaks, and achievements
+        - generic [ref=e19]:
+          - generic [ref=e22]: ✅
+          - generic [ref=e23]:
+            - heading "Complete today's tasks" [level=4] [ref=e24]
+            - paragraph [ref=e25]: Your focused list is waiting for you
+        - generic [ref=e26]:
+          - generic [ref=e29]: ⏱️
+          - generic [ref=e30]:
+            - heading "Start a focus session" [level=4] [ref=e31]
+            - paragraph [ref=e32]: Beat time blindness with Pomodoro timer
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: 92%
+          - generic [ref=e37]: of users report better focus
+        - generic [ref=e38]:
+          - generic [ref=e39]: 3x
+          - generic [ref=e40]: more tasks completed daily
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - link "Back to home" [ref=e44] [cursor=pointer]:
+          - /url: /
+          - img [ref=e45]
+          - text: Back to home
+        - heading "PlanMyDay" [level=1] [ref=e47]
+      - generic [ref=e48]:
+        - heading "Welcome back!" [level=2] [ref=e49]
+        - paragraph [ref=e50]: Let's make today productive and ADHD-friendly
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]: Email address
+            - textbox "Email address" [active] [ref=e54]:
+              - /placeholder: jane@example.com
+              - text: marketing-capture@planmyday.local
+          - generic [ref=e55]:
+            - generic [ref=e56]: Password
+            - textbox "Password" [ref=e57]:
+              - /placeholder: ••••••••
+              - text: password
+            - link "Forgot your password?" [ref=e59] [cursor=pointer]:
+              - /url: /passwords/new
+          - generic [ref=e60]:
+            - checkbox "Keep me signed in" [ref=e61]
+            - generic [ref=e62]: Keep me signed in
+          - button "Sign In" [ref=e64] [cursor=pointer]
+          - generic [ref=e66]:
+            - text: New to PlanMyDay?
+            - link "Create an account" [ref=e67] [cursor=pointer]:
+              - /url: /signup
+        - generic [ref=e68]:
+          - paragraph [ref=e69]: Want to see how it works first?
+          - button "Watch 2-minute demo" [ref=e70]

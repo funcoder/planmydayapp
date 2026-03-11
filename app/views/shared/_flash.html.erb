@@ -1,0 +1,31 @@
+<% messages = flash.to_hash.flat_map { |type, message| Array(message).map { |m| [type.to_s, m] } }.select { |_, m| m.present? } %>
+<% if messages.any? %>
+  <div class="fixed bottom-20 right-4 z-[70] w-[calc(100vw-2rem)] max-w-sm space-y-2 pointer-events-none sm:bottom-24">
+    <% messages.each do |type, message| %>
+      <% is_alert = type == "alert" %>
+      <% bg_class = is_alert ? "bg-red-600" : "bg-teal-600" %>
+      <% progress_class = is_alert ? "bg-red-200/80" : "bg-teal-200/80" %>
+      <% duration_ms = is_alert ? 7000 : 4500 %>
+      <div
+        data-controller="flash-toast"
+        data-flash-toast-duration-value="<%= duration_ms %>"
+        class="pointer-events-auto overflow-hidden rounded-xl shadow-lg text-white <%= bg_class %>">
+        <div class="flex items-start justify-between gap-3 px-4 py-3">
+          <p class="text-sm leading-relaxed"><%= message %></p>
+          <button
+            type="button"
+            data-action="flash-toast#dismiss"
+            class="shrink-0 rounded-md px-1 text-white/80 hover:bg-white/10 hover:text-white"
+            aria-label="Dismiss notification">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M4.22 4.22a.75.75 0 011.06 0L10 8.94l4.72-4.72a.75.75 0 111.06 1.06L11.06 10l4.72 4.72a.75.75 0 11-1.06 1.06L10 11.06l-4.72 4.72a.75.75 0 11-1.06-1.06L8.94 10 4.22 5.28a.75.75 0 010-1.06z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+        <div class="h-1 w-full bg-black/15">
+          <div data-flash-toast-target="progress" class="h-full origin-left <%= progress_class %>"></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

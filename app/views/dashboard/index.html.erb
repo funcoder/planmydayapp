@@ -1,6 +1,7 @@
 <% content_for :title, "Dashboard" %>
+<% focus_view = params[:view] == "focus" %>
 
-<div class="min-h-screen bg-gray-50" data-controller="date-picker-modal hold-modal">
+<div class="dashboard-root min-h-screen <%= focus_view ? 'bg-slate-100' : 'bg-gray-50' %>" data-controller="date-picker-modal hold-modal">
   <% unless native_app? %>
     <%= render 'shared/header' %>
   <% end %>
@@ -33,7 +34,7 @@
 
   <div class="px-3 sm:px-6 lg:px-8 <%= native_app? ? 'py-3' : 'py-8' %>">
     <!-- Newly Unlocked Sprites Notification -->
-    <% if @newly_unlocked_sprites.any? %>
+    <% if @newly_unlocked_sprites.any? && !focus_view %>
       <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl shadow-lg p-6 mb-6 animate-pulse">
         <h3 class="text-2xl font-bold mb-4">🎉 New Sprites Unlocked!</h3>
         <div class="flex gap-4 overflow-x-auto">
@@ -52,21 +53,30 @@
     <% end %>
 
     <!-- Welcome Banner with Stats -->
-    <div class="bg-gradient-to-r from-primary-600 to-secondary-700 rounded-xl shadow-sm p-4 mb-4 text-white">
-      <div class="flex justify-between items-center">
+        <div class="dashboard-welcome-card bg-white rounded-xl shadow-sm border <%= focus_view ? 'border-slate-300' : 'border-gray-200' %> p-4 mb-4">
+      <div class="flex justify-between items-center gap-4">
         <div class="flex-1">
-          <h1 class="text-lg font-bold mb-0.5">Hey <%= @user.first_name %>!</h1>
-          <p class="text-xs text-primary-100">Let's be productive</p>
+          <h1 class="text-lg font-bold text-gray-900 mb-0.5">Hey <%= @user.first_name %></h1>
+          <p class="text-xs text-gray-500">One step at a time.</p>
         </div>
-        <div class="flex gap-4">
-          <div class="text-center">
-            <div class="text-xl font-bold"><%= @points %></div>
-            <div class="text-xs text-primary-100">Points</div>
+        <div class="flex gap-3 items-center">
+            <div class="text-center rounded-lg <%= focus_view ? 'bg-slate-100' : 'bg-gray-50' %> px-3 py-1.5">
+            <div class="text-sm font-bold text-gray-900"><%= @points %></div>
+            <div class="text-[11px] text-gray-500">Points</div>
           </div>
-          <div class="text-center">
-            <div class="text-xl font-bold"><%= @streak %></div>
-            <div class="text-xs text-primary-100">Streak</div>
+            <div class="text-center rounded-lg <%= focus_view ? 'bg-slate-100' : 'bg-gray-50' %> px-3 py-1.5">
+            <div class="text-sm font-bold text-gray-900"><%= @streak %></div>
+            <div class="text-[11px] text-gray-500">Streak</div>
           </div>
+          <% if focus_view %>
+            <%= link_to dashboard_path, class: "text-xs px-3 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors" do %>
+              Standard view
+            <% end %>
+          <% else %>
+            <%= link_to dashboard_path(view: "focus"), class: "text-xs px-3 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors" do %>
+              Focus view
+            <% end %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -77,7 +87,7 @@
       <div class="lg:col-span-2 space-y-4 lg:space-y-8">
         
         <!-- Today's Tasks -->
-        <div class="bg-white rounded-xl shadow-sm p-4" data-controller="task time-period">
+        <div class="dashboard-focus-card bg-white rounded-xl shadow-sm p-4 <%= focus_view ? 'border border-slate-300' : '' %>" data-controller="task time-period" data-task-sortable-value="false">
           <div class="flex justify-between items-center mb-4">
             <div>
               <h2 class="text-xl font-bold text-gray-800">Today's Focus</h2>
@@ -98,58 +108,129 @@
           </div>
 
           <% if @today_incomplete_tasks.any? %>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-task-target="list" id="tasks-list">
-              <% [
-                ["morning", "Morning", @morning_tasks, "amber", "border-amber-300 bg-amber-50/50"],
-                ["afternoon", "Afternoon", @afternoon_tasks, "sky", "border-sky-300 bg-sky-50/50"],
-                ["evening", "Evening", @evening_tasks, "indigo", "border-indigo-300 bg-indigo-50/50"]
-              ].each do |period, label, tasks, color, highlight_classes| %>
-                <div class="rounded-lg border-2 <%= @current_period == period ? highlight_classes : 'border-gray-200' %> overflow-hidden"
-                     data-time-period-target="column"
-                     data-period="<%= period %>"
-                     data-current="<%= @current_period == period %>">
-                  <!-- Column Header -->
-                  <button class="w-full flex items-center justify-between px-3 py-2.5 <%= @current_period == period ? "bg-#{color}-50" : 'bg-gray-50' %> cursor-pointer md:cursor-default"
-                          data-action="click->time-period#toggle"
-                          data-time-period-target="header">
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-sm"><%= period == 'morning' ? '🌅' : period == 'afternoon' ? '🌤' : '🌙' %></span>
-                      <h3 class="text-sm font-bold <%= @current_period == period ? "text-#{color}-800" : 'text-gray-700' %>"><%= label %></h3>
-                      <span class="text-xs font-medium <%= @current_period == period ? "text-#{color}-600" : 'text-gray-400' %>">(<%= tasks.count %>)</span>
+            <% periods = [
+              { key: "morning", label: "Morning", icon: "🌅", tasks: @morning_tasks, accent: "amber" },
+              { key: "afternoon", label: "Afternoon", icon: "🌤", tasks: @afternoon_tasks, accent: "sky" },
+              { key: "evening", label: "Evening", icon: "🌙", tasks: @evening_tasks, accent: "indigo" }
+            ] %>
+            <div class="space-y-4" data-task-target="list" id="tasks-list">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <% periods.each do |period| %>
+                  <% task_count = period[:tasks].count %>
+                  <% total_minutes = period[:tasks].sum { |task| task.estimated_time.to_i } %>
+                  <button type="button"
+                          class="time-period-tab rounded-xl border p-3 text-left transition-all"
+                          data-action="click->time-period#select"
+                          data-time-period-target="tab"
+                          data-period="<%= period[:key] %>"
+                          data-accent="<%= period[:accent] %>"
+                          data-has-tasks="<%= task_count.positive? %>"
+                          data-active="<%= @selected_period == period[:key] %>"
+                          aria-pressed="<%= @selected_period == period[:key] %>">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex items-center gap-2 min-w-0">
+                        <span class="text-sm"><%= period[:icon] %></span>
+                        <div class="min-w-0">
+                          <p class="font-semibold text-sm text-gray-900"><%= period[:label] %></p>
+                          <p class="text-xs text-gray-500">
+                            <%= task_count.positive? ? "#{total_minutes} min planned" : "No tasks yet" %>
+                          </p>
+                        </div>
+                      </div>
+                      <span class="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-gray-600 shadow-sm">
+                        <%= task_count %>
+                      </span>
                     </div>
-                    <svg class="w-4 h-4 text-gray-400 md:hidden transition-transform" data-time-period-target="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
                   </button>
+                <% end %>
+              </div>
 
-                  <!-- Column Body -->
-                  <div class="p-2 space-y-2.5 bg-gray-50/50 min-h-[80px]" data-time-period-target="body">
-                    <% if tasks.any? %>
-                      <% tasks.each do |task| %>
-                        <div class="task-item p-3 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-300 hover:-translate-y-0.5 transition-all duration-150"
-                             style="border-left: 3px solid <%= task.color || '#14b8a6' %>"
+              <% periods.each do |period| %>
+                <% task_count = period[:tasks].count %>
+                <% total_minutes = period[:tasks].sum { |task| task.estimated_time.to_i } %>
+                <% period_status = if period[:key] == @current_period
+                  "Now"
+                elsif task_count.positive?
+                  "Later"
+                else
+                  "Open"
+                end %>
+                <section class="dashboard-period-panel <%= @selected_period == period[:key] ? '' : 'hidden' %> rounded-2xl border <%= focus_view ? 'border-slate-300 bg-slate-50/70' : 'border-gray-200 bg-gray-50/70' %> p-4 sm:p-5"
+                         data-time-period-target="panel"
+                         data-period="<%= period[:key] %>"
+                         data-accent="<%= period[:accent] %>">
+                  <div class="flex flex-col gap-3 border-b border-gray-200 pb-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-base"><%= period[:icon] %></span>
+                        <h3 class="text-lg font-bold text-gray-900"><%= period[:label] %> Focus</h3>
+                        <span class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-600 border border-gray-200">
+                          <%= pluralize(task_count, "task") %>
+                        </span>
+                      </div>
+                      <p class="mt-1 text-sm text-gray-500">
+                        <%= total_minutes.positive? ? "#{total_minutes} minutes planned for this part of the day." : "Nothing scheduled here yet." %>
+                      </p>
+                    </div>
+                    <span class="self-start rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] <%= period[:key] == @current_period ? 'bg-primary-100 text-primary-700' : 'bg-white text-gray-500 border border-gray-200' %>">
+                      <%= period_status %>
+                    </span>
+                  </div>
+
+                  <% if period[:tasks].any? %>
+                    <div class="mt-4 space-y-3">
+                      <% period[:tasks].each_with_index do |task, index| %>
+                        <div class="task-item rounded-xl border border-gray-200 bg-white p-4 transition-all duration-150 hover:border-primary-300 hover:shadow-sm"
+                             style="border-left: 4px solid <%= focus_view ? '#94a3b8' : (task.color || '#14b8a6') %>"
                              data-task-target="item"
                              data-task-id="<%= task.id %>">
-                          <div class="flex items-start justify-between gap-2">
+                          <div class="flex items-start justify-between gap-3">
                             <div class="flex-1 min-w-0">
-                              <h3 class="font-semibold text-sm leading-tight"><%= task.title %></h3>
+                              <div class="flex flex-wrap items-center gap-2 text-xs">
+                                <% if task.project.present? %>
+                                  <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-gray-600">
+                                    <span class="h-2 w-2 rounded-full" style="background-color: <%= focus_view ? '#64748b' : (task.project.color || task.color || '#14b8a6') %>"></span>
+                                    <%= task.project.name %>
+                                  </span>
+                                <% end %>
+                                <% if task.in_progress? %>
+                                  <span class="rounded-full bg-primary-100 px-2 py-1 font-medium text-primary-700">In progress</span>
+                                <% end %>
+                                <% if index.zero? %>
+                                  <span class="rounded-full bg-accent-100 px-2 py-1 font-medium text-accent-700">Lead task</span>
+                                <% end %>
+                              </div>
+
+                              <h3 class="mt-2 font-semibold text-base leading-tight text-gray-900"><%= task.title %></h3>
                               <% if task.description.present? %>
-                                <p class="text-gray-600 text-xs mt-1 line-clamp-2"><%= truncate(task.description, length: 60) %></p>
+                                <p class="mt-1 text-sm text-gray-600 line-clamp-2"><%= truncate(task.description, length: 90) %></p>
                               <% end %>
-                              <div class="flex gap-1.5 mt-1.5 flex-wrap">
-                                <span class="priority-badge px-1.5 py-0.5 text-xs rounded-full bg-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-100 text-<%= task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green' %>-800">
-                                  <%= task.priority.capitalize %>
-                                </span>
+                              <div class="mt-3 flex flex-wrap gap-2">
+                                  <span class="priority-badge px-2 py-0.5 text-xs rounded-full <%= focus_view ? 'bg-slate-100 text-slate-700' : "bg-#{task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green'}-100 text-#{task.priority == 'urgent' ? 'red' : task.priority == 'high' ? 'orange' : task.priority == 'medium' ? 'yellow' : 'green'}-800" %>">
+                                    <%= task.priority.capitalize %>
+                                  </span>
                                 <% if task.estimated_time.present? %>
-                                  <span class="px-1.5 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">
+                                  <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-700">
                                     ⏱ <%= task.estimated_time %>m
                                   </span>
                                 <% end %>
                               </div>
                             </div>
+
                             <div class="flex items-start gap-1 flex-shrink-0">
-                              <% if task.status == 'pending' || task.status == 'in_progress' %>
-                                <button class="p-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
+                              <% if task.pending? %>
+                                <button class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors touch-manipulation"
+                                        data-action="click->task#start"
+                                        data-url="<%= start_task_path(task) %>"
+                                        title="Start task">
+                                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M6 4.5a1 1 0 011.53-.848l7 4.5a1 1 0 010 1.696l-7 4.5A1 1 0 016 13.5v-9z"></path>
+                                  </svg>
+                                </button>
+                              <% end %>
+
+                              <% if task.pending? || task.in_progress? %>
+                                <button class="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors touch-manipulation"
                                         data-action="click->task#complete"
                                         data-url="<%= complete_task_path(task) %>"
                                         title="Complete">
@@ -159,10 +240,10 @@
                                 </button>
                               <% end %>
 
-                              <!-- More actions dropdown -->
                               <div class="relative" data-controller="dropdown">
-                                <button class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors touch-manipulation"
-                                        data-action="click->dropdown#toggle">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors touch-manipulation"
+                                        data-action="click->dropdown#toggle"
+                                        title="More options">
                                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                                   </svg>
@@ -188,6 +269,11 @@
                                           data-task-url="<%= hold_task_path(task) %>">
                                     Put On Hold
                                   </button>
+                                  <% if task.in_progress? %>
+                                    <%= link_to "Cancel In Progress", cancel_start_task_path(task),
+                                        data: { turbo_method: :post },
+                                        class: "block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 touch-manipulation" %>
+                                  <% end %>
                                   <hr class="my-1">
                                   <%= link_to "Remove from Today", remove_from_today_task_path(task),
                                       data: { turbo_method: :post },
@@ -204,11 +290,14 @@
                           </div>
                         </div>
                       <% end %>
-                    <% else %>
-                      <p class="text-center text-xs text-gray-400 py-4">No tasks yet</p>
-                    <% end %>
-                  </div>
-                </div>
+                    </div>
+                  <% else %>
+                    <div class="mt-4 rounded-xl border border-dashed border-gray-300 bg-white/70 px-4 py-8 text-center">
+                      <p class="text-sm font-medium text-gray-600">Nothing scheduled for <%= period[:label].downcase %> yet.</p>
+                      <p class="mt-1 text-xs text-gray-500">Use the dashboard as a short list for this part of the day, not a full board.</p>
+                    </div>
+                  <% end %>
+                </section>
               <% end %>
             </div>
           <% else %>
@@ -223,15 +312,15 @@
 
         <!-- On Hold Tasks -->
         <% if @on_hold_tasks.any? %>
-          <div class="bg-red-50 rounded-xl shadow-sm p-4 border-l-4 border-red-300">
+          <div class="<%= focus_view ? 'bg-slate-50 border-slate-300' : 'bg-red-50 border-red-300' %> rounded-xl shadow-sm p-4 border-l-4">
             <div class="flex justify-between items-center mb-3">
               <h2 class="text-lg font-bold text-red-800">On Hold</h2>
               <span class="text-xs text-red-500 font-medium"><%= @on_hold_tasks.count %> paused</span>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-2 <%= focus_view ? 'hidden' : '' %>">
               <% @on_hold_tasks.each do |task| %>
-                <div class="p-3 rounded-lg bg-white border border-red-200"
-                     style="border-left: 3px solid <%= task.color || '#f87171' %>">
+                <div class="p-3 rounded-lg bg-white border <%= focus_view ? 'border-slate-300' : 'border-red-200' %>"
+                     style="border-left: 3px solid <%= focus_view ? '#94a3b8' : (task.color || '#f87171') %>">
                   <div class="flex items-start justify-between gap-2">
                     <div class="flex-1 min-w-0">
                       <h3 class="font-semibold text-base text-gray-800"><%= task.title %></h3>
@@ -262,6 +351,9 @@
                 </div>
               <% end %>
             </div>
+            <% if focus_view %>
+              <p class="text-xs text-red-700">Hidden in Focus view to reduce noise.</p>
+            <% end %>
           </div>
         <% end %>
 
@@ -272,21 +364,18 @@
 
         <!-- Completed Tasks Section -->
         <% if @today_completed_tasks.any? %>
-          <div class="bg-white rounded-xl shadow-sm p-4">
-            <div class="flex justify-between items-center mb-3">
+          <details class="dashboard-completed-card bg-white rounded-xl shadow-sm p-4" <%= focus_view ? "" : "open" %>>
+            <summary class="flex cursor-pointer list-none items-center justify-between">
               <h2 class="text-xl font-bold text-gray-800">Completed Today</h2>
-              <span class="text-xs text-green-600 font-medium">🎉 <%= @today_completed_tasks.count %> done!</span>
-            </div>
-            <div class="space-y-2">
+              <span class="text-xs text-green-600 font-medium">🎉 <%= @today_completed_tasks.count %> done</span>
+            </summary>
+            <div class="space-y-2 mt-3">
               <% @today_completed_tasks.each do |task| %>
                 <div class="task-item p-3 rounded-lg border border-green-200 bg-green-50"
                      style="border-left: 3px solid #10b981">
                   <div class="flex items-start justify-between gap-2">
                     <div class="flex-1 min-w-0">
                       <h3 class="font-semibold text-base line-through text-gray-600"><%= task.title %></h3>
-                      <% if task.description.present? %>
-                        <p class="text-gray-500 text-xs mt-1 line-clamp-1"><%= truncate(task.description, length: 60) %></p>
-                      <% end %>
                       <div class="flex gap-2 mt-1.5 flex-wrap">
                         <span class="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">
                           ✓ <%= task.completed_at.strftime("%l:%M%p") if task.completed_at %>
@@ -315,7 +404,7 @@
                 </div>
               <% end %>
             </div>
-          </div>
+          </details>
         <% end %>
       </div>
 
@@ -350,7 +439,7 @@
         <% end %>
 
         <!-- Today's Unlocked Sprites -->
-        <% if @user.can_access_sprites? && @todays_sprites.any? %>
+        <% if @user.can_access_sprites? && @todays_sprites.any? && !focus_view %>
           <div class="bg-white rounded-xl shadow-sm p-4">
             <h3 class="text-lg font-bold mb-3">Today's Sprites</h3>
             <div class="space-y-3">
@@ -371,7 +460,7 @@
         <% end %>
         
         <!-- Recent Achievements -->
-        <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="bg-white rounded-xl shadow-sm p-4 <%= focus_view ? 'hidden' : '' %>">
           <h3 class="text-lg font-bold mb-3">Recent Achievements</h3>
           <% if @recent_achievements.any? %>
             <div class="space-y-3">
@@ -392,7 +481,7 @@
 
         <!-- Pending Brain Dumps -->
         <%= turbo_frame_tag "brain_dumps_list" do %>
-          <div class="bg-white rounded-xl shadow-sm p-4">
+          <div class="bg-white rounded-xl shadow-sm p-4 <%= focus_view ? 'hidden' : '' %>">
             <div class="flex justify-between items-center mb-3">
               <h3 class="text-lg font-bold">Recent Brain Dumps</h3>
               <%= link_to "Process All →", brain_dumps_path,
@@ -514,13 +603,104 @@
 </div>
 
 <style>
-  /* Make tasks draggable */
-  [data-task-target="item"] {
-    cursor: move;
-  }
-
   /* Ensure dropdown works */
   [data-dropdown-target="menu"] {
     z-index: 50;
   }
+
+  .time-period-tab[data-active="true"][data-accent="amber"] {
+    background: #fffbeb;
+    border-color: #fcd34d;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
+  }
+
+  .time-period-tab[data-active="true"][data-accent="sky"] {
+    background: #f0f9ff;
+    border-color: #7dd3fc;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
+  }
+
+  .time-period-tab[data-active="true"][data-accent="indigo"] {
+    background: #eef2ff;
+    border-color: #a5b4fc;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
+  }
+
+  .time-period-tab[data-active="false"] {
+    background: rgb(249 250 251 / 0.75);
+    border-color: #e5e7eb;
+  }
+
+  html[data-theme="dark"] .dashboard-root {
+    background: #0f172a !important;
+    color: #e2e8f0;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-welcome-card,
+  html[data-theme="dark"] .dashboard-root .dashboard-focus-card,
+  html[data-theme="dark"] .dashboard-root .dashboard-completed-card {
+    background: #111827 !important;
+    border-color: #334155 !important;
+    color: #e5e7eb;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab[data-active="false"] {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab[data-active="true"][data-accent="amber"] {
+    background: #2a2515;
+    border-color: #a16207;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab[data-active="true"][data-accent="sky"] {
+    background: #102535;
+    border-color: #0369a1;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab[data-active="true"][data-accent="indigo"] {
+    background: #1f2240;
+    border-color: #4f46e5;
+  }
+
+  html[data-theme="dark"] .dashboard-root .task-item,
+  html[data-theme="dark"] .dashboard-root [data-dropdown-target="menu"] {
+    background: #111827 !important;
+    border-color: #334155 !important;
+    color: #e5e7eb;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-period-panel {
+    background: #1f2937 !important;
+    border-color: #334155 !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-period-panel .border-b {
+    border-color: #475569 !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab p.font-semibold {
+    color: #e2e8f0 !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab p.text-gray-500 {
+    color: #94a3b8 !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .time-period-tab span.bg-white {
+    background: #0f172a !important;
+    color: #cbd5e1 !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .text-gray-900 { color: #f8fafc !important; }
+  html[data-theme="dark"] .dashboard-root .text-gray-800 { color: #f1f5f9 !important; }
+  html[data-theme="dark"] .dashboard-root .text-gray-700 { color: #cbd5e1 !important; }
+  html[data-theme="dark"] .dashboard-root .text-gray-600 { color: #94a3b8 !important; }
+  html[data-theme="dark"] .dashboard-root .text-gray-500 { color: #94a3b8 !important; }
+  html[data-theme="dark"] .dashboard-root .bg-white { background: #111827 !important; }
+  html[data-theme="dark"] .dashboard-root .bg-gray-50 { background: #0f172a !important; }
+  html[data-theme="dark"] .dashboard-root .bg-gray-100 { background: #1e293b !important; }
+  html[data-theme="dark"] .dashboard-root .border-gray-200,
+  html[data-theme="dark"] .dashboard-root .border-gray-300 { border-color: #334155 !important; }
 </style>

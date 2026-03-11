@@ -121,7 +121,7 @@ class FocusSession < ApplicationRecord
   def update_task_actual_time
     return unless ended_at_previously_was.nil?
 
-    task.update_column(:actual_time, task.total_focus_time / 60)
+    task.update_column(:actual_time, (task.total_focus_time / 60.0).ceil)
   end
 
   def start_task

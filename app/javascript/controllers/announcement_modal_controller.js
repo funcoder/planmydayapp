@@ -4,11 +4,11 @@ import { Controller } from "@hotwired/stimulus"
 // Shows new feature announcements on login
 export default class extends Controller {
   static targets = ["backdrop", "modal"]
-  static values = { shown: Boolean }
+  static values = { shown: Boolean, announcementKey: String }
 
   connect() {
-    // Show modal on page load if not already shown this session
-    if (!this.shownValue && !sessionStorage.getItem('announcementModalShown')) {
+    // Show modal on page load unless this exact unseen set was already shown.
+    if (!this.shownValue && sessionStorage.getItem(this.storageKey()) !== this.announcementKeyValue) {
       setTimeout(() => this.open(), 500) // Slight delay for better UX
     }
   }
@@ -28,8 +28,7 @@ export default class extends Controller {
   }
 
   close() {
-    // Mark as shown for this session
-    sessionStorage.setItem('announcementModalShown', 'true')
+    this.markCurrentAnnouncementsAsShown()
 
     // Animate out
     this.backdropTarget.classList.remove('opacity-100')
@@ -44,10 +43,18 @@ export default class extends Controller {
 
   markSeenAndClose(event) {
     // Let the form submit, then close
-    sessionStorage.setItem('announcementModalShown', 'true')
+    this.markCurrentAnnouncementsAsShown()
   }
 
   stopPropagation(event) {
     event.stopPropagation()
+  }
+
+  markCurrentAnnouncementsAsShown() {
+    sessionStorage.setItem(this.storageKey(), this.announcementKeyValue)
+  }
+
+  storageKey() {
+    return 'announcementModalShown'
   }
 }

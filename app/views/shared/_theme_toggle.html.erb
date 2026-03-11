@@ -1,0 +1,11 @@
+<% button_class = local_assigns.fetch(:button_class, "inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50") %>
+<% label_class = local_assigns.fetch(:label_class, "hidden sm:inline") %>
+
+<button type="button"
+        class="<%= button_class %>"
+        data-action="theme#toggle"
+        data-theme-target="button"
+        aria-label="Toggle color theme">
+  <span data-theme-target="icon" aria-hidden="true">🌙</span>
+  <span data-theme-target="label" class="<%= label_class %>">Dark mode</span>
+</button>

@@ -1,0 +1,229 @@
+- generic [active] [ref=e1]:
+  - button "Toggle color theme" [ref=e3]:
+    - generic [ref=e4]: 🌙
+    - generic [ref=e5]: Dark mode
+  - generic [ref=e7]:
+    - navigation [ref=e8]:
+      - generic [ref=e10]:
+        - heading "PlanMyDay" [level=1] [ref=e12]
+        - generic [ref=e13]:
+          - link "Pricing" [ref=e14] [cursor=pointer]:
+            - /url: /pricing
+          - link "Sign In" [ref=e15] [cursor=pointer]:
+            - /url: /session/new
+          - link "Get Started" [ref=e16] [cursor=pointer]:
+            - /url: /pricing
+    - generic [ref=e19]:
+      - heading "Finally, a productivity app designed for ADHD minds" [level=2] [ref=e20]:
+        - text: Finally, a productivity app
+        - text: designed for ADHD minds
+      - paragraph [ref=e21]: Stop fighting your brain. Start working with it. PlanMyDay helps freelancers with ADHD focus on what matters today—without the overwhelm.
+      - generic [ref=e22]:
+        - link "Start Your Journey →" [ref=e23] [cursor=pointer]:
+          - /url: /pricing
+        - link "See How It Works" [ref=e24] [cursor=pointer]:
+          - /url: "#how-it-works"
+      - paragraph [ref=e25]: Join hundreds of ADHD freelancers who've found their productivity breakthrough
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - heading "Sound Familiar?" [level=3] [ref=e31]
+        - paragraph [ref=e32]: Traditional productivity apps weren't built for how your brain works
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: 😰
+          - heading "Overwhelming Task Lists" [level=4] [ref=e36]
+          - paragraph [ref=e37]: Looking at 50+ tasks makes you freeze up and accomplish nothing
+        - generic [ref=e38]:
+          - generic [ref=e39]: 🌀
+          - heading "Racing Thoughts" [level=4] [ref=e40]
+          - paragraph [ref=e41]: Ideas come fast but disappear before you can capture them
+        - generic [ref=e42]:
+          - generic [ref=e43]: 📉
+          - heading "No Motivation" [level=4] [ref=e44]
+          - paragraph [ref=e45]: Starting tasks feels impossible without immediate rewards
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - heading "Built Different, Because You Think Different" [level=3] [ref=e49]
+        - paragraph [ref=e50]: Every feature designed specifically for ADHD brains
+      - generic [ref=e51]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - heading "Quick Brain Dump" [level=4] [ref=e56]
+            - generic [ref=e57]: 500 chars left
+          - generic [ref=e58]:
+            - generic [ref=e59]: "\"Need to email Sarah about project...\""
+            - generic [ref=e60]: "\"Pick up groceries - milk, eggs, bread\""
+            - generic [ref=e61]: "\"Idea: New feature for client app! 💡\""
+          - button "🎤 Voice Input Available" [ref=e62]
+        - generic [ref=e63]:
+          - heading "Brain Dump Everything" [level=4] [ref=e64]
+          - paragraph [ref=e65]: Racing thoughts? Get them out fast. Voice or text, no organizing needed. We'll help you process them later when you're ready.
+          - list [ref=e66]:
+            - listitem [ref=e67]:
+              - generic [ref=e68]: ✓
+              - generic [ref=e69]: Voice-to-text for capturing thoughts at the speed of ADHD
+            - listitem [ref=e70]:
+              - generic [ref=e71]: ✓
+              - generic [ref=e72]: No pressure to organize—just dump and go
+            - listitem [ref=e73]:
+              - generic [ref=e74]: ✓
+              - generic [ref=e75]: AI helps process dumps into actionable tasks later
+      - generic [ref=e76]:
+        - generic [ref=e79]:
+          - heading "Today's Focus (3/5 tasks)" [level=4] [ref=e80]
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]: ✓ Morning standup
+              - generic [ref=e84]: Done!
+            - generic [ref=e85]:
+              - generic [ref=e86]: Client proposal draft
+              - button "In Progress" [ref=e87]
+            - generic [ref=e88]:
+              - generic [ref=e89]: Review pull requests
+              - button "Start" [ref=e90]
+          - paragraph [ref=e91]: Great job! You're on track today 🎯
+        - generic [ref=e92]:
+          - heading "Only 3-5 Tasks Per Day" [level=4] [ref=e93]
+          - paragraph [ref=e94]: No more overwhelming lists. We limit your daily tasks to what's actually achievable, helping you build momentum instead of guilt.
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - generic [ref=e97]: ✓
+              - generic [ref=e98]: Hard limit prevents overcommitment
+            - listitem [ref=e99]:
+              - generic [ref=e100]: ✓
+              - generic [ref=e101]: Unfinished tasks automatically roll over
+            - listitem [ref=e102]:
+              - generic [ref=e103]: ✓
+              - generic [ref=e104]: Visual progress that actually feels achievable
+      - generic [ref=e105]:
+        - generic [ref=e108]:
+          - generic [ref=e109]:
+            - generic [ref=e110]:
+              - heading "Your Progress" [level=4] [ref=e111]
+              - paragraph [ref=e112]: Level 12 Productivity Wizard
+            - generic [ref=e113]:
+              - generic [ref=e114]: "847"
+              - generic [ref=e115]: points
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - generic [ref=e118]: 🔥 Current Streak
+              - generic [ref=e119]: 5 days
+            - generic [ref=e120]:
+              - generic [ref=e121]: 🏆
+              - paragraph [ref=e122]: New Achievement!
+              - paragraph [ref=e123]: "Task Master: Complete 50 tasks"
+            - generic [ref=e124]:
+              - generic [ref=e125]: 🎯
+              - generic [ref=e126]: ⚡
+              - generic [ref=e127]: 🌟
+              - generic [ref=e128]: 🏅
+              - generic [ref=e129]: 💎
+        - generic [ref=e130]:
+          - heading "Instant Rewards That Hit Different" [level=4] [ref=e131]
+          - paragraph [ref=e132]: Get that dopamine hit your brain craves. Points, streaks, and achievements make productivity feel like a game you actually want to play.
+          - list [ref=e133]:
+            - listitem [ref=e134]:
+              - generic [ref=e135]: ✓
+              - generic [ref=e136]: Immediate rewards for every action
+            - listitem [ref=e137]:
+              - generic [ref=e138]: ✓
+              - generic [ref=e139]: Visual celebrations that feel genuinely good
+            - listitem [ref=e140]:
+              - generic [ref=e141]: ✓
+              - generic [ref=e142]: Streak tracking to build consistent habits
+      - generic [ref=e143]:
+        - generic [ref=e146]:
+          - heading "Focus Session Active" [level=4] [ref=e147]
+          - paragraph [ref=e148]: "Working on: Client proposal draft"
+          - generic [ref=e149]: 14:32
+          - generic [ref=e150]:
+            - button "Pause Timer" [ref=e151]
+            - generic [ref=e152]:
+              - button "😵 Interrupted (2)" [ref=e153]
+              - button "End Session" [ref=e154]
+        - generic [ref=e155]:
+          - heading "Pomodoro Timer Built In" [level=4] [ref=e156]
+          - paragraph [ref=e157]: Time blindness is real. Our built-in timer with visual countdown and notifications keeps you aware without anxiety.
+          - list [ref=e158]:
+            - listitem [ref=e159]:
+              - generic [ref=e160]: ✓
+              - generic [ref=e161]: Visual timer you can't ignore
+            - listitem [ref=e162]:
+              - generic [ref=e163]: ✓
+              - generic [ref=e164]: Track interruptions without judgment
+            - listitem [ref=e165]:
+              - generic [ref=e166]: ✓
+              - generic [ref=e167]: Gentle notifications when time's up
+    - generic [ref=e169]:
+      - heading "Simple, Affordable Pricing" [level=3] [ref=e170]
+      - paragraph [ref=e171]: Full access to all ADHD-friendly features for just $5/month
+      - generic [ref=e172]:
+        - generic [ref=e173]:
+          - generic [ref=e174]: 🧠
+          - heading "Brain Dump + Voice Input" [level=4] [ref=e175]
+          - paragraph [ref=e176]: Capture racing thoughts instantly
+        - generic [ref=e177]:
+          - generic [ref=e178]: 🎯
+          - heading "3-5 Tasks Daily Limit" [level=4] [ref=e179]
+          - paragraph [ref=e180]: No more overwhelming lists
+        - generic [ref=e181]:
+          - generic [ref=e182]: 🏆
+          - heading "Gamification & Rewards" [level=4] [ref=e183]
+          - paragraph [ref=e184]: Instant dopamine hits for tasks
+      - link "View All Plans & Features →" [ref=e185] [cursor=pointer]:
+        - /url: /pricing
+      - paragraph [ref=e186]: Cancel anytime • Secure payment by Stripe
+    - generic [ref=e188]:
+      - heading "Why I Built PlanMyDay" [level=3] [ref=e189]
+      - generic [ref=e190]:
+        - generic [ref=e191]:
+          - img "Founder of PlanMyDay" [ref=e193]
+          - generic [ref=e194]:
+            - paragraph [ref=e195]: Hi, I'm a freelancer with ADHD. Like you, I've tried every productivity app out there. ToDoist, Notion, Asana, Trello... they all made me feel more overwhelmed, not less.
+            - paragraph [ref=e196]: My ADHD brain doesn't work in neat categories and endless lists. It works in bursts of hyperfocus, random brilliant ideas at 2 AM, and the constant struggle of "what should I be doing right now?" Traditional productivity apps made me feel broken because I couldn't fit into their systems.
+            - paragraph [ref=e197]: So I built PlanMyDay for myself. An app that limits my daily tasks so I don't get overwhelmed. That lets me dump racing thoughts without organizing them first. That gives me immediate rewards for completing tasks because my ADHD brain needs that dopamine hit to stay motivated.
+            - paragraph [ref=e198]: After using it for a few months, my productivity transformed. I was actually completing my daily goals. My clients were happier. I felt less anxious and more in control. Friends with ADHD who saw it begged me to let them use it too.
+            - paragraph [ref=e199]: This isn't just another productivity app. It's built by someone with ADHD, for people with ADHD. Because we deserve tools that work with our brains, not against them.
+            - paragraph [ref=e200]: 🚀 I'm actively working on improvements! Once you're using the app, please send feedback through the Feedback button about any suggestions you have. I would love to hear from you and learn how PlanMyDay can work even better for your ADHD brain.
+        - paragraph [ref=e202]: — Built with 💙 by someone who gets it
+    - generic [ref=e204]:
+      - heading "Ready to Work With Your ADHD?" [level=3] [ref=e205]
+      - paragraph [ref=e206]: Join hundreds of ADHD freelancers who've finally found a productivity system that works for their brain.
+      - generic [ref=e207]:
+        - link "Choose Your Plan →" [ref=e208] [cursor=pointer]:
+          - /url: /pricing
+        - link "Learn More" [ref=e209] [cursor=pointer]:
+          - /url: "#how-it-works"
+      - paragraph [ref=e210]: Plans from $5/month • Cancel anytime • Secure payment by Stripe
+    - contentinfo [ref=e211]:
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - heading "PlanMyDay" [level=4] [ref=e215]
+          - paragraph [ref=e216]: Productivity for ADHD minds
+        - generic [ref=e217]:
+          - link "Pricing" [ref=e218] [cursor=pointer]:
+            - /url: /pricing
+          - link "Privacy" [ref=e219] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e220] [cursor=pointer]:
+            - /url: /terms
+          - link "Support" [ref=e221] [cursor=pointer]:
+            - /url: /support
+  - generic [ref=e225]:
+    - generic [ref=e226]:
+      - img [ref=e227]
+      - generic [ref=e229]: v0.2.5
+    - generic [ref=e230]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e232] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com
+  - generic [ref=e235]:
+    - generic [ref=e236]:
+      - heading "Cookie Notice" [level=3] [ref=e237]
+      - paragraph [ref=e238]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e239] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e240]:
+      - button "Decline" [ref=e241]
+      - button "Accept All" [ref=e242]

@@ -102,9 +102,9 @@
 
           <!-- Desktop: Table layout -->
           <div class="hidden md:block overflow-x-auto" id="tasks-list">
-            <table class="w-full">
+            <table class="w-full backlog-table">
               <thead>
-                <tr class="bg-gray-50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <tr class="backlog-table-head bg-gray-50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   <th class="px-4 py-3 w-8"></th>
                   <th class="px-4 py-3">Task</th>
                   <th class="px-4 py-3">Status</th>
@@ -117,9 +117,9 @@
                   <th class="px-4 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-100">
+              <tbody class="backlog-table-body divide-y divide-gray-100">
                 <% @tasks.each do |task| %>
-                  <tr class="hover:bg-gray-50 transition-colors group" id="<%= dom_id(task) %>">
+                  <tr class="backlog-table-row hover:bg-gray-50 transition-colors group" id="<%= dom_id(task) %>">
                     <%# Color indicator %>
                     <td class="px-4 py-3">
                       <div class="w-2.5 h-2.5 rounded-full" style="background-color: <%= task.color || '#14b8a6' %>"></div>

@@ -1,0 +1,77 @@
+- generic [ref=e1]:
+  - button "Toggle color theme" [ref=e3]:
+    - generic [ref=e4]: 🌙
+    - generic [ref=e5]: Dark mode
+  - generic [ref=e6]: Try another email address or password.
+  - generic [ref=e8]:
+    - generic [ref=e10]:
+      - heading "Welcome back to your ADHD-friendly productivity space" [level=3] [ref=e11]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e16]: 📊
+          - generic [ref=e17]:
+            - heading "Check your progress" [level=4] [ref=e18]
+            - paragraph [ref=e19]: See your points, streaks, and achievements
+        - generic [ref=e20]:
+          - generic [ref=e23]: ✅
+          - generic [ref=e24]:
+            - heading "Complete today's tasks" [level=4] [ref=e25]
+            - paragraph [ref=e26]: Your focused list is waiting for you
+        - generic [ref=e27]:
+          - generic [ref=e30]: ⏱️
+          - generic [ref=e31]:
+            - heading "Start a focus session" [level=4] [ref=e32]
+            - paragraph [ref=e33]: Beat time blindness with Pomodoro timer
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - generic [ref=e37]: 92%
+          - generic [ref=e38]: of users report better focus
+        - generic [ref=e39]:
+          - generic [ref=e40]: 3x
+          - generic [ref=e41]: more tasks completed daily
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - link "Back to home" [ref=e45] [cursor=pointer]:
+          - /url: /
+          - img [ref=e46]
+          - text: Back to home
+        - heading "PlanMyDay" [level=1] [ref=e48]
+      - generic [ref=e49]:
+        - heading "Welcome back!" [level=2] [ref=e50]
+        - paragraph [ref=e51]: Let's make today productive and ADHD-friendly
+        - generic [ref=e52]:
+          - generic [ref=e54]:
+            - img [ref=e56]
+            - heading "Try another email address or password." [level=3] [ref=e59]
+          - generic [ref=e60]:
+            - generic [ref=e61]: Email address
+            - textbox "Email address" [active] [ref=e62]:
+              - /placeholder: jane@example.com
+          - generic [ref=e63]:
+            - generic [ref=e64]: Password
+            - textbox "Password" [ref=e65]:
+              - /placeholder: ••••••••
+            - link "Forgot your password?" [ref=e67] [cursor=pointer]:
+              - /url: /passwords/new
+          - generic [ref=e68]:
+            - checkbox "Keep me signed in" [ref=e69]
+            - generic [ref=e70]: Keep me signed in
+          - button "Sign In" [ref=e72] [cursor=pointer]
+          - generic [ref=e74]:
+            - text: New to PlanMyDay?
+            - link "Create an account" [ref=e75] [cursor=pointer]:
+              - /url: /signup
+        - generic [ref=e76]:
+          - paragraph [ref=e77]: Want to see how it works first?
+          - button "Watch 2-minute demo" [ref=e78]
+  - generic [ref=e81]:
+    - generic [ref=e82]:
+      - heading "Cookie Notice" [level=3] [ref=e83]
+      - paragraph [ref=e84]:
+        - text: We use cookies to improve your experience on our site and to show you personalized content. These cookies help us understand how you use PlanMyDay, allowing us to enhance features and provide better service. By clicking "Accept All", you consent to the use of cookies in accordance with our
+        - link "Privacy Policy" [ref=e85] [cursor=pointer]:
+          - /url: "#"
+        - text: .
+    - generic [ref=e86]:
+      - button "Decline" [ref=e87]
+      - button "Accept All" [ref=e88]

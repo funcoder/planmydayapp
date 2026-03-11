@@ -1,0 +1,135 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "P PlanMyDay" [ref=e8] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: P
+          - generic [ref=e11]: PlanMyDay
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Backlog" [ref=e14] [cursor=pointer]:
+            - /url: /tasks
+          - link "Calendar" [ref=e15] [cursor=pointer]:
+            - /url: /calendar
+          - link "Sprites" [ref=e16] [cursor=pointer]:
+            - /url: /sprites
+          - link "Notes" [ref=e17] [cursor=pointer]:
+            - /url: /notes
+          - link "Projects" [ref=e18] [cursor=pointer]:
+            - /url: /projects
+          - link "Feedback" [ref=e19] [cursor=pointer]:
+            - /url: /feedbacks/new
+        - generic [ref=e20]:
+          - button "Toggle color theme" [ref=e21]:
+            - generic [ref=e22]: 🌙
+            - generic [ref=e23]: Dark mode
+          - link "What's New" [ref=e24] [cursor=pointer]:
+            - /url: /announcements
+            - img [ref=e25]
+          - button "M Marketing PRO" [ref=e28]:
+            - generic [ref=e30]: M
+            - generic [ref=e32]:
+              - generic [ref=e33]: Marketing
+              - generic [ref=e34]: PRO
+            - img [ref=e35]
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - heading "Task Calendar" [level=1] [ref=e39]
+        - paragraph [ref=e40]: Your weekly productivity overview
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - link "Previous Week" [ref=e43] [cursor=pointer]:
+            - /url: /calendar?week_date=2026-03-02
+            - img [ref=e44]
+            - generic [ref=e46]: Previous Week
+          - generic [ref=e47]:
+            - heading "Mar 09 - Mar 15, 2026" [level=2] [ref=e48]
+            - paragraph [ref=e49]: Current Week
+          - link "Next Week" [ref=e50] [cursor=pointer]:
+            - /url: /calendar?week_date=2026-03-16
+            - generic [ref=e51]: Next Week
+            - img [ref=e52]
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]: "4"
+            - generic [ref=e57]: Tasks Scheduled
+          - generic [ref=e58]:
+            - generic [ref=e59]: "1"
+            - generic [ref=e60]: Tasks Completed
+          - generic [ref=e61]:
+            - generic [ref=e62]: 25%
+            - generic [ref=e63]: Completion Rate
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - generic [ref=e68]: Monday
+            - generic [ref=e69]: Mar 09
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - generic [ref=e72]: COMPLETED (1)
+              - link "Backup PeopleHR 4:28 PM" [ref=e73] [cursor=pointer]:
+                - /url: /tasks/40/edit
+                - generic [ref=e74]:
+                  - img [ref=e75]
+                  - generic [ref=e77]:
+                    - generic [ref=e78]: Backup PeopleHR
+                    - generic [ref=e79]: 4:28 PM
+            - generic [ref=e80]:
+              - generic [ref=e81]: SCHEDULED (2)
+              - link "Ask Joe about laptop f... Pending" [ref=e82] [cursor=pointer]:
+                - /url: /tasks/41/edit
+                - generic [ref=e83]: Ask Joe about laptop f...
+                - generic [ref=e85]: Pending
+              - link "Prepare payroll summary In progress" [ref=e86] [cursor=pointer]:
+                - /url: /tasks/42/edit
+                - generic [ref=e87]: Prepare payroll summary
+                - generic [ref=e89]: In progress
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: Tuesday
+            - generic [ref=e93]: Mar 10
+          - generic [ref=e95]:
+            - generic [ref=e96]: SCHEDULED (1)
+            - link "Review office renewal ... Pending" [ref=e97] [cursor=pointer]:
+              - /url: /tasks/43/edit
+              - generic [ref=e98]: Review office renewal ...
+              - generic [ref=e100]: Pending
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: Wednesday
+            - generic [ref=e104]: Mar 11
+          - generic [ref=e106]: No tasks
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - generic [ref=e109]: Thursday
+            - generic [ref=e110]: Mar 12
+          - generic [ref=e112]: No tasks
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - generic [ref=e115]: Friday
+            - generic [ref=e116]: Mar 13
+          - generic [ref=e118]: No tasks
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - generic [ref=e121]: Saturday
+            - generic [ref=e122]: Mar 14
+          - generic [ref=e124]: No tasks
+        - generic [ref=e125]:
+          - generic [ref=e126]:
+            - generic [ref=e127]: Sunday
+            - generic [ref=e128]: Mar 15
+          - generic [ref=e130]: No tasks
+      - generic [ref=e132]:
+        - generic [ref=e135]: Completed
+        - generic [ref=e138]: In Progress
+        - generic [ref=e141]: Pending
+        - generic [ref=e144]: Today
+  - generic [ref=e148]:
+    - generic [ref=e149]:
+      - img [ref=e150]
+      - generic [ref=e152]: v0.2.6
+    - generic [ref=e153]: © 2026 Funcoder • Built for focus
+    - link "jb@funcoder.com" [ref=e155] [cursor=pointer]:
+      - /url: mailto:jb@funcoder.com

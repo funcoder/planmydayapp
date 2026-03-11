@@ -1,6 +1,7 @@
-<% content_for :title, "Choose Your Plan - ADHD Productivity App" %>
-<% content_for :meta_description, "Choose between monthly or lifetime access to PlanMyDay. Get unlimited tasks, calendar view, sprite rewards, and all ADHD-friendly features. Limited time lifetime offer at $49.99!" %>
+<% content_for :title, "Pricing - ADHD Productivity App" %>
+<% content_for :meta_description, "Start with the free PlanMyDay tier or upgrade to Pro for unlimited tasks, calendar view, notes, projects, sprite rewards, and more." %>
 <% content_for :canonical_url, pricing_url %>
+<% content_for :hide_announcements_modal, true %>
 
 <% content_for :head do %>
   <%= structured_data(pricing_offer_schema) %>
@@ -8,17 +9,87 @@
 
 <div class="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 py-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between gap-4 mb-10">
+      <%= link_to @user ? dashboard_path : root_path, class: "inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white/80 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-white hover:text-primary-600" do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span><%= @user ? "Back to Dashboard" : "Back to Home" %></span>
+      <% end %>
+
+      <% unless @user %>
+        <%= link_to "Sign In", new_session_path, class: "inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary-600" %>
+      <% end %>
+    </div>
+
     <!-- Header -->
     <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Choose Your Plan</h1>
-      <p class="text-xl text-gray-600">Get full access to all ADHD-friendly productivity features</p>
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Simple pricing</h1>
+      <p class="text-xl text-gray-600">Start free and upgrade only when you want more space and premium planning tools.</p>
     </div>
 
     <!-- Pricing Cards -->
-    <div class="grid <%= AppSetting.lifetime_offer_enabled? ? 'md:grid-cols-2' : 'md:grid-cols-1' %> gap-8 max-w-5xl mx-auto">
+    <div class="grid <%= AppSetting.lifetime_offer_enabled? ? 'lg:grid-cols-3' : 'md:grid-cols-2' %> gap-8 max-w-6xl mx-auto">
+
+      <!-- Free Plan -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Free</h2>
+          <div class="text-4xl font-bold text-gray-900 mb-2">$0<span class="text-lg text-gray-600 font-normal">/month</span></div>
+          <p class="text-gray-600">A focused starter plan for daily use.</p>
+        </div>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Up to 5 active tasks per day</span>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Up to 5 backlog tasks</span>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Brain dump capture</span>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Focus timer</span>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M4.93 19h14.14c1.54 0 2.5-1.67 1.73-3L13.73 3c-.77-1.33-2.69-1.33-3.46 0L3.2 16c-.77 1.33.19 3 1.73 3z"></path>
+            </svg>
+            <span class="text-gray-700">No calendar, notes, projects, or sprites</span>
+          </div>
+        </div>
+
+        <% if @user&.free_tier? %>
+          <div class="text-center py-3 px-6 bg-gray-100 text-gray-600 rounded-lg font-semibold">
+            Current Plan
+          </div>
+        <% elsif @user %>
+          <div class="text-center py-3 px-6 bg-gray-50 text-gray-500 rounded-lg font-semibold">
+            Included by default
+          </div>
+        <% else %>
+          <%= link_to "Create Free Account", new_registration_path,
+              class: "block text-center py-3 px-6 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-semibold" %>
+        <% end %>
+
+        <p class="text-center text-sm text-gray-500 mt-4">Use the core planner without paying first.</p>
+      </div>
 
       <!-- Pro Monthly Plan -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 <%= AppSetting.lifetime_offer_enabled? ? '' : 'md:max-w-md md:mx-auto' %>">
+      <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
         <div class="text-center mb-6">
           <h2 class="text-2xl font-bold text-gray-900 mb-2">Pro Monthly</h2>
           <div class="text-4xl font-bold text-gray-900 mb-2">$5<span class="text-lg text-gray-600 font-normal">/month</span></div>
@@ -42,13 +113,7 @@
             <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span class="text-gray-700">Brain dump feature</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span class="text-gray-700">Pomodoro timer</span>
+            <span class="text-gray-700">Notes and projects workspace</span>
           </div>
           <div class="flex items-start gap-3">
             <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,6 +126,12 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
             <span class="text-gray-700">Sprite rewards & gamification</span>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">Everything in Free, without limits</span>
           </div>
           <div class="flex items-start gap-3">
             <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +227,7 @@
 
     <!-- Additional Info -->
     <div class="max-w-3xl mx-auto mt-16 text-center">
-      <p class="text-gray-600 mb-4">All plans include our core ADHD-friendly features designed to help you stay focused without overwhelm.</p>
+      <p class="text-gray-600 mb-4">Every account starts on Free. Upgrade only when you want premium features and unlimited planning space.</p>
       <p class="text-sm text-gray-500">Secure payment processing by Stripe. <% unless @user %>New to PlanMyDay? <%= link_to "Sign up now", new_registration_path, class: "text-primary-600 hover:text-primary-700 font-medium" %><% end %></p>
     </div>
 
