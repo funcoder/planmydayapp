@@ -8,9 +8,9 @@ class AppSetting < ApplicationRecord
     return default unless setting
 
     case setting.value_type
-    when 'boolean'
+    when "boolean"
       ActiveModel::Type::Boolean.new.cast(setting.value)
-    when 'integer'
+    when "integer"
       setting.value.to_i
     else
       setting.value
@@ -18,7 +18,7 @@ class AppSetting < ApplicationRecord
   end
 
   # Set a setting value
-  def self.set(key, value, value_type = 'string')
+  def self.set(key, value, value_type = "string")
     setting = find_or_initialize_by(key: key.to_s)
     setting.value = value.to_s
     setting.value_type = value_type
@@ -27,14 +27,14 @@ class AppSetting < ApplicationRecord
 
   # Specific settings
   def self.lifetime_offer_enabled?
-    get('lifetime_offer_enabled', false) # Default to false (disabled)
+    get("lifetime_offer_enabled", false) # Default to false (disabled)
   end
 
   def self.enable_lifetime_offer!
-    set('lifetime_offer_enabled', 'true', 'boolean')
+    set("lifetime_offer_enabled", "true", "boolean")
   end
 
   def self.disable_lifetime_offer!
-    set('lifetime_offer_enabled', 'false', 'boolean')
+    set("lifetime_offer_enabled", "false", "boolean")
   end
 end

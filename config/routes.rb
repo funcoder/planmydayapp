@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # API routes for mobile apps
   namespace :api do
     namespace :v1 do
-      resources :device_tokens, only: [:create, :destroy]
+      resources :device_tokens, only: [ :create, :destroy ]
     end
   end
 
@@ -52,7 +52,7 @@ Rails.application.routes.draw do
       post :archive
     end
   end
-  
+
   resources :tasks do
     member do
       post :complete
@@ -93,7 +93,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :focus_sessions, only: [:create, :show, :update] do
+  resources :focus_sessions, only: [ :create, :show, :update ] do
     member do
       post :end_session
       post :add_interruption
@@ -101,48 +101,48 @@ Rails.application.routes.draw do
       post :resume_timer
     end
   end
-  
+
   resources :rewards do
     member do
       post :redeem
     end
   end
-  
-  resources :achievements, only: [:index, :show]
 
-  resources :announcements, only: [:index] do
+  resources :achievements, only: [ :index, :show ]
+
+  resources :announcements, only: [ :index ] do
     collection do
       post :mark_seen
       post :mark_all_seen
     end
   end
-  
-  resources :feedbacks, only: [:new, :create, :index]
+
+  resources :feedbacks, only: [ :new, :create, :index ]
 
   # Subscription routes
-  get 'pricing', to: 'pricing#index', as: :pricing
-  resources :subscriptions, only: [:new, :create] do
+  get "pricing", to: "pricing#index", as: :pricing
+  resources :subscriptions, only: [ :new, :create ] do
     collection do
-      get :success, to: 'subscriptions#success', as: :success
-      get :manage, to: 'subscriptions#manage', as: :manage
-      get :cancel, to: 'subscriptions#cancel', as: :cancel
-      post :process_cancellation, to: 'subscriptions#process_cancellation', as: :process_cancellation
-      post :reactivate, to: 'subscriptions#reactivate', as: :reactivate
-      get :portal, to: 'subscriptions#portal', as: :portal
+      get :success, to: "subscriptions#success", as: :success
+      get :manage, to: "subscriptions#manage", as: :manage
+      get :cancel, to: "subscriptions#cancel", as: :cancel
+      post :process_cancellation, to: "subscriptions#process_cancellation", as: :process_cancellation
+      post :reactivate, to: "subscriptions#reactivate", as: :reactivate
+      get :portal, to: "subscriptions#portal", as: :portal
     end
   end
 
   # Stripe webhooks
-  post 'webhooks/stripe', to: 'webhooks#stripe'
+  post "webhooks/stripe", to: "webhooks#stripe"
 
-  get 'dashboard', to: 'dashboard#index'
-  get 'profile', to: 'users#profile'
-  patch 'profile', to: 'users#update_profile'
-  get 'calendar', to: 'calendar#index', as: :calendar
-  get 'sprites', to: 'sprites#index', as: :sprites
-  get 'clear_cookies', to: 'home#clear_cookies', as: :clear_cookies
-  get 'test_banner', to: 'home#test_banner', as: :test_banner
-  get 'test_notifications', to: 'home#test_notifications', as: :test_notifications
+  get "dashboard", to: "dashboard#index"
+  get "profile", to: "users#profile"
+  patch "profile", to: "users#update_profile"
+  get "calendar", to: "calendar#index", as: :calendar
+  get "sprites", to: "sprites#index", as: :sprites
+  get "clear_cookies", to: "home#clear_cookies", as: :clear_cookies
+  get "test_banner", to: "home#test_banner", as: :test_banner
+  get "test_notifications", to: "home#test_notifications", as: :test_notifications
 
   # Defines the root path route ("/")
   root "home#index"

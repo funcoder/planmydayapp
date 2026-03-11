@@ -6,7 +6,7 @@ class FeatureAnnouncement < ApplicationRecord
   validates :description, presence: true
 
   scope :active, -> { where(active: true) }
-  scope :published, -> { where.not(published_at: nil).where('published_at <= ?', Time.current) }
+  scope :published, -> { where.not(published_at: nil).where("published_at <= ?", Time.current) }
   scope :recent_first, -> { order(published_at: :desc) }
 
   # Get announcements a user hasn't seen yet

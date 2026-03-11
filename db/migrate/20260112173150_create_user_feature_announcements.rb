@@ -8,6 +8,6 @@ class CreateUserFeatureAnnouncements < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :user_feature_announcements, [:user_id, :feature_announcement_id], unique: true, name: 'idx_user_feature_announcements_unique'
+    add_index :user_feature_announcements, [ :user_id, :feature_announcement_id ], unique: true, name: 'idx_user_feature_announcements_unique'
   end
 end

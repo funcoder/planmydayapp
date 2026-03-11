@@ -15,6 +15,6 @@ class ClearSiteDataMiddleware
     # This will unregister old service workers and clear their caches
     headers["Clear-Site-Data"] = '"cache", "storage"'
 
-    [status, headers, response]
+    [ status, headers, response ]
   end
 end

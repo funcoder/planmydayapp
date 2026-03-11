@@ -1,17 +1,17 @@
 class ProjectsController < ApplicationController
   before_action :require_notes_access
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :archive, :complete, :reactivate]
+  before_action :set_project, only: [ :show, :edit, :update, :destroy, :archive, :complete, :reactivate ]
 
   def index
-    @filter = params[:filter] || 'active'
+    @filter = params[:filter] || "active"
     @projects = case @filter
-                when 'archived'
+    when "archived"
                   current_user.projects.archived.ordered
-                when 'completed'
+    when "completed"
                   current_user.projects.completed.ordered
-                else
+    else
                   current_user.projects.active.ordered
-                end
+    end
   end
 
   def show
@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
     # Also include tasks with estimates but no focus sessions (completed/on_hold)
     session_task_ids = first_session_months.keys
     no_session_tasks = @project.tasks
-      .where.not(estimated_time: [nil, 0])
+      .where.not(estimated_time: [ nil, 0 ])
       .where.not(id: session_task_ids)
       .where(status: %w[completed on_hold in_progress pending])
       .where("completed_at BETWEEN ? AND ? OR updated_at BETWEEN ? AND ?", year_start, year_end, year_start, year_end)

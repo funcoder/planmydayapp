@@ -15,9 +15,9 @@ class CreateNotes < ActiveRecord::Migration[8.0]
     end
 
     add_index :notes, :pinned
-    add_index :notes, [:user_id, :position]
-    add_index :notes, [:user_id, :pinned]
-    add_index :notes, [:project_id, :position]
+    add_index :notes, [ :user_id, :position ]
+    add_index :notes, [ :user_id, :pinned ]
+    add_index :notes, [ :project_id, :position ]
     add_index :notes, :tags, using: :gin
   end
 end

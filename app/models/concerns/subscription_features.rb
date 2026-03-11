@@ -3,67 +3,67 @@ module SubscriptionFeatures
 
   # Feature limits per subscription tier
   TIER_FEATURES = {
-    'free' => {
+    "free" => {
       max_backlog_tasks: 5,
       has_calendar_access: false,
       has_sprites_access: false,
       has_notes_access: false,
       price_cents: 0,
-      name: 'Free'
+      name: "Free"
     },
-    'pro' => {
+    "pro" => {
       max_backlog_tasks: Float::INFINITY,
       has_calendar_access: true,
       has_sprites_access: true,
       has_notes_access: true,
       price_cents: 500, # $5.00
-      name: 'Pro'
+      name: "Pro"
     },
-    'lifetime' => {
+    "lifetime" => {
       max_backlog_tasks: Float::INFINITY,
       has_calendar_access: true,
       has_sprites_access: true,
       has_notes_access: true,
       price_cents: 4999, # $49.99 one-time
-      name: 'Lifetime'
+      name: "Lifetime"
     }
   }.freeze
 
   included do
     # Returns the features hash for the user's subscription tier
     def subscription_features
-      TIER_FEATURES[effective_subscription_tier] || TIER_FEATURES['free']
+      TIER_FEATURES[effective_subscription_tier] || TIER_FEATURES["free"]
     end
 
     # Get the effective subscription tier (considers grace period for cancelled subscriptions)
     def effective_subscription_tier
       # If subscription is cancelling but period hasn't ended, keep Pro access
-      if subscription_status == 'cancelling' && subscription_period_end && subscription_period_end > Time.current
-        'pro'
+      if subscription_status == "cancelling" && subscription_period_end && subscription_period_end > Time.current
+        "pro"
       else
-        subscription_tier || 'free'
+        subscription_tier || "free"
       end
     end
 
     # Check if user has pro or lifetime subscription (including grace period)
     # Admins also get pro-level access
     def pro?
-      admin? || ['pro', 'lifetime'].include?(effective_subscription_tier)
+      admin? || [ "pro", "lifetime" ].include?(effective_subscription_tier)
     end
 
     # Check if user has lifetime subscription
     def lifetime?
-      effective_subscription_tier == 'lifetime'
+      effective_subscription_tier == "lifetime"
     end
 
     # Check if user is on free tier
     def free_tier?
-      effective_subscription_tier == 'free'
+      effective_subscription_tier == "free"
     end
 
     # Check if subscription is cancelled but still in grace period
     def subscription_grace_period?
-      subscription_status == 'cancelling' && subscription_period_end && subscription_period_end > Time.current
+      subscription_status == "cancelling" && subscription_period_end && subscription_period_end > Time.current
     end
 
     # Feature-specific checks
@@ -95,7 +95,7 @@ module SubscriptionFeatures
     end
 
     def tier_name(tier)
-      TIER_FEATURES.dig(tier, :name) || 'Free'
+      TIER_FEATURES.dig(tier, :name) || "Free"
     end
   end
 end

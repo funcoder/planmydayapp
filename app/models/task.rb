@@ -7,7 +7,7 @@ class Task < ApplicationRecord
   has_many :focus_sessions, dependent: :destroy
 
   # ActsAsList configuration
-  acts_as_list scope: [:user_id, :scheduled_for]
+  acts_as_list scope: [ :user_id, :scheduled_for ]
 
   TIME_OF_DAY_OPTIONS = %w[morning afternoon evening].freeze
 
@@ -19,25 +19,25 @@ class Task < ApplicationRecord
   validates :time_of_day, inclusion: { in: TIME_OF_DAY_OPTIONS }
 
   # Scopes
-  scope :pending, -> { where(status: 'pending') }
-  scope :in_progress, -> { where(status: 'in_progress') }
-  scope :completed, -> { where(status: 'completed') }
+  scope :pending, -> { where(status: "pending") }
+  scope :in_progress, -> { where(status: "in_progress") }
+  scope :completed, -> { where(status: "completed") }
   scope :incomplete, -> { where.not(status: %w[completed on_hold]) }
-  scope :on_hold, -> { where(status: 'on_hold') }
+  scope :on_hold, -> { where(status: "on_hold") }
   scope :scheduled_for_date, ->(date) { where(scheduled_for: date) }
-  scope :overdue, -> { where('due_date < ?', Date.current).incomplete }
+  scope :overdue, -> { where("due_date < ?", Date.current).incomplete }
   scope :by_priority, -> { order(Arel.sql("CASE priority WHEN 'urgent' THEN 0 WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END")) }
   scope :today, -> { scheduled_for_date(Date.current) }
   scope :unscheduled, -> { where(scheduled_for: nil) }
-  scope :morning, -> { where(time_of_day: 'morning') }
-  scope :afternoon, -> { where(time_of_day: 'afternoon') }
-  scope :evening, -> { where(time_of_day: 'evening') }
+  scope :morning, -> { where(time_of_day: "morning") }
+  scope :afternoon, -> { where(time_of_day: "afternoon") }
+  scope :evening, -> { where(time_of_day: "evening") }
 
   # Callbacks
   before_save :inherit_project_color
   before_save :set_completed_at
   after_update :award_completion_points, if: :completed?
-  
+
   # Rails 8 feature: Broadcast updates
   # Commented out until we create the necessary partials
   # after_create_commit -> { broadcast_prepend_to "tasks", partial: "tasks/task", locals: { task: self } }
@@ -46,11 +46,11 @@ class Task < ApplicationRecord
 
   # Instance methods
   def complete!
-    update(status: 'completed', actual_time: calculate_actual_time, completed_at: Time.current)
+    update(status: "completed", actual_time: calculate_actual_time, completed_at: Time.current)
   end
 
   def start!
-    update(status: 'in_progress')
+    update(status: "in_progress")
   end
 
   def rollover_to_tomorrow!
@@ -62,35 +62,35 @@ class Task < ApplicationRecord
   end
 
   def completed?
-    status == 'completed'
+    status == "completed"
   end
 
   def pending?
-    status == 'pending'
+    status == "pending"
   end
 
   def in_progress?
-    status == 'in_progress'
+    status == "in_progress"
   end
 
   def on_hold?
-    status == 'on_hold'
+    status == "on_hold"
   end
 
   def hold!(reason = nil)
-    update(status: 'on_hold', on_hold_reason: reason)
+    update(status: "on_hold", on_hold_reason: reason)
   end
 
   def resume!
-    update(status: 'pending', on_hold_reason: nil, scheduled_for: Date.current)
+    update(status: "pending", on_hold_reason: nil, scheduled_for: Date.current)
   end
 
   def tag_list
-    tags.join(', ') if tags.present?
+    tags.join(", ") if tags.present?
   end
 
   def tag_list=(tag_string)
-    self.tags = tag_string.split(',').map(&:strip).reject(&:blank?)
+    self.tags = tag_string.split(",").map(&:strip).reject(&:blank?)
   end
 
   def total_focus_time
@@ -100,24 +100,24 @@ class Task < ApplicationRecord
   private
 
   def set_completed_at
-    if status_changed? && status == 'completed'
+    if status_changed? && status == "completed"
       self.completed_at = Time.current
-    elsif status_changed? && status != 'completed'
+    elsif status_changed? && status != "completed"
       self.completed_at = nil
     end
   end
 
   def award_completion_points
-    return unless status_previously_was != 'completed'
-    
+    return unless status_previously_was != "completed"
+
     points = case priority
-             when 'urgent' then 20
-             when 'high' then 15
-             when 'medium' then 10
-             when 'low' then 5
-             else 10
-             end
-    
+    when "urgent" then 20
+    when "high" then 15
+    when "medium" then 10
+    when "low" then 5
+    else 10
+    end
+
     user.add_points(points)
   end
 

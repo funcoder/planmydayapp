@@ -1,6 +1,6 @@
 class HotwireNativeController < ApplicationController
   # Allow unauthenticated access to path configuration
-  allow_unauthenticated_access only: [:path_configuration]
+  allow_unauthenticated_access only: [ :path_configuration ]
 
   def path_configuration
     render json: {
@@ -8,7 +8,7 @@ class HotwireNativeController < ApplicationController
       rules: [
         # Default behavior for all routes
         {
-          patterns: [".*"],
+          patterns: [ ".*" ],
           properties: {
             context: "default",
             pull_to_refresh_enabled: true
@@ -29,7 +29,7 @@ class HotwireNativeController < ApplicationController
         },
         # Modal for auth pages
         {
-          patterns: ["/signup$", "/session/new$", "/passwords"],
+          patterns: [ "/signup$", "/session/new$", "/passwords" ],
           properties: {
             context: "modal",
             pull_to_refresh_enabled: false
@@ -37,7 +37,7 @@ class HotwireNativeController < ApplicationController
         },
         # Modal for settings and profile
         {
-          patterns: ["/profile$"],
+          patterns: [ "/profile$" ],
           properties: {
             context: "modal",
             pull_to_refresh_enabled: false
@@ -45,7 +45,7 @@ class HotwireNativeController < ApplicationController
         },
         # Modal for pricing and subscription management
         {
-          patterns: ["/pricing$", "/subscriptions"],
+          patterns: [ "/pricing$", "/subscriptions" ],
           properties: {
             context: "modal",
             pull_to_refresh_enabled: false

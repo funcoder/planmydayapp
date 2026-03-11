@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
   def new
     # Show subscription page before checkout
     @user = current_user
-    @plan = params[:plan] || 'monthly'
+    @plan = params[:plan] || "monthly"
   end
 
   def create
@@ -16,19 +16,19 @@ class SubscriptionsController < ApplicationController
       return
     end
 
-    plan_type = params[:plan] || 'monthly'
+    plan_type = params[:plan] || "monthly"
 
     Rails.logger.info "Starting Stripe checkout"
     Rails.logger.info "Logged in user: #{current_user&.id || 'none'}"
     Rails.logger.info "Plan type: #{plan_type}"
 
     # Determine price ID and mode based on plan
-    if plan_type == 'lifetime'
+    if plan_type == "lifetime"
       price_id = STRIPE_LIFETIME_PRICE_ID
-      mode = 'payment'  # One-time payment
+      mode = "payment"  # One-time payment
     else
       price_id = STRIPE_PRO_PRICE_ID
-      mode = 'subscription'  # Recurring
+      mode = "subscription"  # Recurring
     end
 
     Rails.logger.info "Stripe Price ID: #{price_id}"
@@ -37,10 +37,10 @@ class SubscriptionsController < ApplicationController
     begin
       checkout_params = {
         mode: mode,
-        line_items: [{
+        line_items: [ {
           price: price_id,
           quantity: 1
-        }],
+        } ],
         success_url: success_subscriptions_url,
         cancel_url: pricing_url,
         allow_promotion_codes: true,
@@ -94,7 +94,7 @@ class SubscriptionsController < ApplicationController
     @user = current_user
 
     # Check if user is actually Pro
-    unless @user.pro? && @user.subscription_status == 'active'
+    unless @user.pro? && @user.subscription_status == "active"
       redirect_to dashboard_path, alert: "No active subscription to cancel."
       return
     end
@@ -108,7 +108,7 @@ class SubscriptionsController < ApplicationController
         )
 
         if subscriptions.data.any?
-          active_sub = subscriptions.data.find { |s| s.status == 'active' }
+          active_sub = subscriptions.data.find { |s| s.status == "active" }
           if active_sub
             @user.update(
               stripe_subscription_id: active_sub.id,
@@ -148,7 +148,7 @@ class SubscriptionsController < ApplicationController
 
         # Store the period end date and update status
         current_user.update(
-          subscription_status: 'cancelling',
+          subscription_status: "cancelling",
           subscription_period_end: Time.at(subscription.current_period_end)
         )
 
@@ -164,7 +164,7 @@ class SubscriptionsController < ApplicationController
   def reactivate
     # Reactivate a cancelled subscription before period end
     begin
-      if current_user.stripe_subscription_id.present? && current_user.subscription_status == 'cancelling'
+      if current_user.stripe_subscription_id.present? && current_user.subscription_status == "cancelling"
         # Remove cancel_at_period_end flag
         subscription = Stripe::Subscription.update(
           current_user.stripe_subscription_id,
@@ -173,7 +173,7 @@ class SubscriptionsController < ApplicationController
 
         # Update status back to active
         current_user.update(
-          subscription_status: 'active'
+          subscription_status: "active"
         )
 
         redirect_to dashboard_path, notice: "Your subscription has been reactivated. You'll continue to have Pro access."

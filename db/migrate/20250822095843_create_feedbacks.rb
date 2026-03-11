@@ -9,7 +9,7 @@ class CreateFeedbacks < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :feedbacks, :feedback_type
     add_index :feedbacks, :status
   end

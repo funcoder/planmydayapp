@@ -8,8 +8,8 @@ class CreateApiUsages < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
-    add_index :api_usages, [:user_id, :endpoint, :date], unique: true
+
+    add_index :api_usages, [ :user_id, :endpoint, :date ], unique: true
     add_index :api_usages, :date
   end
 end

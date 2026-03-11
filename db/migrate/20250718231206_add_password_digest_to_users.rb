@@ -3,7 +3,7 @@ class AddPasswordDigestToUsers < ActiveRecord::Migration[8.0]
     add_column :users, :password_digest, :string
     add_column :users, :email_address, :string
     add_index :users, :email_address, unique: true
-    
+
     # Remove old Devise columns
     remove_column :users, :encrypted_password, :string if column_exists?(:users, :encrypted_password)
     remove_column :users, :reset_password_token, :string if column_exists?(:users, :reset_password_token)

@@ -60,21 +60,21 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "planmyday.me", protocol: 'https' }
-  
+  config.action_mailer.default_url_options = { host: "planmyday.me", protocol: "https" }
+
   # Set the from address for emails
-  config.action_mailer.default_options = { from: 'noreply@wdpro.dev' }
+  config.action_mailer.default_options = { from: "noreply@wdpro.dev" }
 
   # Gmail SMTP configuration for production
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              "smtp.gmail.com",
     port:                 587,
-    domain:               'wdpro.dev',
-    user_name:            ENV['GMAIL_USERNAME'],
-    password:             ENV['GMAIL_APP_PASSWORD'],
-    authentication:       'plain',
+    domain:               "wdpro.dev",
+    user_name:            ENV["GMAIL_USERNAME"],
+    password:             ENV["GMAIL_APP_PASSWORD"],
+    authentication:       "plain",
     enable_starttls_auto: true,
     open_timeout:         5,
     read_timeout:         5
@@ -101,7 +101,7 @@ Rails.application.configure do
 
   # Active Record Encryption configuration
   # Use environment variables or Rails credentials
-  config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'] || Rails.application.credentials.dig(:active_record_encryption, :primary_key)
-  config.active_record.encryption.deterministic_key = ENV['ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY'] || Rails.application.credentials.dig(:active_record_encryption, :deterministic_key)
-  config.active_record.encryption.key_derivation_salt = ENV['ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT'] || Rails.application.credentials.dig(:active_record_encryption, :key_derivation_salt)
+  config.active_record.encryption.primary_key = ENV["ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY"] || Rails.application.credentials.dig(:active_record_encryption, :primary_key)
+  config.active_record.encryption.deterministic_key = ENV["ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY"] || Rails.application.credentials.dig(:active_record_encryption, :deterministic_key)
+  config.active_record.encryption.key_derivation_salt = ENV["ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT"] || Rails.application.credentials.dig(:active_record_encryption, :key_derivation_salt)
 end

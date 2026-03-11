@@ -10,7 +10,7 @@ class Reward < ApplicationRecord
   # Scopes
   scope :available, -> { where(redeemed: false) }
   scope :redeemed, -> { where(redeemed: true) }
-  scope :affordable_for, ->(user) { where('points_required <= ?', user.total_points) }
+  scope :affordable_for, ->(user) { where("points_required <= ?", user.total_points) }
   scope :by_points, -> { order(points_required: :asc) }
 
   # Instance methods
@@ -32,6 +32,6 @@ class Reward < ApplicationRecord
   end
 
   def points_away_for(user)
-    [points_required - user.total_points, 0].max
+    [ points_required - user.total_points, 0 ].max
   end
 end

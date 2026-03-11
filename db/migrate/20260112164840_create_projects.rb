@@ -13,7 +13,7 @@ class CreateProjects < ActiveRecord::Migration[8.0]
     end
 
     add_index :projects, :status
-    add_index :projects, [:user_id, :position]
-    add_index :projects, [:user_id, :status]
+    add_index :projects, [ :user_id, :position ]
+    add_index :projects, [ :user_id, :status ]
   end
 end

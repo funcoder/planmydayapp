@@ -39,7 +39,7 @@ sprites = [
     css_class: "sprite-bird",
     rarity: "common"
   },
-  
+
   # Uncommon Sprites
   {
     name: "Study Owl",
@@ -77,7 +77,7 @@ sprites = [
     css_class: "sprite-wolf",
     rarity: "uncommon"
   },
-  
+
   # Rare Sprites
   {
     name: "Golden Hamster",
@@ -115,7 +115,7 @@ sprites = [
     css_class: "sprite-unicorn",
     rarity: "rare"
   },
-  
+
   # Epic Sprites
   {
     name: "Lightning Cheetah",
@@ -153,7 +153,7 @@ sprites = [
     css_class: "sprite-lion",
     rarity: "epic"
   },
-  
+
   # Legendary Sprites
   {
     name: "Rainbow Butterfly",

@@ -12,7 +12,7 @@ Sentry.init do |config|
   config.profiles_sample_rate = 0.1
 
   # Capture breadcrumbs for better error context
-  config.breadcrumbs_logger = [:active_support_logger, :http_logger]
+  config.breadcrumbs_logger = [ :active_support_logger, :http_logger ]
 
   # Filter sensitive parameters
   config.send_default_pii = false
