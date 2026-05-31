@@ -49,6 +49,10 @@ RUN yarn install --frozen-lockfile
 # Copy application code
 COPY . .
 
+# Local working tree may have owner-only perms; ensure everything is
+# world-readable (and dirs/scripts traversable) so the non-root runtime user can read it
+RUN chmod -R a+rX . && chmod -R 755 bin
+
 # Clear any stale bootsnap cache and precompile for faster boot times
 RUN rm -rf tmp/cache/bootsnap* && bundle exec bootsnap precompile app/ lib/
 

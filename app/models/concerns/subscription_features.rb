@@ -79,6 +79,10 @@ module SubscriptionFeatures
       admin? || subscription_features[:has_notes_access]
     end
 
+    def can_access_voice_task?
+      pro?
+    end
+
     def max_backlog_tasks
       admin? ? Float::INFINITY : subscription_features[:max_backlog_tasks]
     end

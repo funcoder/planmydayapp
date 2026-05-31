@@ -1,0 +1,88 @@
+<div data-controller="quick-task-voice"
+     data-quick-task-voice-transcribe-url-value="<%= transcribe_tasks_path %>"
+     data-quick-task-voice-quick-add-url-value="<%= quick_add_tasks_path %>"
+     data-quick-task-voice-max-duration-seconds-value="<%= local_assigns.fetch(:max_duration_seconds, 30) %>">
+  <% if current_user.can_access_voice_task? %>
+    <button type="button"
+            class="<%= local_assigns.fetch(:button_class, "inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-800 transition hover:bg-emerald-100") %>"
+            data-action="quick-task-voice#open">
+      <svg class="<%= local_assigns.fetch(:icon_class, "h-4 w-4") %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18v3m-4-3a4 4 0 008 0m-8 0H7a2 2 0 01-2-2v-1m11 3h1a2 2 0 002-2v-1M9 5a3 3 0 116 0v6a3 3 0 11-6 0V5z"></path>
+      </svg>
+      <%= local_assigns.fetch(:button_label, "Voice Add") %>
+    </button>
+
+    <div class="hidden fixed inset-0 z-40 bg-slate-950/50 opacity-0 transition-opacity duration-200"
+         data-quick-task-voice-target="backdrop"
+         data-action="click->quick-task-voice#close"></div>
+
+    <div class="hidden fixed inset-0 z-50 overflow-y-auto px-4 py-6"
+         data-quick-task-voice-target="modalContainer">
+      <div class="flex min-h-full w-full items-end sm:items-center sm:justify-center">
+        <div class="mt-auto w-full max-w-xl rounded-[28px] border border-emerald-100 bg-white p-5 shadow-2xl opacity-0 translate-y-6 scale-95 transition-all duration-200 sm:mt-0"
+             data-quick-task-voice-target="modal"
+             data-action="click->quick-task-voice#stopPropagation">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">Voice Add</p>
+              <h3 class="mt-1 text-xl font-bold text-slate-900"><%= title %></h3>
+              <p class="mt-1 text-sm text-slate-600"><%= subtitle %></p>
+            </div>
+            <button type="button"
+                    class="rounded-full p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                    data-action="quick-task-voice#close"
+                    aria-label="Close voice add">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-sm font-medium text-emerald-900" data-quick-task-voice-target="status">
+                Tap record, speak naturally, then choose Backlog, Morning, Afternoon, or Evening.
+              </p>
+              <button type="button"
+                      class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:opacity-50"
+                      data-quick-task-voice-target="button"
+                      data-action="quick-task-voice#toggle">
+                Record Task
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-4 hidden rounded-2xl border border-slate-200 bg-slate-50 p-4" data-quick-task-voice-target="review">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Captured task</p>
+            <p class="mt-2 text-base font-semibold text-slate-900" data-quick-task-voice-target="title"></p>
+            <p class="mt-1 text-sm text-slate-600" data-quick-task-voice-target="description"></p>
+
+            <div class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <% [
+                ["backlog", "Backlog", "border-slate-300 bg-slate-100 text-slate-900 hover:bg-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-50 dark:hover:bg-slate-600"],
+                ["morning", "Morning", "border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100"],
+                ["afternoon", "Afternoon", "border-sky-200 bg-sky-50 text-sky-800 hover:bg-sky-100"],
+                ["evening", "Evening", "border-indigo-200 bg-indigo-50 text-indigo-800 hover:bg-indigo-100"]
+              ].each do |value, label, classes| %>
+                <button type="button"
+                        class="rounded-xl border px-3 py-2.5 text-sm font-medium transition disabled:opacity-50 <%= classes %>"
+                        data-quick-task-voice-target="destinationButton"
+                        data-destination="<%= value %>"
+                        data-action="quick-task-voice#chooseDestination">
+                  <%= label %>
+                </button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <%= link_to pricing_path, class: local_assigns.fetch(:upgrade_class, "inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50") do %>
+      <svg class="<%= local_assigns.fetch(:icon_class, "h-4 w-4") %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18v3m-4-3a4 4 0 008 0m-8 0H7a2 2 0 01-2-2v-1m11 3h1a2 2 0 002-2v-1M9 5a3 3 0 116 0v6a3 3 0 11-6 0V5z"></path>
+      </svg>
+      <%= local_assigns.fetch(:upgrade_label, "Voice Add Pro") %>
+    <% end %>
+  <% end %>
+</div>

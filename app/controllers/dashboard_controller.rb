@@ -4,24 +4,12 @@ class DashboardController < ApplicationController
   def index
     @user = Current.session.user
     @today_tasks = @user.tasks.today
-    @today_incomplete_tasks = @today_tasks.incomplete.includes(:project).order(
-      Arel.sql("CASE status WHEN 'in_progress' THEN 0 WHEN 'pending' THEN 1 END"),
-      Arel.sql("CASE priority WHEN 'urgent' THEN 0 WHEN 'high' THEN 1 WHEN 'medium' THEN 2 WHEN 'low' THEN 3 END")
-    )
+    @today_incomplete_tasks = @today_tasks.incomplete.includes(:project).order(position: :asc, created_at: :asc)
     @morning_tasks = @today_incomplete_tasks.morning
     @afternoon_tasks = @today_incomplete_tasks.afternoon
     @evening_tasks = @today_incomplete_tasks.evening
     @current_period = current_time_period
-    period_tasks = {
-      "morning" => @morning_tasks,
-      "afternoon" => @afternoon_tasks,
-      "evening" => @evening_tasks
-    }
-    @selected_period = if period_tasks[@current_period].any?
-      @current_period
-    else
-      period_tasks.find { |_, tasks| tasks.any? }&.first || @current_period
-    end
+    @selected_period = @current_period
     @today_completed_tasks = @today_tasks.completed
     @on_hold_tasks = @user.tasks.on_hold.includes(:project)
     @brain_dumps = @user.brain_dumps.pending.recent.limit(5)

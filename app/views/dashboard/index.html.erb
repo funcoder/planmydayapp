@@ -35,38 +35,51 @@
   <div class="px-3 sm:px-6 lg:px-8 <%= native_app? ? 'py-3' : 'py-8' %>">
     <!-- Newly Unlocked Sprites Notification -->
     <% if @newly_unlocked_sprites.any? && !focus_view %>
-      <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl shadow-lg p-6 mb-6 animate-pulse">
-        <h3 class="text-2xl font-bold mb-4">🎉 New Sprites Unlocked!</h3>
-        <div class="flex gap-4 overflow-x-auto">
+      <div class="dashboard-sprite-unlock rounded-2xl border border-amber-200 bg-white shadow-sm p-5 mb-6">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="min-w-0">
+            <div class="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-amber-800">
+              New unlock
+            </div>
+            <h3 class="mt-3 text-xl font-bold text-gray-900">New sprite unlocked</h3>
+            <p class="mt-1 text-sm text-gray-600">Added to your collection. Keep the streak going to unlock the next one.</p>
+          </div>
+          <%= link_to "View collection", sprites_path, class: "inline-flex items-center justify-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800" %>
+        </div>
+
+        <div class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <% @newly_unlocked_sprites.each do |sprite| %>
-            <div class="flex-shrink-0 text-center">
-              <div class="sprite-container <%= sprite.rarity %>">
-                <div class="sprite <%= sprite.css_class %>"></div>
+            <div class="dashboard-sprite-unlock__item flex items-center gap-4 rounded-xl border border-gray-200 bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-3">
+              <div class="flex-shrink-0">
+                <div class="sprite-container <%= sprite.rarity %>">
+                  <div class="sprite <%= sprite.css_class %>"></div>
+                </div>
               </div>
-              <p class="text-sm font-bold mt-2"><%= sprite.name %></p>
-              <p class="text-xs opacity-90"><%= sprite.rarity.capitalize %></p>
+              <div class="min-w-0">
+                <p class="font-semibold text-gray-900"><%= sprite.name %></p>
+                <p class="text-sm text-gray-600"><%= sprite.rarity.capitalize %></p>
+              </div>
             </div>
           <% end %>
         </div>
-        <%= link_to "View Collection →", sprites_path, class: "inline-block mt-4 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors" %>
       </div>
     <% end %>
 
     <!-- Welcome Banner with Stats -->
         <div class="dashboard-welcome-card bg-white rounded-xl shadow-sm border <%= focus_view ? 'border-slate-300' : 'border-gray-200' %> p-4 mb-4">
-      <div class="flex justify-between items-center gap-4">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex-1">
           <h1 class="text-lg font-bold text-gray-900 mb-0.5">Hey <%= @user.first_name %></h1>
           <p class="text-xs text-gray-500">One step at a time.</p>
         </div>
-        <div class="flex gap-3 items-center">
-            <div class="text-center rounded-lg <%= focus_view ? 'bg-slate-100' : 'bg-gray-50' %> px-3 py-1.5">
-            <div class="text-sm font-bold text-gray-900"><%= @points %></div>
-            <div class="text-[11px] text-gray-500">Points</div>
+        <div class="flex flex-wrap gap-3 items-center sm:justify-end">
+            <div class="dashboard-stat-chip text-center rounded-lg px-3 py-1.5 min-w-20">
+            <div class="dashboard-stat-chip__value text-sm font-bold"><%= @points %></div>
+            <div class="dashboard-stat-chip__label text-[11px]">Points</div>
           </div>
-            <div class="text-center rounded-lg <%= focus_view ? 'bg-slate-100' : 'bg-gray-50' %> px-3 py-1.5">
-            <div class="text-sm font-bold text-gray-900"><%= @streak %></div>
-            <div class="text-[11px] text-gray-500">Streak</div>
+            <div class="dashboard-stat-chip text-center rounded-lg px-3 py-1.5 min-w-20">
+            <div class="dashboard-stat-chip__value text-sm font-bold"><%= @streak %></div>
+            <div class="dashboard-stat-chip__label text-[11px]">Streak</div>
           </div>
           <% if focus_view %>
             <%= link_to dashboard_path, class: "text-xs px-3 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors" do %>
@@ -87,7 +100,7 @@
       <div class="lg:col-span-2 space-y-4 lg:space-y-8">
         
         <!-- Today's Tasks -->
-        <div class="dashboard-focus-card bg-white rounded-xl shadow-sm p-4 <%= focus_view ? 'border border-slate-300' : '' %>" data-controller="task time-period" data-task-sortable-value="false">
+        <div class="dashboard-focus-card bg-white rounded-xl shadow-sm p-4 <%= focus_view ? 'border border-slate-300' : '' %>" data-controller="task time-period">
           <div class="flex justify-between items-center mb-4">
             <div>
               <h2 class="text-xl font-bold text-gray-800">Today's Focus</h2>
@@ -98,13 +111,23 @@
                 <span class="text-xs text-gray-500"><%= @today_incomplete_tasks.count %> / <%= @user.daily_task_limit %> active</span>
               </div>
             </div>
-            <% if @today_incomplete_tasks.count < @user.daily_task_limit %>
-              <%= link_to new_task_path, class: "p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors touch-manipulation" do %>
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
+            <div class="flex items-center gap-2">
+              <%= render "shared/quick_voice_task_capture",
+                  title: "Add a task by voice",
+                  subtitle: "Speak once, then place it in backlog or a time block.",
+                  button_label: "Voice Add",
+                  button_class: "inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-800 transition hover:bg-emerald-100",
+                  upgrade_label: "Voice Add Pro",
+                  upgrade_class: "inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50",
+                  icon_class: "h-4 w-4" %>
+              <% if @today_incomplete_tasks.count < @user.daily_task_limit %>
+                <%= link_to new_task_path, class: "p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors touch-manipulation" do %>
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  </svg>
+                <% end %>
               <% end %>
-            <% end %>
+            </div>
           </div>
 
           <% if @today_incomplete_tasks.any? %>
@@ -113,7 +136,7 @@
               { key: "afternoon", label: "Afternoon", icon: "🌤", tasks: @afternoon_tasks, accent: "sky" },
               { key: "evening", label: "Evening", icon: "🌙", tasks: @evening_tasks, accent: "indigo" }
             ] %>
-            <div class="space-y-4" data-task-target="list" id="tasks-list">
+            <div class="space-y-4" id="tasks-list">
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <% periods.each do |period| %>
                   <% task_count = period[:tasks].count %>
@@ -178,7 +201,7 @@
                   </div>
 
                   <% if period[:tasks].any? %>
-                    <div class="mt-4 space-y-3">
+                    <div class="mt-4 space-y-3" data-task-target="list" data-period="<%= period[:key] %>">
                       <% period[:tasks].each_with_index do |task, index| %>
                         <div class="task-item rounded-xl border border-gray-200 bg-white p-4 transition-all duration-150 hover:border-primary-300 hover:shadow-sm"
                              style="border-left: 4px solid <%= focus_view ? '#94a3b8' : (task.color || '#14b8a6') %>"
@@ -608,6 +631,29 @@
     z-index: 50;
   }
 
+  .dashboard-sprite-unlock {
+    background-image:
+      radial-gradient(circle at top right, rgb(251 191 36 / 0.18), transparent 30%),
+      linear-gradient(180deg, #fffdf7 0%, #ffffff 100%);
+  }
+
+  .dashboard-sprite-unlock__item .sprite-container {
+    margin: 0;
+  }
+
+  .dashboard-stat-chip {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  .dashboard-stat-chip__value {
+    color: #0f172a;
+  }
+
+  .dashboard-stat-chip__label {
+    color: #64748b;
+  }
+
   .time-period-tab[data-active="true"][data-accent="amber"] {
     background: #fffbeb;
     border-color: #fcd34d;
@@ -642,6 +688,31 @@
     background: #111827 !important;
     border-color: #334155 !important;
     color: #e5e7eb;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-sprite-unlock {
+    background-image:
+      radial-gradient(circle at top right, rgb(245 158 11 / 0.18), transparent 35%),
+      linear-gradient(180deg, #111827 0%, #0f172a 100%);
+    border-color: #92400e !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-sprite-unlock__item {
+    background: linear-gradient(90deg, rgb(120 53 15 / 0.24), rgb(31 41 55 / 0.78)) !important;
+    border-color: #92400e !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-stat-chip {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-stat-chip__value {
+    color: #f8fafc !important;
+  }
+
+  html[data-theme="dark"] .dashboard-root .dashboard-stat-chip__label {
+    color: #94a3b8 !important;
   }
 
   html[data-theme="dark"] .dashboard-root .time-period-tab[data-active="false"] {

@@ -1,4 +1,9 @@
 class TasksController < ApplicationController
+  include ApiRateLimiter
+
+  VOICE_TASK_DAILY_LIMIT = ENV.fetch("VOICE_TASK_DAILY_LIMIT", 15).to_i
+  VOICE_TASK_MAX_DURATION_SECONDS = ENV.fetch("VOICE_TASK_MAX_DURATION_SECONDS", 30).to_i
+
   before_action :set_task, only: [ :edit, :update, :destroy, :complete, :start, :cancel_start, :rollover, :hold, :resume, :schedule_for_today, :remove_from_today, :move_to_date, :move_to_column ]
 
   def index
@@ -69,6 +74,92 @@ class TasksController < ApplicationController
     end
   end
 
+  def transcribe
+    unless current_user.can_access_voice_task?
+      render json: { error: "Voice to task is available on Pro." }, status: :forbidden
+      return
+    end
+
+    if params[:audio].blank?
+      render json: { error: "Please record some audio first." }, status: :unprocessable_entity
+      return
+    end
+
+    if ENV["OPENAI_API_KEY"].blank?
+      render json: { error: "Voice transcription isn't configured yet." }, status: :service_unavailable
+      return
+    end
+
+    if params[:duration_seconds].present? && params[:duration_seconds].to_i > VOICE_TASK_MAX_DURATION_SECONDS
+      render json: { error: "Recordings must be #{VOICE_TASK_MAX_DURATION_SECONDS} seconds or less." }, status: :unprocessable_entity
+      return
+    end
+
+    check_api_limit!("voice_task_transcription", custom_limit: VOICE_TASK_DAILY_LIMIT)
+
+    transcript = TaskVoiceTranscriptionService.new(audio_file: params[:audio].tempfile).call
+    parsed = TaskVoiceCommandParser.parse(
+      transcript,
+      default_scheduled_for: params[:default_scheduled_for]
+    )
+
+    render json: {
+      transcript: transcript,
+      task: {
+        title: parsed.title,
+        description: parsed.description,
+        scheduled_for: parsed.scheduled_for,
+        time_of_day: parsed.time_of_day
+      }
+    }, status: :ok
+  rescue TaskVoiceTranscriptionService::MissingApiKeyError
+    render json: { error: "Voice transcription isn't configured yet." }, status: :service_unavailable
+  rescue TaskVoiceTranscriptionService::TranscriptionFailedError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def quick_add
+    unless current_user.can_access_voice_task?
+      render json: { error: "Voice to task is available on Pro." }, status: :forbidden
+      return
+    end
+
+    parsed = TaskVoiceCommandParser.parse(params[:transcript].to_s)
+    @task = current_user.tasks.build(
+      title: parsed.title,
+      description: parsed.description,
+      priority: "medium",
+      status: "pending",
+      position: next_task_position
+    )
+
+    apply_quick_add_destination!(@task, params[:destination])
+
+    if @task.scheduled_for.nil? && !current_user.can_add_backlog_task?
+      render json: { error: "You've reached your backlog limit on the free plan." }, status: :unprocessable_entity
+      return
+    end
+
+    if @task.scheduled_for == Date.current && current_user.tasks.today.incomplete.count >= current_user.daily_task_limit
+      render json: { error: "You've reached your daily task limit for today." }, status: :unprocessable_entity
+      return
+    end
+
+    if @task.save
+      render json: {
+        task: {
+          id: @task.id,
+          title: @task.title,
+          scheduled_for: @task.scheduled_for,
+          time_of_day: @task.time_of_day
+        },
+        notice: "Task added successfully!"
+      }, status: :created
+    else
+      render json: { error: @task.errors.full_messages.to_sentence }, status: :unprocessable_entity
+    end
+  end
+
   def edit
     @return_to = safe_return_to
     @projects = current_user.projects.active.ordered if current_user.can_access_notes?
@@ -99,13 +190,18 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_back fallback_location: dashboard_path, notice: "Great job! Task completed!" }
+      format.json { head :ok }
       format.turbo_stream
     end
   end
 
   def start
     @task.start!
-    redirect_to dashboard_path, notice: "Task started!"
+
+    respond_to do |format|
+      format.html { redirect_to dashboard_path, notice: "Task started!" }
+      format.json { head :ok }
+    end
   end
 
   def cancel_start
@@ -140,7 +236,14 @@ class TasksController < ApplicationController
       return
     end
 
-    @task.update(scheduled_for: Date.current)
+    time_of_day = params[:time_of_day].presence || @task.time_of_day || "morning"
+
+    unless Task::TIME_OF_DAY_OPTIONS.include?(time_of_day)
+      redirect_to tasks_path, alert: "Please choose morning, afternoon, or evening."
+      return
+    end
+
+    @task.update(scheduled_for: Date.current, time_of_day: time_of_day)
     redirect_to tasks_path, notice: "Task scheduled for today!"
   end
 
@@ -191,7 +294,7 @@ class TasksController < ApplicationController
     # Update positions for all tasks in the target column
     if params[:task_ids].present?
       params[:task_ids].each_with_index do |id, index|
-        current_user.tasks.where(id: id).update_all(position: index)
+        current_user.tasks.where(id: id).update_all(position: index + 1)
       end
     end
 
@@ -203,8 +306,7 @@ class TasksController < ApplicationController
 
     if task_ids.present?
       task_ids.each_with_index do |id, index|
-        task = current_user.tasks.find_by(id: id)
-        task.update(position: index) if task
+        current_user.tasks.where(id: id).update_all(position: index + 1)
       end
     end
 
@@ -223,5 +325,22 @@ class TasksController < ApplicationController
 
   def safe_return_to
     url_from(params[:return_to].presence) || url_from(request.referer) || dashboard_path
+  end
+
+  def next_task_position
+    current_user.tasks.maximum(:position).to_i + 1
+  end
+
+  def apply_quick_add_destination!(task, destination)
+    case destination
+    when "backlog"
+      task.scheduled_for = nil
+      task.time_of_day = "morning"
+    when "morning", "afternoon", "evening"
+      task.scheduled_for = Date.current
+      task.time_of_day = destination
+    else
+      raise ActionController::BadRequest, "Invalid destination"
+    end
   end
 end

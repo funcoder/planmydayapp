@@ -4,19 +4,23 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["item", "list"]
   static values = { sortable: { type: Boolean, default: true } }
-  
+
   connect() {
-    console.log("Task controller connected with", this.itemTargets.length, "items")
-    // Only enable drag and drop on non-touch devices
+    this.boundDragStart = this.dragStart.bind(this)
+    this.boundDragEnd = this.dragEnd.bind(this)
+    this.boundDragOver = this.dragOver.bind(this)
+    this.boundDrop = this.drop.bind(this)
+
     if (!this.isTouchDevice() && this.sortableValue && this.hasListTarget) {
-      this.addDragListeners()
-    } else {
-      // Disable drag interactions when the surface is touch-first or intentionally not sortable.
-      this.itemTargets.forEach(item => {
-        item.removeAttribute('draggable')
-        item.style.cursor = 'default'
-      })
+      this.enableDragging()
+      return
     }
+
+    this.disableDragging()
+  }
+
+  disconnect() {
+    this.teardownDragging()
   }
 
   isTouchDevice() {
@@ -25,66 +29,101 @@ export default class extends Controller {
             (navigator.msMaxTouchPoints > 0))
   }
 
-  addDragListeners() {
-    this.itemTargets.forEach(item => {
-      // Remove any existing listeners
-      item.removeEventListener('dragstart', this.dragStart)
-      item.removeEventListener('dragend', this.dragEnd)
+  enableDragging() {
+    this.teardownDragging()
 
-      // Add new listeners
-      item.addEventListener('dragstart', this.dragStart.bind(this))
-      item.addEventListener('dragend', this.dragEnd.bind(this))
+    this.itemTargets.forEach(item => {
+      item.setAttribute("draggable", "true")
+      item.style.cursor = "grab"
+      item.addEventListener("dragstart", this.boundDragStart)
+      item.addEventListener("dragend", this.boundDragEnd)
     })
 
-    // Add listeners to the list container
-    if (this.hasListTarget) {
-      this.listTarget.addEventListener('dragover', this.dragOver.bind(this))
-      this.listTarget.addEventListener('drop', this.drop.bind(this))
+    this.listTargets.forEach(list => {
+      list.addEventListener("dragover", this.boundDragOver)
+      list.addEventListener("drop", this.boundDrop)
+    })
+  }
+
+  disableDragging() {
+    this.teardownDragging()
+
+    this.itemTargets.forEach(item => {
+      item.removeAttribute("draggable")
+      item.style.cursor = ""
+    })
+  }
+
+  teardownDragging() {
+    this.itemTargets.forEach(item => {
+      item.removeEventListener("dragstart", this.boundDragStart)
+      item.removeEventListener("dragend", this.boundDragEnd)
+    })
+
+    this.listTargets.forEach(list => {
+      list.removeEventListener("dragover", this.boundDragOver)
+      list.removeEventListener("drop", this.boundDrop)
+    })
+  }
+
+  dragStart(event) {
+    this.draggedItem = event.currentTarget.closest('[data-task-target="item"]')
+    this.dragSourceList = this.draggedItem?.closest('[data-task-target="list"]')
+
+    if (!this.draggedItem || !this.dragSourceList) {
+      return
+    }
+
+    this.draggedItem.style.opacity = "0.55"
+    event.dataTransfer.effectAllowed = "move"
+    event.dataTransfer.setData("text/plain", this.draggedItem.dataset.taskId)
+  }
+
+  dragEnd() {
+    if (!this.draggedItem) {
+      return
+    }
+
+    this.draggedItem.style.opacity = ""
+    this.draggedItem = null
+    this.dragSourceList = null
+  }
+
+  dragOver(event) {
+    if (!this.draggedItem || event.currentTarget !== this.dragSourceList) {
+      return
+    }
+
+    event.preventDefault()
+    event.dataTransfer.dropEffect = "move"
+
+    const list = event.currentTarget
+    const afterElement = this.getDragAfterElement(list, event.clientY)
+    if (afterElement == null) {
+      list.appendChild(this.draggedItem)
+    } else {
+      list.insertBefore(this.draggedItem, afterElement)
     }
   }
 
-  dragStart(e) {
-    console.log("Drag started", e.target)
-    this.draggedItem = e.target.closest('[data-task-target="item"]')
-    this.draggedItem.style.opacity = '0.5'
-    e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.setData('text/html', this.draggedItem.innerHTML)
-  }
-
-  dragEnd(e) {
-    console.log("Drag ended")
-    if (this.draggedItem) {
-      this.draggedItem.style.opacity = ''
+  drop(event) {
+    if (!this.draggedItem || event.currentTarget !== this.dragSourceList) {
+      return
     }
+
+    event.preventDefault()
     this.updateOrder()
   }
 
-  dragOver(e) {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'move'
-    
-    if (!this.draggedItem) return
-    
-    const afterElement = this.getDragAfterElement(e.clientY)
-    if (afterElement == null) {
-      this.listTarget.appendChild(this.draggedItem)
-    } else {
-      this.listTarget.insertBefore(this.draggedItem, afterElement)
-    }
-  }
+  getDragAfterElement(list, y) {
+    const draggableElements = [...list.querySelectorAll('[data-task-target="item"]')].filter(
+      item => item !== this.draggedItem
+    )
 
-  drop(e) {
-    e.preventDefault()
-    console.log("Dropped")
-  }
-
-  getDragAfterElement(y) {
-    const draggableElements = [...this.listTarget.querySelectorAll('[data-task-target="item"]:not([style*="opacity: 0.5"])')];
-    
     return draggableElements.reduce((closest, child) => {
       const box = child.getBoundingClientRect()
       const offset = y - box.top - box.height / 2
-      
+
       if (offset < 0 && offset > closest.offset) {
         return { offset: offset, element: child }
       } else {
@@ -94,64 +133,71 @@ export default class extends Controller {
   }
 
   async updateOrder() {
-    const ids = this.itemTargets.map(item => item.dataset.taskId)
-    console.log("Updating order:", ids)
-    
+    const ids = [...this.element.querySelectorAll('[data-task-target="item"]')].map(item => item.dataset.taskId)
+
     try {
-      const response = await fetch('/tasks/update_order', {
-        method: 'POST',
+      const response = await fetch("/tasks/update_order", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content
         },
         body: JSON.stringify({ task_ids: ids })
       })
-      
+
       if (!response.ok) {
-        console.error('Failed to update order')
+        console.error("Failed to update order")
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error("Error:", error)
     }
   }
 
   async complete(event) {
     event.preventDefault()
-    console.log("Complete clicked")
     const button = event.currentTarget
     const taskItem = button.closest('[data-task-target="item"]')
-    
+    const originalHtml = button.innerHTML
+
     button.disabled = true
-    button.textContent = "Completing..."
-    
+    button.classList.add("opacity-80")
+    button.innerHTML = `
+      <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle class="opacity-30" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"></circle>
+        <path class="opacity-100" d="M21 12a9 9 0 00-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    `
+
     try {
       const response = await fetch(button.dataset.url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-          'Accept': 'text/html'
+          "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
+          "Accept": "application/json"
         }
       })
-      
-      if (response.ok) {
-        taskItem.style.transition = 'all 0.3s'
-        taskItem.style.opacity = '0'
-        taskItem.style.transform = 'scale(0.8)'
-        
-        setTimeout(() => {
-          window.location.reload()
-        }, 300)
+
+      if (!response.ok) {
+        throw new Error("Failed to complete task")
       }
+
+      taskItem.style.transition = "all 0.25s ease"
+      taskItem.style.opacity = "0"
+      taskItem.style.transform = "scale(0.96)"
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 250)
     } catch (error) {
-      console.error('Error:', error)
+      console.error("Error:", error)
       button.disabled = false
-      button.textContent = "Complete"
+      button.classList.remove("opacity-80")
+      button.innerHTML = originalHtml
     }
   }
 
   async start(event) {
     event.preventDefault()
-    console.log("Start clicked")
     const button = event.currentTarget
     const originalHtml = button.innerHTML
 
@@ -169,13 +215,15 @@ export default class extends Controller {
         method: 'POST',
         headers: {
           'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-          'Accept': 'text/html'
+          'Accept': 'application/json'
         }
       })
-      
-      if (response.ok) {
-        window.location.reload()
+
+      if (!response.ok) {
+        throw new Error("Failed to start task")
       }
+
+      window.location.reload()
     } catch (error) {
       console.error('Error:', error)
       button.disabled = false
