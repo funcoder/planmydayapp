@@ -72,6 +72,7 @@ html[data-theme="dark"] body {
 html[data-theme="dark"] .bg-white,
 html[data-theme="dark"] .bg-white\/70,
 html[data-theme="dark"] .bg-white\/80,
+html[data-theme="dark"] .bg-white\/90,
 html[data-theme="dark"] .bg-white\/20,
 html[data-theme="dark"] .bg-white\/30,
 html[data-theme="dark"] .bg-white\/50,
@@ -81,6 +82,11 @@ html[data-theme="dark"] .bg-gray-50\/70,
 html[data-theme="dark"] .bg-gray-100,
 html[data-theme="dark"] .bg-gray-200 {
   background-color: var(--app-surface) !important;
+}
+
+html[data-theme="dark"] .hover\:bg-white:hover,
+html[data-theme="dark"] .hover\:bg-gray-50:hover {
+  background-color: var(--app-surface-muted) !important;
 }
 
 html[data-theme="dark"] .bg-white\/20 {
@@ -150,6 +156,11 @@ html[data-theme="dark"] .bg-amber-100 {
 html[data-theme="dark"] .bg-sky-50,
 html[data-theme="dark"] .bg-sky-100 {
   background-color: rgb(12 74 110 / 0.20) !important;
+}
+
+html[data-theme="dark"] .bg-purple-50,
+html[data-theme="dark"] .bg-purple-100 {
+  background-color: rgb(126 34 206 / 0.24) !important;
 }
 
 html[data-theme="dark"] .bg-indigo-50,
