@@ -27,7 +27,7 @@ gem "tailwindcss-rails"
 gem "ruby-openai", "~> 8.3"
 
 # For drag-and-drop functionality
-gem "acts_as_list", "~> 1.1"
+gem "acts_as_list", "~> 1.2"
 
 # Stripe for payment processing
 gem "stripe", "~> 12.0"
